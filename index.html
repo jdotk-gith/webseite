@@ -29,7 +29,52 @@
       padding: 25px;
       background: #e5e9ed;
     }
-  </style>
+  
+.fotogalerie {
+  margin: 50px auto;
+}
+
+.galerie {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.galerie a {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.galerie img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.galerie a:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 700px) {
+  .galerie {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .galerie img {
+    height: 150px;
+  }
+}
+
+@media (max-width: 400px) {
+  .galerie {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 <body>
   <header>
