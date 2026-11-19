@@ -124,10 +124,12 @@
 
       try {
         await signInWithEmailAndPassword(auth, email, passwort);
-      } catch (fehler) {
-        status.textContent =
-          "Anmeldung fehlgeschlagen. Bitte Zugangsdaten prüfen.";
-      }
+     
+} catch (fehler) {
+  status.textContent =
+    "Firebase-Fehler: " + fehler.code;
+}
+
     };
 
     onAuthStateChanged(auth, async (user) => {
