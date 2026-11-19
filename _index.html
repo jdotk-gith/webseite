@@ -1,1 +1,633 @@
-index.html
+
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+  <title>Meine Webseite</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font: 16px/1.6 Arial, sans-serif;
+      background: #edf2f7;
+      color: #1d3045;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: auto;
+      padding: 0 18px;
+    }
+
+    header {
+      background: #173450;
+      color: white;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+
+    #siteName {
+      color: white;
+      font-size: 23px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .login {
+      border-radius: 8px;
+      background: #2563eb;
+      padding: 10px 16px;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: #24496b;
+      color: white;
+      text-align: center;
+      padding: 68px 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 5vw, 44px);
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 760px;
+      margin: auto;
+      color: #ecf3fa;
+    }
+
+    main {
+      padding-top: 28px !important;
+      padding-bottom: 24px !important;
+    }
+
+    .panel {
+      margin-bottom: 25px;
+      padding: 28px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 16px #1734500d;
+    }
+
+    h2 {
+      color: #173450;
+      margin: 0 0 12px;
+    }
+
+    .subtitle {
+      color: #64748b;
+      margin-top: 0;
+    }
+
+    .preline {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .photo {
+      margin: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid #d9e2ec;
+      background: #f9fbfd;
+    }
+
+    .photo a { display: block; }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+
+    .photo figcaption {
+      padding: 12px 14px;
+    }
+
+    .photo strong { display: block; }
+
+    .photo p {
+      color: #64748b;
+      margin: 4px 0 0;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(235px, 1fr));
+      gap: 16px;
+    }
+
+    .news-card {
+      padding: 18px;
+      background: #f9fbfd;
+      border: 1px solid #d9e2ec;
+      border-radius: 10px;
+    }
+
+    .news-card h3 {
+      margin: 0 0 6px;
+    }
+
+    .news-card time {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .news-card p {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .muted { color: #64748b; }
+
+    footer {
+      color: white;
+      background: #173450;
+      text-align: center;
+      padding: 24px 12px;
+    }
+
+    footer p { margin: 3px 0; }
+
+    @media (max-width: 750px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .top {
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav { justify-content: center; }
+    }
+
+    @media (max-width: 510px) {
+      .grid { grid-template-columns: 1fr; }
+      .panel { padding: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap top">
+
+    <a id="siteName" href="#start">
+      Meine Webseite
+    </a>
+
+    <nav aria-label="Hauptnavigation">
+      <a href="#start">Start</a>
+      <a href="#ueber">Über mich</a>
+      <a href="#news">News</a>
+      <a href="#bilder">Bilder</a>
+      <a href="#kontakt">Kontakt</a>
+
+      <a class="login" href="/login.html">
+        Anmelden
+      </a>
+    </nav>
+  </div>
+</header>
+
+<section id="start" class="hero">
+  <div class="wrap">
+    <h1>Herzlich willkommen</h1>
+
+    <p id="welcome" class="preline">
+      Willkommen auf meiner Webseite!
+    </p>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section class="panel" id="ueber">
+    <h2>Über diese Webseite</h2>
+
+    <p id="intro" class="preline">
+      Hier findest du Neuigkeiten,
+      Informationen und Fotos.
+    </p>
+  </section>
+
+  <section class="panel" id="news">
+    <h2>Aktuelles und News</h2>
+    <p class="subtitle">Die neuesten Mitteilungen</p>
+
+    <div class="news-grid"
+         id="newsList"
+         aria-live="polite">
+
+      <p class="muted">
+        News werden geladen ...
+      </p>
+    </div>
+  </section>
+
+  <section class="panel" id="bilder">
+    <h2>Bildergalerie</h2>
+
+    <p class="subtitle">
+      Klicke auf ein Foto, um es zu vergrössern.
+    </p>
+
+    <div class="grid">
+
+      <figure class="photo"
+              data-image-path="bilder/Bild1.jpg">
+        <a href="/bilder/Bild1.jpg"
+           target="_blank" rel="noopener">
+          <img src="/bilder/Bild1.jpg"
+               alt="Bild 1" loading="lazy">
+        </a>
+        <figcaption>
+          <strong>Bild 1</strong><p></p>
+        </figcaption>
+      </figure>
+
+      <figure class="photo"
+              data-image-path="bilder/Bild2.jpg">
+        <a href="/bilder/Bild2.jpg"
+           target="_blank" rel="noopener">
+          <img src="/bilder/Bild2.jpg"
+               alt="Bild 2" loading="lazy">
+        </a>
+        <figcaption>
+          <strong>Bild 2</strong><p></p>
+        </figcaption>
+      </figure>
+
+      <figure class="photo"
+              data-image-path="bilder/Bild3.jpg">
+        <a href="/bilder/Bild3.jpg"
+           target="_blank" rel="noopener">
+          <img src="/bilder/Bild3.jpg"
+               alt="Bild 3" loading="lazy">
+        </a>
+        <figcaption>
+          <strong>Bild 3</strong><p></p>
+        </figcaption>
+      </figure>
+
+      <figure class="photo"
+              data-image-path="bilder/Bild4.jpg">
+        <a href="/bilder/Bild4.jpg"
+           target="_blank" rel="noopener">
+          <img src="/bilder/Bild4.jpg"
+               alt="Bild 4" loading="lazy">
+        </a>
+        <figcaption>
+          <strong>Bild 4</strong><p></p>
+        </figcaption>
+      </figure>
+
+      <figure class="photo"
+              data-image-path="bilder/Bild5.jpg">
+        <a href="/bilder/Bild5.jpg"
+           target="_blank" rel="noopener">
+          <img src="/bilder/Bild5.jpg"
+               alt="Bild 5" loading="lazy">
+        </a>
+        <figcaption>
+          <strong>Bild 5</strong><p></p>
+        </figcaption>
+      </figure>
+
+      <figure class="photo"
+              data-image-path="bilder/Bild6.jpg">
+        <a href="/bilder/Bild6.jpg"
+           target="_blank" rel="noopener">
+          <img src="/bilder/Bild6.jpg"
+               alt="Bild 6" loading="lazy">
+        </a>
+        <figcaption>
+          <strong>Bild 6</strong><p></p>
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <section class="panel" id="kontakt">
+    <h2>Kontakt</h2>
+
+    <p id="contact" class="preline">
+      Kontaktinformationen folgen.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <p id="footerName">Meine Webseite</p>
+  <p>
+    © <span id="year"></span>
+    Alle Rechte vorbehalten.
+  </p>
+</footer>
+
+<script>
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+</script>
+
+<script type="module">
+
+  // Firebase-Konfiguration mit login.html vergleichen!
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
+    authDomain: "jdotk-webseite.firebaseapp.com",
+    projectId: "jdotk-webseite",
+    storageBucket: "jdotk-webseite.firebasestorage.app",
+    messagingSenderId: "1015775184620",
+    appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
+  };
+
+  const byId = id => document.getElementById(id);
+
+  const text = (wert, ersatz = "") =>
+    typeof wert === "string" ? wert : ersatz;
+
+  function messageNews(nachricht) {
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.textContent = nachricht;
+
+    byId("newsList").replaceChildren(p);
+  }
+
+  try {
+
+    const [appModule, fs] = await Promise.all([
+      import(
+        "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+      ),
+      import(
+        "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+      )
+    ]);
+
+    const app =
+      appModule.initializeApp(firebaseConfig);
+
+    const db = fs.getFirestore(app);
+
+    // TEXTE
+
+    fs.onSnapshot(
+      fs.doc(db, "content", "homepage"),
+
+      snap => {
+        const daten =
+          snap.exists() ? snap.data() : {};
+
+        byId("welcome").textContent = text(
+          daten.begrussung,
+          "Willkommen auf meiner Webseite!"
+        );
+
+        byId("intro").textContent = text(
+          daten.einleitung,
+          "Hier findest du Neuigkeiten, Informationen und Fotos."
+        );
+      },
+
+      fehler => {
+        console.error(
+          "Firebase-Texte:",
+          fehler.code,
+          fehler.message
+        );
+      }
+    );
+
+    // EINSTELLUNGEN
+
+    fs.onSnapshot(
+      fs.doc(db, "content", "settings"),
+
+      snap => {
+        const daten =
+          snap.exists() ? snap.data() : {};
+
+        const titel =
+          text(daten.titel).trim() || "Meine Webseite";
+
+        byId("siteName").textContent = titel;
+        byId("footerName").textContent = titel;
+        document.title = titel;
+
+        byId("contact").textContent = text(
+          daten.kontakt,
+          "Kontaktinformationen folgen."
+        );
+      },
+
+      fehler => {
+        console.error(
+          "Firebase-Einstellungen:",
+          fehler.code,
+          fehler.message
+        );
+      }
+    );
+
+    // NEWS
+
+    fs.onSnapshot(
+      fs.collection(db, "news"),
+
+      snap => {
+        const ziel = byId("newsList");
+        ziel.replaceChildren();
+
+        const eintraege = snap.docs
+          .map(d => d.data())
+          .sort((a, b) =>
+            (b.createdAt?.seconds || 0) -
+            (a.createdAt?.seconds || 0)
+          )
+          .slice(0, 9);
+
+        if (!eintraege.length) {
+          messageNews(
+            "Noch keine Neuigkeiten veröffentlicht."
+          );
+          return;
+        }
+
+        for (const daten of eintraege) {
+          const karte =
+            document.createElement("article");
+
+          karte.className = "news-card";
+
+          const titel =
+            document.createElement("h3");
+
+          titel.textContent =
+            text(daten.title, "Mitteilung");
+
+          karte.append(titel);
+
+          if (daten.createdAt?.toDate) {
+            const datum =
+              document.createElement("time");
+
+            const zeitpunkt =
+              daten.createdAt.toDate();
+
+            datum.dateTime =
+              zeitpunkt.toISOString();
+
+            datum.textContent =
+              zeitpunkt.toLocaleDateString("de-CH");
+
+            karte.append(datum);
+          }
+
+          const absatz =
+            document.createElement("p");
+
+          absatz.textContent =
+            text(daten.body);
+
+          karte.append(absatz);
+          ziel.append(karte);
+        }
+      },
+
+      fehler => {
+        console.error(
+          "Firebase-News:",
+          fehler.code,
+          fehler.message
+        );
+
+        messageNews(
+          "News derzeit nicht verfügbar. Bitte Firestore-Regeln prüfen."
+        );
+      }
+    );
+
+    // BILDBESCHRIFTUNGEN
+    // Fotos bleiben unabhängig von Firebase sichtbar.
+
+    fs.onSnapshot(
+      fs.collection(db, "gallery"),
+
+      snap => {
+        const bilddaten = new Map();
+
+        const eintraege = snap.docs
+          .map(d => d.data())
+          .sort((a, b) =>
+            (b.createdAt?.seconds || 0) -
+            (a.createdAt?.seconds || 0)
+          );
+
+        for (const daten of eintraege) {
+          if (
+            typeof daten.path === "string" &&
+            !bilddaten.has(daten.path)
+          ) {
+            bilddaten.set(daten.path, daten);
+          }
+        }
+
+        document
+          .querySelectorAll("[data-image-path]")
+          .forEach(karte => {
+            const daten = bilddaten.get(
+              karte.dataset.imagePath
+            );
+
+            const nummer =
+              karte.dataset.imagePath.match(
+                /Bild(\d+)\.jpg$/
+              )?.[1];
+
+            const titel =
+              text(daten?.title).trim() ||
+              `Bild ${nummer}`;
+
+            karte.querySelector("strong")
+              .textContent = titel;
+
+            karte.querySelector("img")
+              .alt = titel;
+
+            karte.querySelector("figcaption p")
+              .textContent =
+                text(daten?.description);
+          });
+      },
+
+      fehler => {
+        console.warn(
+          "Firebase-Bildbeschreibungen:",
+          fehler.code,
+          fehler.message
+        );
+      }
+    );
+
+  } catch (fehler) {
+    console.error(
+      "Firebase konnte nicht geladen werden:",
+      fehler
+    );
+
+    messageNews(
+      "News derzeit nicht verfügbar."
+    );
+  }
+
+</script>
+</body>
+</html>
