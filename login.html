@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benutzer-Login – JDT</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 15px;
+      background: #f1f5f9;
+      font-family: Arial, sans-serif;
+      color: #1e293b;
+    }
+
+    .container {
+      max-width: 460px;
+      margin: 45px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 10px;
+    }
+
+    .beschreibung {
+      text-align: center;
+      color: #64748b;
+    }
+
+    input, button, .button-link {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    input {
+      border: 1px solid #cbd5e1;
+    }
+
+    button, .button-link {
+      border: none;
+      background: #2563eb;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .secondary {
+      background: #64748b;
+    }
+
+    .admin-button {
+      background: #15803d;
+    }
+
+    .user-info {
+      padding: 15px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    #loginbereich,
+    #benutzerbereich,
+    #adminLink {
+      display: none;
+    }
+
+    #status {
+      margin-top: 18px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .fehler {
+      color: #b91c1c;
+    }
+
+    .erfolg {
+      color: #15803d;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <h1>JDT Benutzerbereich</h1>
+    <p class="beschreibung">
+      Anmeldung für registrierte Benutzer
+    </p>
+
+    <section id="loginbereich">
+      <form id="loginformular">
+        <input
+          id="email"
+          type="email"
+          placeholder="E-Mail-Adresse"
+          autocomplete="username"
+          required
+        >
+
+        <input
+          id="passwort"
+          type="password"
+          placeholder="Passwort"
+          autocomplete="current-password"
+          required
+        >
+
+        <button id="anmelden" type="submit">
+          Anmelden
+        </button>
+      </form>
+    </section>
+
+    <section id="benutzerbereich">
+      <h2>Willkommen!</h2>
+
+      <div class="user-info">
+        <p id="benutzername"></p>
+        <p id="rolle"></p>
+      </div>
+
+      <a
+        id="adminLink"
+        class="button-link admin-button"
+        href="/admin.html"
+      >
+        Administratorbereich
+      </a>
+
+      <button
+        id="abmelden"
+        type="button"
+        class="secondary"
+      >
+        Abmelden
+      </button>
+    </section>
+
+    <a
+      class="button-link secondary"
+      href="/"
+    >
+      Zurück zur Startseite
+    </a>
+
+    <p id="status" role="status" aria-live="polite">
+      Firebase wird geladen ...
+    </p>
+
+  </main>
+
+  <script type="module">
+    const statusElement =
+      document.getElementById("status");
+
+    const loginbereich =
+      document.getElementById("loginbereich");
+
+    const benutzerbereich =
+      document.getElementById("benutzerbereich");
+
+    const adminLink =
+      document.getElementById("adminLink");
+
+    const anmelden =
+      document.getElementById("anmelden");
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
+      authDomain: "jdotk-webseite.firebaseapp.com",
+      projectId: "jdotk-webseite",
+      storageBucket: "jdotk-webseite.firebasestorage.app",
+      messagingSenderId: "1015775184620",
+      appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
+    };
+
+    function zeigeStatus(nachricht, typ = "") {
+      statusElement.textContent = nachricht;
+      statusElement.className = typ;
+    }
+
+    function zeigeLogin() {
+      loginbereich.style.display = "block";
+      benutzerbereich.style.display = "none";
+      adminLink.style.display = "none";
+    }
+
+    function zeigeBenutzer() {
+      loginbereich.style.display = "none";
+      benutzerbereich.style.display = "block";
+    }
+
+    try {
+      const [
+        firebaseApp,
+        firebaseAuth,
+        firebaseFirestore
+      ] = await Promise.all([
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+        ),
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
+        ),
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+        )
+      ]);
+
+      const app =
+        firebaseApp.initializeApp(firebaseConfig);
+
+      const auth =
+        firebaseAuth.getAuth(app);
+
+      const db =
+        firebaseFirestore.getFirestore(app);
+
+      zeigeStatus("Anmeldung wird geprüft ...");
+
+      document.getElementById(
+        "loginformular"
+      ).addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const email =
+          document.getElementById("email").value.trim();
+
+        const passwort =
+          document.getElementById("passwort").value;
+
+        anmelden.disabled = true;
+        zeigeStatus("Anmeldung läuft ...");
+
+        try {
+          await firebaseAuth.signInWithEmailAndPassword(
+            auth,
+            email,
+            passwort
+          );
+
+          document.getElementById("passwort").value = "";
+
+        } catch (fehler) {
+          zeigeStatus(
+            "Anmeldung fehlgeschlagen: " +
+            (fehler.code || fehler.message),
+            "fehler"
+          );
+
+        } finally {
+          anmelden.disabled = false;
+        }
+      });
+
+      firebaseAuth.onAuthStateChanged(
+        auth,
+        async (user) => {
+          if (!user) {
+            zeigeLogin();
+
+            if (
+              statusElement.textContent ===
+              "Anmeldung wird geprüft ..."
+            ) {
+              zeigeStatus(
+                "Bitte mit E-Mail und Passwort anmelden."
+              );
+            }
+
+            return;
+          }
+
+          zeigeStatus("Benutzerrolle wird geprüft ...");
+
+          try {
+            const referenz =
+              firebaseFirestore.doc(
+                db,
+                "users",
+                user.uid
+              );
+
+            const dokument =
+              await firebaseFirestore.getDoc(referenz);
+
+            if (!dokument.exists()) {
+              throw new Error(
+                "Für diesen Benutzer ist keine Rolle hinterlegt."
+              );
+            }
+
+            const rollen = {
+              admin: "Administrator",
+              editor: "Redakteur",
+              viewer: "Besucher"
+            };
+
+            const rollenCode =
+              dokument.data().role;
+
+            const rollenName =
+              rollen[rollenCode];
+
+            if (!rollenName) {
+              throw new Error(
+                "Unbekannte Benutzerrolle."
+              );
+            }
+
+            document.getElementById(
+              "benutzername"
+            ).textContent =
+              "Angemeldet als: " + user.email;
+
+            document.getElementById(
+              "rolle"
+            ).textContent =
+              "Deine Rolle: " + rollenName;
+
+            adminLink.style.display =
+              rollenCode === "admin"
+                ? "block"
+                : "none";
+
+            zeigeBenutzer();
+
+            zeigeStatus(
+              "Anmeldung erfolgreich.",
+              "erfolg"
+            );
+
+          } catch (fehler) {
+            zeigeStatus(
+              "Fehler beim Lesen der Rolle: " +
+              fehler.message,
+              "fehler"
+            );
+
+            await firebaseAuth.signOut(auth);
+          }
+        },
+        (fehler) => {
+          zeigeStatus(
+            "Authentifizierungsfehler: " +
+            (fehler.code || fehler.message),
+            "fehler"
+          );
+        }
+      );
+
+      document.getElementById(
+        "abmelden"
+      ).addEventListener("click", async () => {
+        try {
+          await firebaseAuth.signOut(auth);
+          zeigeLogin();
+          zeigeStatus("Erfolgreich abgemeldet.");
+        } catch (fehler) {
+          zeigeStatus(
+            "Abmelden fehlgeschlagen: " +
+            fehler.message,
+            "fehler"
+          );
+        }
+      });
+
+    } catch (fehler) {
+      zeigeLogin();
+
+      zeigeStatus(
+        "Firebase konnte nicht geladen werden: " +
+        fehler.message,
+        "fehler"
+      );
+    }
+  </script>
+</body>
+</html>
