@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login-Test – JDT</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 30px 15px;
+    }
+
+    .container {
+      max-width: 440px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px #0001;
+    }
+
+    h1 { text-align: center; }
+
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input { border: 1px solid #ccc; }
+
+    button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+
+    #abmelden { background: #64748b; }
+
+    #status {
+      margin-top: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    #benutzerbereich { display: none; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>JDT Benutzer-Login</h1>
+
+    <div id="loginbereich">
+      <input id="email" type="email"
+             placeholder="E-Mail-Adresse"
+             autocomplete="username">
+
+      <input id="passwort" type="password"
+             placeholder="Passwort"
+             autocomplete="current-password">
+
+      <button id="anmelden">Anmelden</button>
+    </div>
+
+    <div id="benutzerbereich">
+      <h2>Willkommen!</h2>
+      <p id="benutzername"></p>
+      <p id="rolle"></p>
+      <button id="abmelden">Abmelden</button>
+    </div>
+
+    <p id="status" role="status"></p>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from
+      "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from
+      "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4jmTeAzdfjt1gQ26e4dIjD9Fq_OX6UiQ",
+      authDomain: "jdotk-webseite.firebaseapp.com",
+      projectId: "jdotk-webseite",
+      storageBucket: "jdotk-webseite.firebasestorage.app",
+      messagingSenderId: "1015775184620",
+      appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const status = document.getElementById("status");
+    const loginbereich = document.getElementById("loginbereich");
+    const benutzerbereich = document.getElementById("benutzerbereich");
+
+    document.getElementById("anmelden").onclick = async () => {
+      const email = document.getElementById("email").value.trim();
+      const passwort = document.getElementById("passwort").value;
+
+      status.textContent = "Anmeldung läuft ...";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, passwort);
+      } catch (fehler) {
+        status.textContent =
+          "Anmeldung fehlgeschlagen. Bitte Zugangsdaten prüfen.";
+      }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        loginbereich.style.display = "block";
+        benutzerbereich.style.display = "none";
+        status.textContent = "";
+        return;
+      }
+
+      // Zunächst nichts anzeigen, bis die Rolle geprüft ist.
+      loginbereich.style.display = "none";
+      benutzerbereich.style.display = "none";
+      status.textContent = "Benutzerrolle wird geprüft ...";
+
+      try {
+        const referenz = doc(db, "users", user.uid);
+        const dokument = await getDoc(referenz);
+
+        if (!dokument.exists()) {
+          throw new Error("Keine Benutzerrolle vorhanden.");
+        }
+
+        const rollen = {
+          admin: "Administrator",
+          editor: "Redakteur",
+          viewer: "Besucher"
+        };
+
+        const rolle = rollen[dokument.data().role];
+
+        if (!rolle) {
+          throw new Error("Unbekannte Benutzerrolle.");
+        }
+
+        document.getElementById("benutzername").textContent =
+          "Angemeldet als: " + user.email;
+
+        document.getElementById("rolle").textContent =
+          "Deine Rolle: " + rolle;
+
+        benutzerbereich.style.display = "block";
+        status.textContent = "Anmeldung erfolgreich.";
+      } catch (fehler) {
+        status.textContent =
+          "Die Benutzerrolle konnte nicht gelesen werden: "
+          + fehler.message;
+        await signOut(auth);
+      }
+    });
+
+    document.getElementById("abmelden").onclick = async () => {
+      await signOut(auth);
+    };
+  </script>
+</body>
+</html>
