@@ -2,309 +2,979 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Administration</title>
-  <style>
-    * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JDT Administration</title>
 
-    body {
-      margin: 0;
-      padding: 25px 15px;
-      background: #f1f5f9;
-      color: #1e293b;
-      font-family: Arial, sans-serif;
-    }
+<style>
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #172338;
+  background: #f1f5f9;
+}
 
-    main {
-      max-width: 650px;
-      margin: 35px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 6px 25px #0001;
-    }
+* { box-sizing: border-box; }
+body { margin: 0; }
 
-    h1 { margin-top: 0; }
+header {
+  background: #172b4d;
+  color: white;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
 
-    textarea {
-      width: 100%;
-      min-height: 130px;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font: inherit;
-      resize: vertical;
-    }
+header h1 {
+  font-size: 21px;
+  margin: 0;
+}
 
-    button, .button-link {
-      display: inline-block;
-      padding: 12px 18px;
-      margin: 8px 5px 8px 0;
-      border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
-      font: inherit;
-      text-decoration: none;
-      cursor: pointer;
-    }
+header a { color: white; }
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
+main {
+  max-width: 1100px;
+  margin: 25px auto;
+  padding: 0 16px;
+}
 
-    .secondary { background: #64748b; }
-    .danger { color: #b91c1c; }
-    .success { color: #15803d; }
+.layout {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 18px;
+}
 
-    #adminbereich, #zugriffVerweigert {
-      display: none;
-    }
+.sidebar, .panel {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 3px 15px #15223812;
+}
 
-    #status {
-      overflow-wrap: anywhere;
-      line-height: 1.5;
-    }
-  </style>
+.sidebar button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: #172338;
+  margin: 3px 0;
+}
+
+.sidebar button.active {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.panel { min-height: 400px; }
+
+button, .btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 14px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .btn:hover {
+  filter: brightness(.95);
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.muted { color: #64748b; }
+.secondary { background: #64748b; }
+.danger { background: #b91c1c; }
+
+input, textarea, select {
+  display: block;
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 11px;
+  font: inherit;
+  margin: 7px 0 15px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+}
+
+section[hidden], div[hidden] {
+  display: none !important;
+}
+
+.item {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 12px 0;
+}
+
+.item p { white-space: pre-wrap; }
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status {
+  padding: 12px;
+  border-radius: 8px;
+  background: #e2e8f0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.small { font-size: 13px; }
+
+.thumb {
+  max-width: 120px;
+  max-height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#gate {
+  max-width: 640px;
+  margin: 60px auto;
+  background: white;
+  padding: 28px;
+  border-radius: 14px;
+}
+
+#dashboard { display: none; }
+
+@media (max-width: 700px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .sidebar button { font-size: 14px; }
+  header { flex-wrap: wrap; }
+}
+</style>
 </head>
 
 <body>
-  <main>
-    <h1>Administration</h1>
 
-    <p id="status" role="status">
-      Firebase wird geladen ...
-    </p>
+<header>
+  <h1>JDT Administration</h1>
+  <a href="/">Zur Startseite</a>
+</header>
 
-    <section id="zugriffVerweigert">
-      <h2>Zugriff verweigert</h2>
-      <p>
-        Dieser Bereich ist nur für den
-        Administrator zugänglich.
-      </p>
-      <a class="button-link" href="/login.html">
-        Zur Anmeldung
-      </a>
-    </section>
+<div id="gate">
+  <h2>Zugriff wird geprüft</h2>
 
-    <section id="adminbereich">
-      <h2>Willkommen, Administrator!</h2>
-      <p id="benutzer"></p>
+  <p id="gateMessage" class="status" role="status">
+    Firebase wird geladen ...
+  </p>
 
-      <h3>Begrüssungstext bearbeiten</h3>
-      <p>
-        Dieser Text wird in Firebase Firestore
-        gespeichert.
-      </p>
+  <a class="btn" href="/login.html">
+    Zur Anmeldung
+  </a>
+</div>
 
-      <label for="begrussung">
-        Begrüssungstext
-      </label>
+<main id="dashboard">
 
-      <textarea id="begrussung"
-        placeholder="Willkommen auf meiner Webseite!">
-      </textarea>
+  <p class="row">
+    <strong id="who"></strong>
+    <button id="logout" class="secondary">
+      Abmelden
+    </button>
+  </p>
 
-      <div>
-        <button id="speichern" type="button">
-          Text speichern
-        </button>
+  <div class="layout">
 
-        <button id="abmelden"
-          type="button"
-          class="secondary">
-          Abmelden
-        </button>
+    <nav class="sidebar" aria-label="Administration">
+      <button type="button" data-tab="texte" class="active">
+        📝 Texte
+      </button>
+
+      <button type="button" data-tab="bilder">
+        🖼️ Bilder
+      </button>
+
+      <button type="button" data-tab="news">
+        📰 News
+      </button>
+
+      <button type="button" data-tab="benutzer">
+        👥 Benutzer
+      </button>
+
+      <button type="button" data-tab="einstellungen">
+        ⚙️ Einstellungen
+      </button>
+    </nav>
+
+    <div class="panel">
+
+      <div id="notice" class="status" role="status"
+           aria-live="polite">
+        Bereit.
       </div>
 
-      <p id="speicherstatus" role="status"></p>
-    </section>
+      <!-- TEXTE -->
+      <section id="tab-texte">
+        <h2>Texte bearbeiten</h2>
 
-    <a class="button-link secondary" href="/">
-      Zurück zur Startseite
-    </a>
-  </main>
+        <p class="muted">
+          Der Begrüssungstext wird in
+          content/homepage gespeichert.
+          Weitere Texte werden ebenfalls dort gespeichert.
+        </p>
 
-  <script type="module">
-    const status =
-      document.getElementById("status");
+        <form id="textForm">
+          <label for="welcome">Begrüssungstext</label>
+          <textarea id="welcome"></textarea>
 
-    const adminbereich =
-      document.getElementById("adminbereich");
+          <label for="intro">Einleitungstext</label>
+          <textarea id="intro"></textarea>
 
-    const zugriffVerweigert =
-      document.getElementById("zugriffVerweigert");
+          <button type="submit">
+            Texte speichern
+          </button>
+        </form>
+      </section>
 
-    const speichern =
-      document.getElementById("speichern");
+      <!-- BILDER -->
+      <section id="tab-bilder" hidden>
+        <h2>Bildergalerie</h2>
 
-    const speicherstatus =
-      document.getElementById("speicherstatus");
+        <p class="muted">
+          Hier verwaltest du Bildinformationen.
+          Die Bilddateien liegen weiterhin auf GitHub
+          und werden durch dieses Dashboard nicht
+          hochgeladen oder gelöscht.
+        </p>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
-      authDomain: "jdotk-webseite.firebaseapp.com",
-      projectId: "jdotk-webseite",
-      storageBucket: "jdotk-webseite.firebasestorage.app",
-      messagingSenderId: "1015775184620",
-      appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
-    };
+        <form id="imageForm">
+          <label for="imagePath">
+            Bildpfad auf deiner Webseite
+          </label>
+
+          <input id="imagePath"
+                 placeholder="bilder/beispiel.jpg"
+                 required>
+
+          <label for="imageTitle">Bildtitel</label>
+          <input id="imageTitle" required>
+
+          <label for="imageDescription">
+            Beschreibung
+          </label>
+
+          <textarea id="imageDescription"></textarea>
+
+          <button type="submit">
+            Bildinformation hinzufügen
+          </button>
+        </form>
+
+        <div id="imageList"></div>
+      </section>
+
+      <!-- NEWS -->
+      <section id="tab-news" hidden>
+        <h2>News verwalten</h2>
+
+        <form id="newsForm">
+          <input type="hidden" id="newsId">
+
+          <label for="newsTitle">Titel</label>
+          <input id="newsTitle" required maxlength="160">
+
+          <label for="newsBody">Mitteilung</label>
+          <textarea id="newsBody" required></textarea>
+
+          <button type="submit">
+            News speichern
+          </button>
+
+          <button type="button"
+                  class="secondary"
+                  id="newsCancel">
+            Eingabe leeren
+          </button>
+        </form>
+
+        <h3>Gespeicherte News</h3>
+        <div id="newsList"></div>
+      </section>
+
+      <!-- BENUTZER -->
+      <section id="tab-benutzer" hidden>
+        <h2>Benutzer</h2>
+
+        <p class="muted">
+          Die Benutzerrollen aus Firestore
+          werden hier angezeigt.
+          E-Mail-Adressen sind in diesen
+          Rollendokumenten nicht enthalten.
+          Konten verwaltest du weiterhin
+          in Firebase Authentication.
+        </p>
+
+        <button id="reloadUsers" type="button">
+          Benutzer neu laden
+        </button>
+
+        <div id="userList"></div>
+      </section>
+
+      <!-- EINSTELLUNGEN -->
+      <section id="tab-einstellungen" hidden>
+        <h2>Einstellungen</h2>
+
+        <form id="settingsForm">
+          <label for="siteTitle">Webseitentitel</label>
+          <input id="siteTitle" maxlength="120">
+
+          <label for="contact">
+            Kontaktinformation
+          </label>
+
+          <textarea id="contact"></textarea>
+
+          <button type="submit">
+            Einstellungen speichern
+          </button>
+        </form>
+
+        <p class="muted small">
+          Diese Werte werden in Firestore gespeichert.
+          Deine index.html muss sie separat auslesen,
+          bevor sie auf der öffentlichen Webseite erscheinen.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script type="module">
+
+// WICHTIG:
+// Falls deine login.html einen anderen apiKey verwendet,
+// übernimm die funktionierende Konfiguration von dort.
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
+  authDomain: "jdotk-webseite.firebaseapp.com",
+  projectId: "jdotk-webseite",
+  storageBucket: "jdotk-webseite.firebasestorage.app",
+  messagingSenderId: "1015775184620",
+  appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
+};
+
+const $ = id => document.getElementById(id);
+
+const gate = $("gate");
+const dashboard = $("dashboard");
+
+function notice(msg, error = false) {
+  $("notice").textContent = msg;
+
+  $("notice").className =
+    "status " + (error ? "error" : "ok");
+}
+
+function gateStatus(msg, error = false) {
+  $("gateMessage").textContent = msg;
+
+  $("gateMessage").className =
+    "status " + (error ? "error" : "");
+}
+
+function el(tag, text) {
+  const n = document.createElement(tag);
+
+  if (text !== undefined) {
+    n.textContent = text;
+  }
+
+  return n;
+}
+
+function empty(node) {
+  node.replaceChildren();
+}
+
+function addAction(parent, label, handler, danger = false) {
+  const b = el("button", label);
+
+  b.type = "button";
+
+  if (danger) {
+    b.className = "danger";
+  }
+
+  b.addEventListener("click", handler);
+  parent.append(b);
+}
+
+let auth;
+let db;
+let fs;
+let authLib;
+let allowed = false;
+
+function assertAdmin() {
+  if (!allowed || !auth.currentUser) {
+    throw new Error(
+      "Kein Administratorzugriff. Bitte neu anmelden."
+    );
+  }
+}
+
+// TEXTE LADEN
+async function loadText() {
+  const s = await fs.getDoc(
+    fs.doc(db, "content", "homepage")
+  );
+
+  const d = s.exists() ? s.data() : {};
+
+  $("welcome").value =
+    typeof d.begrussung === "string"
+      ? d.begrussung
+      : "";
+
+  $("intro").value =
+    typeof d.einleitung === "string"
+      ? d.einleitung
+      : "";
+}
+
+// EINSTELLUNGEN LADEN
+async function loadSettings() {
+  const s = await fs.getDoc(
+    fs.doc(db, "content", "settings")
+  );
+
+  const d = s.exists() ? s.data() : {};
+
+  $("siteTitle").value =
+    typeof d.titel === "string" ? d.titel : "";
+
+  $("contact").value =
+    typeof d.kontakt === "string" ? d.kontakt : "";
+}
+
+// BENUTZER LADEN
+async function loadUsers() {
+  assertAdmin();
+
+  const snap = await fs.getDocs(
+    fs.collection(db, "users")
+  );
+
+  const target = $("userList");
+  empty(target);
+
+  if (snap.empty) {
+    target.append(
+      el("p", "Keine Rollendokumente gefunden.")
+    );
+    return;
+  }
+
+  snap.forEach(d => {
+    const item = el("div");
+    item.className = "item";
+
+    item.append(
+      el("strong", "UID: " + d.id),
+      el("p", "Rolle: " + (d.data().role || "unbekannt"))
+    );
+
+    target.append(item);
+  });
+}
+
+// BILDER LADEN
+async function loadImages() {
+  assertAdmin();
+
+  const snap = await fs.getDocs(
+    fs.collection(db, "gallery")
+  );
+
+  const target = $("imageList");
+  empty(target);
+
+  if (snap.empty) {
+    target.append(
+      el("p", "Noch keine Bildinformationen gespeichert.")
+    );
+    return;
+  }
+
+  snap.forEach(d => {
+    const x = d.data();
+    const item = el("div");
+
+    item.className = "item";
+
+    item.append(
+      el("strong", x.title || "Ohne Titel"),
+      el("p", x.path || ""),
+      el("p", x.description || "")
+    );
+
+    if (
+      typeof x.path === "string" &&
+      /^bilder\/[a-zA-Z0-9_./-]+\.(jpg|jpeg|png|webp|gif)$/i.test(x.path) &&
+      !x.path.includes("..")
+    ) {
+      const img = el("img");
+
+      img.src = "/" + x.path;
+      img.alt = x.title || "";
+      img.className = "thumb";
+
+      item.append(img);
+    }
+
+    addAction(
+      item,
+      "Eintrag löschen",
+      async () => {
+        if (!confirm(
+          "Bildinformation wirklich löschen? " +
+          "Die GitHub-Datei bleibt erhalten."
+        )) {
+          return;
+        }
+
+        try {
+          assertAdmin();
+
+          await fs.deleteDoc(
+            fs.doc(db, "gallery", d.id)
+          );
+
+          notice("Bildinformation gelöscht.");
+          await loadImages();
+
+        } catch (e) {
+          notice(e.message, true);
+        }
+      },
+      true
+    );
+
+    target.append(item);
+  });
+}
+
+// NEWS LADEN
+async function loadNews() {
+  assertAdmin();
+
+  const snap = await fs.getDocs(
+    fs.collection(db, "news")
+  );
+
+  const target = $("newsList");
+  empty(target);
+
+  if (snap.empty) {
+    target.append(
+      el("p", "Noch keine News vorhanden.")
+    );
+    return;
+  }
+
+  const rows = snap.docs.sort(
+    (a, b) =>
+      (b.data().createdAt?.seconds || 0) -
+      (a.data().createdAt?.seconds || 0)
+  );
+
+  for (const d of rows) {
+    const x = d.data();
+    const item = el("div");
+
+    item.className = "item";
+
+    item.append(
+      el("h3", x.title || "Ohne Titel"),
+      el("p", x.body || "")
+    );
+
+    addAction(
+      item,
+      "Bearbeiten",
+      () => {
+        $("newsId").value = d.id;
+        $("newsTitle").value = x.title || "";
+        $("newsBody").value = x.body || "";
+        $("newsTitle").focus();
+      }
+    );
+
+    addAction(
+      item,
+      "Löschen",
+      async () => {
+        if (!confirm("Diese News wirklich löschen?")) {
+          return;
+        }
+
+        try {
+          assertAdmin();
+
+          await fs.deleteDoc(
+            fs.doc(db, "news", d.id)
+          );
+
+          notice("News gelöscht.");
+          await loadNews();
+
+        } catch (e) {
+          notice(e.message, true);
+        }
+      },
+      true
+    );
+
+    target.append(item);
+  }
+}
+
+// SPEICHERFUNKTION MIT FEHLERANZEIGE
+async function run(fn) {
+  try {
+    assertAdmin();
+
+    notice("Bitte warten ...");
+
+    await fn();
+
+    notice("Erfolgreich gespeichert.");
+
+  } catch (e) {
+    notice("Fehler: " + e.message, true);
+  }
+}
+
+// FIREBASE STARTEN
+try {
+  const [appLib, a, f] = await Promise.all([
+    import(
+      "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+    ),
+
+    import(
+      "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
+    ),
+
+    import(
+      "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+    )
+  ]);
+
+  authLib = a;
+  fs = f;
+
+  const app = appLib.initializeApp(firebaseConfig);
+
+  auth = a.getAuth(app);
+  db = f.getFirestore(app);
+
+  // ADMINISTRATOR PRÜFEN
+  a.onAuthStateChanged(auth, async user => {
+    allowed = false;
+
+    dashboard.style.display = "none";
+    gate.style.display = "block";
+
+    if (!user) {
+      gateStatus(
+        "Nicht angemeldet. Bitte zuerst anmelden."
+      );
+      return;
+    }
+
+    gateStatus(
+      "Administratorrolle wird geprüft ..."
+    );
 
     try {
-      const [
-        firebaseApp,
-        firebaseAuth,
-        firebaseFirestore
-      ] = await Promise.all([
-        import(
-          "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
-        ),
-        import(
-          "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
-        ),
-        import(
-          "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
-        )
+      const role = await fs.getDoc(
+        fs.doc(db, "users", user.uid)
+      );
+
+      if (
+        !role.exists() ||
+        role.data().role !== "admin"
+      ) {
+        gateStatus(
+          "Zugriff verweigert: " +
+          "Dieses Konto ist kein Administrator.",
+          true
+        );
+
+        return;
+      }
+
+      allowed = true;
+
+      $("who").textContent =
+        "Angemeldet: " + (user.email || user.uid);
+
+      await Promise.all([
+        loadText(),
+        loadSettings()
       ]);
 
-      const app =
-        firebaseApp.initializeApp(firebaseConfig);
+      dashboard.style.display = "block";
+      gate.style.display = "none";
 
-      const auth =
-        firebaseAuth.getAuth(app);
+      notice("Administratorzugriff bestätigt.");
 
-      const db =
-        firebaseFirestore.getFirestore(app);
+    } catch (e) {
+      allowed = false;
 
-      const {
-        doc,
-        getDoc,
-        setDoc
-      } = firebaseFirestore;
-
-      firebaseAuth.onAuthStateChanged(
-        auth,
-        async (user) => {
-          adminbereich.style.display = "none";
-          zugriffVerweigert.style.display = "none";
-
-          if (!user) {
-            status.textContent =
-              "Bitte zuerst anmelden.";
-
-            zugriffVerweigert.style.display =
-              "block";
-            return;
-          }
-
-          status.textContent =
-            "Administratorrechte werden geprüft ...";
-
-          try {
-            const rollenDokument =
-              await getDoc(
-                doc(db, "users", user.uid)
-              );
-
-            if (
-              !rollenDokument.exists() ||
-              rollenDokument.data().role !== "admin"
-            ) {
-              status.textContent =
-                "Du besitzt keine Administratorrechte.";
-
-              zugriffVerweigert.style.display =
-                "block";
-              return;
-            }
-
-            document.getElementById(
-              "benutzer"
-            ).textContent =
-              "Angemeldet als: " + user.email;
-
-            const inhalt =
-              await getDoc(
-                doc(db, "content", "homepage")
-              );
-
-            if (inhalt.exists()) {
-              document.getElementById(
-                "begrussung"
-              ).value =
-                inhalt.data().begrussung || "";
-            }
-
-            adminbereich.style.display =
-              "block";
-
-            status.textContent =
-              "Administratorzugriff bestätigt.";
-
-          } catch (fehler) {
-            status.textContent =
-              "Fehler bei der Prüfung: " +
-              fehler.message;
-
-            zugriffVerweigert.style.display =
-              "block";
-          }
-        }
+      gateStatus(
+        "Prüfung fehlgeschlagen: " + e.message,
+        true
       );
-
-      speichern.addEventListener(
-        "click",
-        async () => {
-          speichern.disabled = true;
-
-          speicherstatus.textContent =
-            "Speichern läuft ...";
-
-          try {
-            await setDoc(
-              doc(db, "content", "homepage"),
-              {
-                begrussung:
-                  document.getElementById(
-                    "begrussung"
-                  ).value
-              },
-              { merge: true }
-            );
-
-            speicherstatus.textContent =
-              "Text erfolgreich gespeichert.";
-            speicherstatus.className = "success";
-
-          } catch (fehler) {
-            speicherstatus.textContent =
-              "Speichern fehlgeschlagen: " +
-              fehler.message;
-            speicherstatus.className = "danger";
-
-          } finally {
-            speichern.disabled = false;
-          }
-        }
-      );
-
-      document.getElementById(
-        "abmelden"
-      ).addEventListener(
-        "click",
-        async () => {
-          await firebaseAuth.signOut(auth);
-          window.location.href = "/login.html";
-        }
-      );
-
-    } catch (fehler) {
-      status.textContent =
-        "Firebase konnte nicht geladen werden: " +
-        fehler.message;
     }
-  </script>
+  });
+
+  // ABMELDEN
+  $("logout").addEventListener("click", async () => {
+    allowed = false;
+
+    await a.signOut(auth);
+
+    location.href = "/login.html";
+  });
+
+  // MENÜSTEUERUNG
+  document.querySelectorAll("[data-tab]").forEach(
+    button => button.addEventListener(
+      "click",
+      async () => {
+
+        document.querySelectorAll("[data-tab]").forEach(
+          b => b.classList.toggle(
+            "active",
+            b === button
+          )
+        );
+
+        document.querySelectorAll("[id^='tab-']").forEach(
+          s => {
+            s.hidden =
+              s.id !== "tab-" + button.dataset.tab;
+          }
+        );
+
+        try {
+          if (button.dataset.tab === "bilder") {
+            await loadImages();
+          }
+
+          if (button.dataset.tab === "news") {
+            await loadNews();
+          }
+
+          if (button.dataset.tab === "benutzer") {
+            await loadUsers();
+          }
+
+          if (button.dataset.tab === "texte") {
+            await loadText();
+          }
+
+          if (button.dataset.tab === "einstellungen") {
+            await loadSettings();
+          }
+
+        } catch (e) {
+          notice(
+            "Laden fehlgeschlagen: " + e.message,
+            true
+          );
+        }
+      }
+    )
+  );
+
+  // TEXTE SPEICHERN
+  $("textForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    run(() => fs.setDoc(
+      fs.doc(db, "content", "homepage"),
+      {
+        begrussung: $("welcome").value,
+        einleitung: $("intro").value
+      },
+      { merge: true }
+    ));
+  });
+
+  // EINSTELLUNGEN SPEICHERN
+  $("settingsForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    run(() => fs.setDoc(
+      fs.doc(db, "content", "settings"),
+      {
+        titel: $("siteTitle").value,
+        kontakt: $("contact").value
+      },
+      { merge: true }
+    ));
+  });
+
+  // BILDINFORMATIONEN SPEICHERN
+  $("imageForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    run(async () => {
+      const path = $("imagePath").value.trim();
+
+      if (
+        !/^bilder\/[a-zA-Z0-9_./-]+\.(jpg|jpeg|png|webp|gif)$/i.test(path) ||
+        path.includes("..")
+      ) {
+        throw new Error(
+          "Bitte einen gültigen Bildpfad " +
+          "im Ordner bilder/ eingeben."
+        );
+      }
+
+      await fs.addDoc(
+        fs.collection(db, "gallery"),
+        {
+          path,
+          title: $("imageTitle").value.trim(),
+          description: $("imageDescription").value,
+          createdAt: fs.serverTimestamp()
+        }
+      );
+
+      $("imageForm").reset();
+
+      await loadImages();
+    });
+  });
+
+  // NEWS SPEICHERN
+  $("newsForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    run(async () => {
+      const id = $("newsId").value;
+
+      const data = {
+        title: $("newsTitle").value.trim(),
+        body: $("newsBody").value.trim(),
+        updatedAt: fs.serverTimestamp()
+      };
+
+      if (!data.title || !data.body) {
+        throw new Error(
+          "Titel und Text fehlen."
+        );
+      }
+
+      if (id) {
+        await fs.setDoc(
+          fs.doc(db, "news", id),
+          data,
+          { merge: true }
+        );
+
+      } else {
+        await fs.addDoc(
+          fs.collection(db, "news"),
+          {
+            ...data,
+            createdAt: fs.serverTimestamp()
+          }
+        );
+      }
+
+      $("newsForm").reset();
+
+      await loadNews();
+    });
+  });
+
+  // NEWS-EINGABE LEEREN
+  $("newsCancel").addEventListener(
+    "click",
+    () => $("newsForm").reset()
+  );
+
+  // BENUTZER NEU LADEN
+  $("reloadUsers").addEventListener(
+    "click",
+    async () => {
+      try {
+        await loadUsers();
+
+        notice(
+          "Benutzerrollen aktualisiert."
+        );
+
+      } catch (e) {
+        notice(e.message, true);
+      }
+    }
+  );
+
+} catch (e) {
+  gateStatus(
+    "Firebase konnte nicht geladen werden: " +
+    e.message,
+    true
+  );
+}
+
+</script>
 </body>
 </html>
