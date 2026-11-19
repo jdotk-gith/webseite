@@ -1,81 +1,310 @@
 
-rules_version = '2';
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration – JDT</title>
+  <style>
+    * { box-sizing: border-box; }
 
-service cloud.firestore {
-  match /databases/{database}/documents {
-
-    function signedIn() {
-      return request.auth != null;
+    body {
+      margin: 0;
+      padding: 25px 15px;
+      background: #f1f5f9;
+      color: #1e293b;
+      font-family: Arial, sans-serif;
     }
 
-    function hasRole(roles) {
-      return signedIn()
-        && exists(
-          /databases/$(database)/documents/users/$(request.auth.uid)
+    main {
+      max-width: 650px;
+      margin: 35px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 25px #0001;
+    }
+
+    h1 { margin-top: 0; }
+
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+      resize: vertical;
+    }
+
+    button, .button-link {
+      display: inline-block;
+      padding: 12px 18px;
+      margin: 8px 5px 8px 0;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .secondary { background: #64748b; }
+    .danger { color: #b91c1c; }
+    .success { color: #15803d; }
+
+    #adminbereich, #zugriffVerweigert {
+      display: none;
+    }
+
+    #status {
+      overflow-wrap: anywhere;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>JDT Administration</h1>
+
+    <p id="status" role="status">
+      Firebase wird geladen ...
+    </p>
+
+    <section id="zugriffVerweigert">
+      <h2>Zugriff verweigert</h2>
+      <p>
+        Dieser Bereich ist nur für den
+        Administrator zugänglich.
+      </p>
+      <a class="button-link" href="/login.html">
+        Zur Anmeldung
+      </a>
+    </section>
+
+    <section id="adminbereich">
+      <h2>Willkommen, Administrator!</h2>
+      <p id="benutzer"></p>
+
+      <h3>Begrüssungstext bearbeiten</h3>
+      <p>
+        Dieser Text wird in Firebase Firestore
+        gespeichert.
+      </p>
+
+      <label for="begrussung">
+        Begrüssungstext
+      </label>
+
+      <textarea id="begrussung"
+        placeholder="Willkommen auf meiner Webseite!">
+      </textarea>
+
+      <div>
+        <button id="speichern" type="button">
+          Text speichern
+        </button>
+
+        <button id="abmelden"
+          type="button"
+          class="secondary">
+          Abmelden
+        </button>
+      </div>
+
+      <p id="speicherstatus" role="status"></p>
+    </section>
+
+    <a class="button-link secondary" href="/">
+      Zurück zur Startseite
+    </a>
+  </main>
+
+  <script type="module">
+    const status =
+      document.getElementById("status");
+
+    const adminbereich =
+      document.getElementById("adminbereich");
+
+    const zugriffVerweigert =
+      document.getElementById("zugriffVerweigert");
+
+    const speichern =
+      document.getElementById("speichern");
+
+    const speicherstatus =
+      document.getElementById("speicherstatus");
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
+      authDomain: "jdotk-webseite.firebaseapp.com",
+      projectId: "jdotk-webseite",
+      storageBucket: "jdotk-webseite.firebasestorage.app",
+      messagingSenderId: "1015775184620",
+      appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
+    };
+
+    try {
+      const [
+        firebaseApp,
+        firebaseAuth,
+        firebaseFirestore
+      ] = await Promise.all([
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+        ),
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
+        ),
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
         )
-        && get(
-          /databases/$(database)/documents/users/$(request.auth.uid)
-        ).data.role in roles;
+      ]);
+
+      const app =
+        firebaseApp.initializeApp(firebaseConfig);
+
+      const auth =
+        firebaseAuth.getAuth(app);
+
+      const db =
+        firebaseFirestore.getFirestore(app);
+
+      const {
+        doc,
+        getDoc,
+        setDoc
+      } = firebaseFirestore;
+
+      firebaseAuth.onAuthStateChanged(
+        auth,
+        async (user) => {
+          adminbereich.style.display = "none";
+          zugriffVerweigert.style.display = "none";
+
+          if (!user) {
+            status.textContent =
+              "Bitte zuerst anmelden.";
+
+            zugriffVerweigert.style.display =
+              "block";
+            return;
+          }
+
+          status.textContent =
+            "Administratorrechte werden geprüft ...";
+
+          try {
+            const rollenDokument =
+              await getDoc(
+                doc(db, "users", user.uid)
+              );
+
+            if (
+              !rollenDokument.exists() ||
+              rollenDokument.data().role !== "admin"
+            ) {
+              status.textContent =
+                "Du besitzt keine Administratorrechte.";
+
+              zugriffVerweigert.style.display =
+                "block";
+              return;
+            }
+
+            document.getElementById(
+              "benutzer"
+            ).textContent =
+              "Angemeldet als: " + user.email;
+
+            const inhalt =
+              await getDoc(
+                doc(db, "content", "homepage")
+              );
+
+            if (inhalt.exists()) {
+              document.getElementById(
+                "begrussung"
+              ).value =
+                inhalt.data().begrussung || "";
+            }
+
+            adminbereich.style.display =
+              "block";
+
+            status.textContent =
+              "Administratorzugriff bestätigt.";
+
+          } catch (fehler) {
+            status.textContent =
+              "Fehler bei der Prüfung: " +
+              fehler.message;
+
+            zugriffVerweigert.style.display =
+              "block";
+          }
+        }
+      );
+
+      speichern.addEventListener(
+        "click",
+        async () => {
+          speichern.disabled = true;
+
+          speicherstatus.textContent =
+            "Speichern läuft ...";
+
+          try {
+            await setDoc(
+              doc(db, "content", "homepage"),
+              {
+                begrussung:
+                  document.getElementById(
+                    "begrussung"
+                  ).value
+              },
+              { merge: true }
+            );
+
+            speicherstatus.textContent =
+              "Text erfolgreich gespeichert.";
+            speicherstatus.className = "success";
+
+          } catch (fehler) {
+            speicherstatus.textContent =
+              "Speichern fehlgeschlagen: " +
+              fehler.message;
+            speicherstatus.className = "danger";
+
+          } finally {
+            speichern.disabled = false;
+          }
+        }
+      );
+
+      document.getElementById(
+        "abmelden"
+      ).addEventListener(
+        "click",
+        async () => {
+          await firebaseAuth.signOut(auth);
+          window.location.href = "/login.html";
+        }
+      );
+
+    } catch (fehler) {
+      status.textContent =
+        "Firebase konnte nicht geladen werden: " +
+        fehler.message;
     }
-
-    // BENUTZER: NUR BERECHTIGTE KONTEN
-
-    match /users/{userId} {
-
-      allow get: if signedIn()
-        && (
-          request.auth.uid == userId
-          || hasRole(['admin'])
-        );
-
-      allow list: if hasRole(['admin']);
-
-      allow create, update:
-        if hasRole(['admin'])
-        && request.resource.data.keys().hasOnly(['role'])
-        && request.resource.data.role in [
-          'admin',
-          'editor',
-          'viewer'
-        ];
-
-      allow delete: if hasRole(['admin']);
-    }
-
-    // TEXTE UND EINSTELLUNGEN
-
-    match /content/{contentId} {
-
-      allow read: if true;
-
-      allow create, update, delete:
-        if hasRole(['admin', 'editor']);
-    }
-
-    // NEWS
-
-    match /news/{newsId} {
-
-      allow read: if true;
-
-      allow create, update, delete:
-        if hasRole(['admin']);
-    }
-
-    // BILDBESCHREIBUNGEN
-
-    match /gallery/{imageId} {
-
-      allow read: if true;
-
-      allow create, update, delete:
-        if hasRole(['admin']);
-    }
-
-    // ALLE ANDEREN ZUGRIFFE SPERREN
-
-    match /{document=**} {
-      allow read, write: if false;
-    }
-  }
-}
+  </script>
+</body>
+</html>
