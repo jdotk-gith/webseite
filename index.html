@@ -272,84 +272,15 @@
     <h2>Bildergalerie</h2>
 
     <p class="subtitle">
-      Klicke auf ein Foto, um es zu vergrössern.
+      Klicke auf ein Foto, um es zu vergrössern. Bis zu 50 Bilder sind möglich.
     </p>
 
-    <div class="grid">
-
-      <figure class="photo"
-              data-image-path="bilder/Bild1.jpg">
-        <a href="/bilder/Bild1.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild1.jpg"
-               alt="Bild 1" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 1</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild2.jpg">
-        <a href="/bilder/Bild2.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild2.jpg"
-               alt="Bild 2" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 2</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild3.jpg">
-        <a href="/bilder/Bild3.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild3.jpg"
-               alt="Bild 3" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 3</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild4.jpg">
-        <a href="/bilder/Bild4.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild4.jpg"
-               alt="Bild 4" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 4</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild5.jpg">
-        <a href="/bilder/Bild5.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild5.jpg"
-               alt="Bild 5" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 5</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild6.jpg">
-        <a href="/bilder/Bild6.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild6.jpg"
-               alt="Bild 6" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 6</strong><p></p>
-        </figcaption>
-      </figure>
-
-    </div>
+    <!-- Neue Galerie: vorhandene Dateien Bild1.jpg bis Bild50.jpg
+         werden automatisch erkannt. Fehlende Dateien werden ausgelassen. -->
+    <p id="galleryStatus" class="muted" role="status">
+      Bilder werden gesucht ...
+    </p>
+    <div class="grid" id="galleryGrid"></div>
   </section>
 
   <section class="panel" id="kontakt">
@@ -400,6 +331,114 @@
 
     byId("newsList").replaceChildren(p);
   }
+
+  // GALERIE: BIS ZU 50 BILDER, AUCH OHNE FIREBASE
+  // Dateinamen: /bilder/Bild1.jpg bis /bilder/Bild50.jpg
+  // Neue Dateien in GitHub ins Verzeichnis bilder/ hochladen.
+
+  const MAX_BILDER = 50;
+  let imageMetadata = new Map();
+  const galleryGrid = byId("galleryGrid");
+  const galleryStatus = byId("galleryStatus");
+
+  function updateCaption(figure) {
+    const pfad = figure.dataset.imagePath;
+    const daten = imageMetadata.get(pfad);
+    const nummer = figure.dataset.number;
+    const titel = text(daten?.title).trim() || `Bild ${nummer}`;
+
+    figure.querySelector("strong").textContent = titel;
+    figure.querySelector("img").alt = titel;
+    figure.querySelector("figcaption p").textContent =
+      text(daten?.description);
+  }
+
+  function updateAllCaptions() {
+    galleryGrid.querySelectorAll("figure[data-image-path]")
+      .forEach(updateCaption);
+  }
+
+  function createPhotoCard(nummer) {
+    const pfad = `bilder/Bild${nummer}.jpg`;
+    const url = "/" + pfad;
+
+    const figure = document.createElement("figure");
+    figure.className = "photo";
+    figure.dataset.imagePath = pfad;
+    figure.dataset.number = String(nummer);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener";
+
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = `Bild ${nummer}`;
+    img.loading = "lazy";
+    link.append(img);
+
+    const beschriftung = document.createElement("figcaption");
+    const titel = document.createElement("strong");
+    const beschreibung = document.createElement("p");
+    beschriftung.append(titel, beschreibung);
+    figure.append(link, beschriftung);
+
+    updateCaption(figure);
+    return figure;
+  }
+
+  async function bildExistiert(nummer) {
+    try {
+      const antwort = await fetch(
+        `/bilder/Bild${nummer}.jpg`,
+        { method: "HEAD", cache: "no-cache" }
+      );
+      return antwort.ok;
+    } catch (fehler) {
+      console.warn("Bildprüfung fehlgeschlagen:", nummer, fehler);
+      return false;
+    }
+  }
+
+  async function loadGallery() {
+    let nextNumber = 1;
+    let checked = 0;
+    const vorhanden = [];
+    const arbeiterAnzahl = 6;
+
+    async function worker() {
+      while (nextNumber <= MAX_BILDER) {
+        const nummer = nextNumber++;
+        if (await bildExistiert(nummer)) {
+          vorhanden.push(nummer);
+        }
+        checked++;
+        galleryStatus.textContent =
+          `Bilder werden geprüft: ${checked} von ${MAX_BILDER}`;
+      }
+    }
+
+    await Promise.all(
+      Array.from({length: arbeiterAnzahl}, () => worker())
+    );
+
+    vorhanden.sort((a, b) => a - b);
+    galleryGrid.replaceChildren(
+      ...vorhanden.map(createPhotoCard)
+    );
+
+    galleryStatus.textContent = vorhanden.length
+      ? `${vorhanden.length} von ${MAX_BILDER} möglichen Bildern vorhanden.`
+      : "Noch keine Bilder gefunden. Lade Bild1.jpg in den GitHub-Ordner bilder/ hoch.";
+  }
+
+  // Die Bildergalerie funktioniert unabhängig vom Firebase-Zugang.
+  loadGallery().catch(fehler => {
+    console.error("Galerie konnte nicht aufgebaut werden:", fehler);
+    galleryStatus.textContent =
+      "Die Bilder konnten nicht geprüft werden.";
+  });
 
   try {
 
@@ -555,14 +594,12 @@
       }
     );
 
-    // BILDBESCHRIFTUNGEN
-    // Fotos bleiben unabhängig von Firebase sichtbar.
-
+    // BILDBESCHRIFTUNGEN: freiwillige Eintraege aus Firestore.
+    // Bilddateien selbst kommen weiterhin direkt aus GitHub.
     fs.onSnapshot(
       fs.collection(db, "gallery"),
-
       snap => {
-        const bilddaten = new Map();
+        imageMetadata = new Map();
 
         const eintraege = snap.docs
           .map(d => d.data())
@@ -572,42 +609,14 @@
           );
 
         for (const daten of eintraege) {
-          if (
-            typeof daten.path === "string" &&
-            !bilddaten.has(daten.path)
-          ) {
-            bilddaten.set(daten.path, daten);
+          if (typeof daten.path === "string" &&
+              !imageMetadata.has(daten.path)) {
+            imageMetadata.set(daten.path, daten);
           }
         }
 
-        document
-          .querySelectorAll("[data-image-path]")
-          .forEach(karte => {
-            const daten = bilddaten.get(
-              karte.dataset.imagePath
-            );
-
-            const nummer =
-              karte.dataset.imagePath.match(
-                /Bild(\d+)\.jpg$/
-              )?.[1];
-
-            const titel =
-              text(daten?.title).trim() ||
-              `Bild ${nummer}`;
-
-            karte.querySelector("strong")
-              .textContent = titel;
-
-            karte.querySelector("img")
-              .alt = titel;
-
-            karte.querySelector("figcaption p")
-              .textContent =
-                text(daten?.description);
-          });
+        updateAllCaptions();
       },
-
       fehler => {
         console.warn(
           "Firebase-Bildbeschreibungen:",
