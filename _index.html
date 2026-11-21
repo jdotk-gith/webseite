@@ -1,17 +1,25 @@
 
 <!DOCTYPE html>
 <html lang="de-CH">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
 
+  <meta name="description"
+        content="Meine persönliche Webseite mit Bildern, News und Informationen.">
+
   <title>Meine Webseite</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -44,7 +52,7 @@
     #siteName {
       color: white;
       font-size: 23px;
-      font-weight: 700;
+      font-weight: bold;
       text-decoration: none;
     }
 
@@ -58,6 +66,10 @@
     nav a {
       color: white;
       text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
     }
 
     .login {
@@ -87,8 +99,8 @@
     }
 
     main {
-      padding-top: 28px !important;
-      padding-bottom: 24px !important;
+      padding-top: 28px;
+      padding-bottom: 24px;
     }
 
     .panel {
@@ -114,42 +126,7 @@
       overflow-wrap: anywhere;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .photo {
-      margin: 0;
-      overflow: hidden;
-      border-radius: 10px;
-      border: 1px solid #d9e2ec;
-      background: #f9fbfd;
-    }
-
-    .photo a { display: block; }
-
-    .photo img {
-      display: block;
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-    }
-
-    .photo figcaption {
-      padding: 12px 14px;
-    }
-
-    .photo strong { display: block; }
-
-    .photo p {
-      color: #64748b;
-      margin: 4px 0 0;
-      font-size: 14px;
-      white-space: pre-wrap;
-    }
+    /* NEWS */
 
     .news-grid {
       display: grid;
@@ -179,7 +156,95 @@
       overflow-wrap: anywhere;
     }
 
-    .muted { color: #64748b; }
+    /* BILDERGALERIE */
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .photo {
+      margin: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid #d9e2ec;
+      background: #f9fbfd;
+    }
+
+    .photo a {
+      display: block;
+      overflow: hidden;
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      transition: transform 0.2s;
+    }
+
+    .photo a:hover img {
+      transform: scale(1.04);
+    }
+
+    .photo figcaption {
+      padding: 12px 14px;
+    }
+
+    .photo strong {
+      display: block;
+    }
+
+    .photo p {
+      color: #64748b;
+      margin: 4px 0 0;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    /* GALERIE-BUTTON */
+
+    .gallery-controls {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .more-button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .more-button:hover {
+      background: #1d4ed8;
+    }
+
+    .more-button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .more-button[hidden] {
+      display: none;
+    }
+
+    .gallery-status {
+      color: #64748b;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
+    .muted {
+      color: #64748b;
+    }
 
     footer {
       color: white;
@@ -188,11 +253,16 @@
       padding: 24px 12px;
     }
 
-    footer p { margin: 3px 0; }
+    footer p {
+      margin: 3px 0;
+    }
+
+    /* TABLET */
 
     @media (max-width: 750px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
+      .gallery-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
       }
 
       .top {
@@ -200,434 +270,757 @@
         text-align: center;
       }
 
-      nav { justify-content: center; }
+      nav {
+        justify-content: center;
+      }
     }
 
+    /* HANDY */
+
     @media (max-width: 510px) {
-      .grid { grid-template-columns: 1fr; }
-      .panel { padding: 18px; }
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .hero {
+        padding: 50px 15px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <div class="wrap top">
+  <!-- NAVIGATION -->
 
-    <a id="siteName" href="#start">
-      Meine Webseite
-    </a>
+  <header>
+    <div class="wrap top">
 
-    <nav aria-label="Hauptnavigation">
-      <a href="#start">Start</a>
-      <a href="#ueber">Über mich</a>
-      <a href="#news">News</a>
-      <a href="#bilder">Bilder</a>
-      <a href="#kontakt">Kontakt</a>
-
-      <a class="login" href="/login.html">
-        Anmelden
+      <a id="siteName" href="#start">
+        Meine Webseite
       </a>
-    </nav>
-  </div>
-</header>
 
-<section id="start" class="hero">
-  <div class="wrap">
-    <h1>Herzlich willkommen</h1>
+      <nav aria-label="Hauptnavigation">
 
-    <p id="welcome" class="preline">
-      Willkommen auf meiner Webseite!
-    </p>
-  </div>
-</section>
+        <a href="#start">Start</a>
+        <a href="#ueber">Über mich</a>
+        <a href="#news">News</a>
+        <a href="#bilder">Bilder</a>
+        <a href="#kontakt">Kontakt</a>
 
-<main class="wrap">
+        <a class="login" href="/login.html">
+          Anmelden
+        </a>
 
-  <section class="panel" id="ueber">
-    <h2>Über diese Webseite</h2>
+      </nav>
+    </div>
+  </header>
 
-    <p id="intro" class="preline">
-      Hier findest du Neuigkeiten,
-      Informationen und Fotos.
-    </p>
-  </section>
+  <!-- BEGRÜSSUNG -->
 
-  <section class="panel" id="news">
-    <h2>Aktuelles und News</h2>
-    <p class="subtitle">Die neuesten Mitteilungen</p>
+  <section id="start" class="hero">
+    <div class="wrap">
 
-    <div class="news-grid"
-         id="newsList"
-         aria-live="polite">
+      <h1>Herzlich willkommen</h1>
 
-      <p class="muted">
-        News werden geladen ...
+      <p id="welcome" class="preline">
+        Willkommen auf meiner Webseite!
       </p>
-    </div>
-  </section>
-
-  <section class="panel" id="bilder">
-    <h2>Bildergalerie</h2>
-
-    <p class="subtitle">
-      Klicke auf ein Foto, um es zu vergrössern.
-    </p>
-
-    <div class="grid">
-
-      <figure class="photo"
-              data-image-path="bilder/Bild1.jpg">
-        <a href="/bilder/Bild1.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild1.jpg"
-               alt="Bild 1" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 1</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild2.jpg">
-        <a href="/bilder/Bild2.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild2.jpg"
-               alt="Bild 2" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 2</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild3.jpg">
-        <a href="/bilder/Bild3.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild3.jpg"
-               alt="Bild 3" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 3</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild4.jpg">
-        <a href="/bilder/Bild4.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild4.jpg"
-               alt="Bild 4" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 4</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild5.jpg">
-        <a href="/bilder/Bild5.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild5.jpg"
-               alt="Bild 5" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 5</strong><p></p>
-        </figcaption>
-      </figure>
-
-      <figure class="photo"
-              data-image-path="bilder/Bild6.jpg">
-        <a href="/bilder/Bild6.jpg"
-           target="_blank" rel="noopener">
-          <img src="/bilder/Bild6.jpg"
-               alt="Bild 6" loading="lazy">
-        </a>
-        <figcaption>
-          <strong>Bild 6</strong><p></p>
-        </figcaption>
-      </figure>
 
     </div>
   </section>
 
-  <section class="panel" id="kontakt">
-    <h2>Kontakt</h2>
+  <!-- HAUPTSEITE -->
 
-    <p id="contact" class="preline">
-      Kontaktinformationen folgen.
+  <main class="wrap">
+
+    <!-- ÜBER MICH -->
+
+    <section class="panel" id="ueber">
+
+      <h2>Über diese Webseite</h2>
+
+      <p id="intro" class="preline">
+        Hier findest du Neuigkeiten,
+        Informationen und Fotos.
+      </p>
+
+    </section>
+
+    <!-- NEWS -->
+
+    <section class="panel" id="news">
+
+      <h2>Aktuelles und News</h2>
+
+      <p class="subtitle">
+        Die neuesten Mitteilungen
+      </p>
+
+      <div class="news-grid"
+           id="newsList"
+           aria-live="polite">
+
+        <p class="muted">
+          News werden geladen ...
+        </p>
+
+      </div>
+    </section>
+
+    <!-- UNBEGRENZTE BILDERGALERIE -->
+
+    <section class="panel" id="bilder">
+
+      <h2>Bildergalerie</h2>
+
+      <p class="subtitle">
+        Klicke auf ein Foto, um es zu vergrössern.
+      </p>
+
+      <div class="gallery-grid"
+           id="galleryGrid">
+      </div>
+
+      <div class="gallery-controls">
+
+        <button id="loadMore"
+                class="more-button"
+                type="button"
+                hidden>
+          Weitere Bilder anzeigen
+        </button>
+
+        <p id="galleryStatus"
+           class="gallery-status"
+           role="status"
+           aria-live="polite">
+          Bilder werden geladen ...
+        </p>
+
+      </div>
+    </section>
+
+    <!-- KONTAKT -->
+
+    <section class="panel" id="kontakt">
+
+      <h2>Kontakt</h2>
+
+      <p id="contact" class="preline">
+        Kontaktinformationen folgen.
+      </p>
+
+    </section>
+
+  </main>
+
+  <!-- FUSSZEILE -->
+
+  <footer>
+
+    <p id="footerName">Meine Webseite</p>
+
+    <p>
+      © <span id="year"></span>
+      Alle Rechte vorbehalten.
     </p>
-  </section>
 
-</main>
+  </footer>
 
-<footer>
-  <p id="footerName">Meine Webseite</p>
-  <p>
-    © <span id="year"></span>
-    Alle Rechte vorbehalten.
-  </p>
-</footer>
+  <!-- GALERIE MIT AUTOMATISCHER BILDERSUCHE -->
 
-<script>
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
-</script>
+  <script>
 
-<script type="module">
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
-  // Firebase-Konfiguration mit login.html vergleichen!
+    const galleryGrid =
+      document.getElementById("galleryGrid");
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
-    authDomain: "jdotk-webseite.firebaseapp.com",
-    projectId: "jdotk-webseite",
-    storageBucket: "jdotk-webseite.firebasestorage.app",
-    messagingSenderId: "1015775184620",
-    appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
-  };
+    const loadMoreButton =
+      document.getElementById("loadMore");
 
-  const byId = id => document.getElementById(id);
+    const galleryStatus =
+      document.getElementById("galleryStatus");
 
-  const text = (wert, ersatz = "") =>
-    typeof wert === "string" ? wert : ersatz;
+    const BILDER_PRO_SEITE = 24;
 
-  function messageNews(nachricht) {
-    const p = document.createElement("p");
-    p.className = "muted";
-    p.textContent = nachricht;
+    let naechsteNummer = 1;
+    let anzahlBilder = 0;
 
-    byId("newsList").replaceChildren(p);
-  }
+    let galerieLaedt = false;
+    let galerieFertig = false;
 
-  try {
+    // Firebase-Bildbeschreibungen:
+    // Standardmässig bleibt jedes Foto sichtbar.
 
-    const [appModule, fs] = await Promise.all([
-      import(
-        "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
-      ),
-      import(
-        "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
-      )
-    ]);
+    const bildInformationen = new Map();
 
-    const app =
-      appModule.initializeApp(firebaseConfig);
+    function aktualisiereBeschriftungen() {
 
-    const db = fs.getFirestore(app);
+      document
+        .querySelectorAll(".photo[data-image-path]")
+        .forEach(karte => {
 
-    // TEXTE
+          const pfad =
+            karte.dataset.imagePath;
 
-    fs.onSnapshot(
-      fs.doc(db, "content", "homepage"),
+          const daten =
+            bildInformationen.get(pfad);
 
-      snap => {
-        const daten =
-          snap.exists() ? snap.data() : {};
-
-        byId("welcome").textContent = text(
-          daten.begrussung,
-          "Willkommen auf meiner Webseite!"
-        );
-
-        byId("intro").textContent = text(
-          daten.einleitung,
-          "Hier findest du Neuigkeiten, Informationen und Fotos."
-        );
-      },
-
-      fehler => {
-        console.error(
-          "Firebase-Texte:",
-          fehler.code,
-          fehler.message
-        );
-      }
-    );
-
-    // EINSTELLUNGEN
-
-    fs.onSnapshot(
-      fs.doc(db, "content", "settings"),
-
-      snap => {
-        const daten =
-          snap.exists() ? snap.data() : {};
-
-        const titel =
-          text(daten.titel).trim() || "Meine Webseite";
-
-        byId("siteName").textContent = titel;
-        byId("footerName").textContent = titel;
-        document.title = titel;
-
-        byId("contact").textContent = text(
-          daten.kontakt,
-          "Kontaktinformationen folgen."
-        );
-      },
-
-      fehler => {
-        console.error(
-          "Firebase-Einstellungen:",
-          fehler.code,
-          fehler.message
-        );
-      }
-    );
-
-    // NEWS
-
-    fs.onSnapshot(
-      fs.collection(db, "news"),
-
-      snap => {
-        const ziel = byId("newsList");
-        ziel.replaceChildren();
-
-        const eintraege = snap.docs
-          .map(d => d.data())
-          .sort((a, b) =>
-            (b.createdAt?.seconds || 0) -
-            (a.createdAt?.seconds || 0)
-          )
-          .slice(0, 9);
-
-        if (!eintraege.length) {
-          messageNews(
-            "Noch keine Neuigkeiten veröffentlicht."
-          );
-          return;
-        }
-
-        for (const daten of eintraege) {
-          const karte =
-            document.createElement("article");
-
-          karte.className = "news-card";
+          const standardTitel =
+            karte.dataset.standardTitel;
 
           const titel =
-            document.createElement("h3");
+            typeof daten?.title === "string"
+            && daten.title.trim()
+              ? daten.title.trim()
+              : standardTitel;
 
-          titel.textContent =
-            text(daten.title, "Mitteilung");
+          const beschreibung =
+            typeof daten?.description === "string"
+              ? daten.description
+              : "";
 
-          karte.append(titel);
+          karte.querySelector("strong").textContent =
+            titel;
 
-          if (daten.createdAt?.toDate) {
-            const datum =
-              document.createElement("time");
+          karte.querySelector("figcaption p").textContent =
+            beschreibung;
 
-            const zeitpunkt =
-              daten.createdAt.toDate();
+          karte.querySelector("img").alt =
+            titel;
+        });
+    }
 
-            datum.dateTime =
-              zeitpunkt.toISOString();
+    // Einzelnes Bild als Karte anzeigen
 
-            datum.textContent =
-              zeitpunkt.toLocaleDateString("de-CH");
+    function erstelleBild(nummer) {
 
-            karte.append(datum);
-          }
+      const pfad =
+        "bilder/Bild" + nummer + ".jpg";
 
-          const absatz =
-            document.createElement("p");
+      const karte =
+        document.createElement("figure");
 
-          absatz.textContent =
-            text(daten.body);
+      karte.className = "photo";
 
-          karte.append(absatz);
-          ziel.append(karte);
-        }
-      },
+      karte.dataset.imagePath = pfad;
+      karte.dataset.standardTitel =
+        "Bild " + nummer;
 
-      fehler => {
-        console.error(
-          "Firebase-News:",
-          fehler.code,
-          fehler.message
-        );
+      const link =
+        document.createElement("a");
 
-        messageNews(
-          "News derzeit nicht verfügbar. Bitte Firestore-Regeln prüfen."
+      link.href = "/" + pfad;
+      link.target = "_blank";
+      link.rel = "noopener";
+
+      const bild =
+        document.createElement("img");
+
+      bild.src = "/" + pfad;
+      bild.alt = "Bild " + nummer;
+      bild.loading = "lazy";
+
+      link.append(bild);
+
+      const beschriftung =
+        document.createElement("figcaption");
+
+      const titel =
+        document.createElement("strong");
+
+      titel.textContent =
+        "Bild " + nummer;
+
+      const text =
+        document.createElement("p");
+
+      beschriftung.append(titel, text);
+
+      karte.append(link, beschriftung);
+
+      galleryGrid.append(karte);
+
+      anzahlBilder++;
+
+      aktualisiereBeschriftungen();
+    }
+
+    // Prüfen, ob eine Datei auf GitHub Pages existiert
+
+    async function bildExistiert(nummer) {
+
+      const pfad =
+        "/bilder/Bild" + nummer + ".jpg";
+
+      const antwort = await fetch(pfad, {
+        method: "HEAD",
+        cache: "no-store"
+      });
+
+      if (
+        antwort.status === 404 ||
+        antwort.status === 410
+      ) {
+        return false;
+      }
+
+      if (!antwort.ok) {
+        throw new Error(
+          "Bilddatei konnte nicht geprüft werden: " +
+          antwort.status
         );
       }
-    );
 
-    // BILDBESCHRIFTUNGEN
-    // Fotos bleiben unabhängig von Firebase sichtbar.
+      return true;
+    }
 
-    fs.onSnapshot(
-      fs.collection(db, "gallery"),
+    // Weitere Bilder laden
 
-      snap => {
-        const bilddaten = new Map();
+    async function ladeWeitereBilder() {
 
-        const eintraege = snap.docs
-          .map(d => d.data())
-          .sort((a, b) =>
-            (b.createdAt?.seconds || 0) -
-            (a.createdAt?.seconds || 0)
+      if (galerieLaedt || galerieFertig) {
+        return;
+      }
+
+      galerieLaedt = true;
+
+      loadMoreButton.disabled = true;
+      loadMoreButton.hidden = true;
+
+      galleryStatus.textContent =
+        "Weitere Bilder werden gesucht ...";
+
+      let hinzugefuegt = 0;
+
+      try {
+
+        while (hinzugefuegt < BILDER_PRO_SEITE) {
+
+          // Maximal sechs Dateiprüfungen gleichzeitig
+
+          const gruppe = Math.min(
+            6,
+            BILDER_PRO_SEITE - hinzugefuegt
           );
 
-        for (const daten of eintraege) {
-          if (
-            typeof daten.path === "string" &&
-            !bilddaten.has(daten.path)
+          const ergebnisse = await Promise.all(
+            Array.from(
+              { length: gruppe },
+              (_, index) =>
+                bildExistiert(
+                  naechsteNummer + index
+                )
+            )
+          );
+
+          const fehlendePosition =
+            ergebnisse.indexOf(false);
+
+          const vorhandeneAnzahl =
+            fehlendePosition === -1
+              ? gruppe
+              : fehlendePosition;
+
+          for (
+            let i = 0;
+            i < vorhandeneAnzahl;
+            i++
           ) {
-            bilddaten.set(daten.path, daten);
+            erstelleBild(naechsteNummer + i);
+          }
+
+          naechsteNummer += vorhandeneAnzahl;
+
+          hinzugefuegt += vorhandeneAnzahl;
+
+          if (fehlendePosition !== -1) {
+            galerieFertig = true;
+            break;
           }
         }
 
-        document
-          .querySelectorAll("[data-image-path]")
-          .forEach(karte => {
-            const daten = bilddaten.get(
-              karte.dataset.imagePath
+        // Prüfen, ob nach dieser Seite
+        // noch mindestens ein Foto existiert.
+
+        if (!galerieFertig) {
+
+          const weiteresVorhanden =
+            await bildExistiert(naechsteNummer);
+
+          if (!weiteresVorhanden) {
+            galerieFertig = true;
+          }
+        }
+
+        if (anzahlBilder === 0) {
+
+          galleryStatus.textContent =
+            "Noch keine Bilder vorhanden.";
+
+        } else if (galerieFertig) {
+
+          galleryStatus.textContent =
+            anzahlBilder +
+            " Bilder in der Galerie.";
+
+        } else {
+
+          galleryStatus.textContent =
+            anzahlBilder +
+            " Bilder angezeigt. Weitere verfügbar.";
+
+          loadMoreButton.hidden = false;
+        }
+
+      } catch (fehler) {
+
+        console.error(
+          "Fehler beim Laden der Galerie:",
+          fehler
+        );
+
+        galleryStatus.textContent =
+          "Einige Bilder konnten nicht geprüft werden. " +
+          "Bitte erneut versuchen.";
+
+        loadMoreButton.hidden = false;
+
+      } finally {
+
+        galerieLaedt = false;
+        loadMoreButton.disabled = false;
+      }
+    }
+
+    loadMoreButton.addEventListener(
+      "click",
+      ladeWeitereBilder
+    );
+
+    // Galerie beim Seitenaufruf starten
+
+    ladeWeitereBilder();
+
+  </script>
+
+  <!-- FIREBASE -->
+
+  <script type="module">
+
+    /*
+      WICHTIG:
+
+      Bitte den apiKey durch den exakten Wert
+      aus deiner funktionierenden login.html
+      ersetzen.
+
+      Die anderen Werte ebenfalls vergleichen.
+    */
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
+
+      authDomain:
+        "jdotk-webseite.firebaseapp.com",
+
+      projectId:
+        "jdotk-webseite",
+
+      storageBucket:
+        "jdotk-webseite.firebasestorage.app",
+
+      messagingSenderId:
+        "1015775184620",
+
+      appId:
+        "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
+    };
+
+    const byId = id =>
+      document.getElementById(id);
+
+    const text = (wert, ersatz = "") =>
+      typeof wert === "string"
+        ? wert
+        : ersatz;
+
+    function messageNews(nachricht) {
+
+      const p =
+        document.createElement("p");
+
+      p.className = "muted";
+      p.textContent = nachricht;
+
+      byId("newsList").replaceChildren(p);
+    }
+
+    // NEWS AUF DER WEBSEITE ANZEIGEN
+
+    function zeigeNews(dokumente) {
+
+      const ziel = byId("newsList");
+
+      ziel.replaceChildren();
+
+      const eintraege = dokumente
+        .map(d => d.data())
+        .sort(
+          (a, b) =>
+            (b.createdAt?.seconds || 0) -
+            (a.createdAt?.seconds || 0)
+        )
+        .slice(0, 12);
+
+      if (eintraege.length === 0) {
+
+        messageNews(
+          "Noch keine Neuigkeiten veröffentlicht."
+        );
+
+        return;
+      }
+
+      for (const daten of eintraege) {
+
+        const karte =
+          document.createElement("article");
+
+        karte.className = "news-card";
+
+        const titel =
+          document.createElement("h3");
+
+        titel.textContent =
+          text(daten.title, "Mitteilung");
+
+        karte.append(titel);
+
+        if (daten.createdAt?.toDate) {
+
+          const datum =
+            document.createElement("time");
+
+          const zeitpunkt =
+            daten.createdAt.toDate();
+
+          datum.dateTime =
+            zeitpunkt.toISOString();
+
+          datum.textContent =
+            zeitpunkt.toLocaleDateString(
+              "de-CH"
             );
 
-            const nummer =
-              karte.dataset.imagePath.match(
-                /Bild(\d+)\.jpg$/
-              )?.[1];
+          karte.append(datum);
+        }
 
-            const titel =
-              text(daten?.title).trim() ||
-              `Bild ${nummer}`;
+        const absatz =
+          document.createElement("p");
 
-            karte.querySelector("strong")
-              .textContent = titel;
+        absatz.textContent =
+          text(daten.body);
 
-            karte.querySelector("img")
-              .alt = titel;
+        karte.append(absatz);
 
-            karte.querySelector("figcaption p")
-              .textContent =
-                text(daten?.description);
-          });
-      },
-
-      fehler => {
-        console.warn(
-          "Firebase-Bildbeschreibungen:",
-          fehler.code,
-          fehler.message
-        );
+        ziel.append(karte);
       }
-    );
+    }
 
-  } catch (fehler) {
-    console.error(
-      "Firebase konnte nicht geladen werden:",
-      fehler
-    );
+    // FIREBASE STARTEN
 
-    messageNews(
-      "News derzeit nicht verfügbar."
-    );
-  }
+    try {
 
-</script>
+      const [appModule, fs] =
+        await Promise.all([
+
+          import(
+            "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+          ),
+
+          import(
+            "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+          )
+
+        ]);
+
+      const app =
+        appModule.initializeApp(firebaseConfig);
+
+      const db =
+        fs.getFirestore(app);
+
+      // TEXTE
+
+      fs.onSnapshot(
+
+        fs.doc(db, "content", "homepage"),
+
+        snap => {
+
+          const daten =
+            snap.exists()
+              ? snap.data()
+              : {};
+
+          byId("welcome").textContent =
+            text(
+              daten.begrussung,
+              "Willkommen auf meiner Webseite!"
+            );
+
+          byId("intro").textContent =
+            text(
+              daten.einleitung,
+              "Hier findest du Neuigkeiten, Informationen und Fotos."
+            );
+        },
+
+        fehler => {
+
+          console.error(
+            "Firebase-Texte:",
+            fehler.code,
+            fehler.message
+          );
+        }
+      );
+
+      // EINSTELLUNGEN
+
+      fs.onSnapshot(
+
+        fs.doc(db, "content", "settings"),
+
+        snap => {
+
+          const daten =
+            snap.exists()
+              ? snap.data()
+              : {};
+
+          const titel =
+            text(daten.titel).trim() ||
+            "Meine Webseite";
+
+          byId("siteName").textContent =
+            titel;
+
+          byId("footerName").textContent =
+            titel;
+
+          document.title =
+            titel;
+
+          byId("contact").textContent =
+            text(
+              daten.kontakt,
+              "Kontaktinformationen folgen."
+            );
+        },
+
+        fehler => {
+
+          console.error(
+            "Firebase-Einstellungen:",
+            fehler.code,
+            fehler.message
+          );
+        }
+      );
+
+      // NEWS
+
+      fs.onSnapshot(
+
+        fs.collection(db, "news"),
+
+        snap => {
+          zeigeNews(snap.docs);
+        },
+
+        fehler => {
+
+          console.error(
+            "Firebase-News:",
+            fehler.code,
+            fehler.message
+          );
+
+          messageNews(
+            "News sind derzeit nicht verfügbar."
+          );
+        }
+      );
+
+      // BILDTITEL UND BESCHREIBUNGEN
+
+      fs.onSnapshot(
+
+        fs.collection(db, "gallery"),
+
+        snap => {
+
+          bildInformationen.clear();
+
+          const eintraege = snap.docs
+            .map(d => d.data())
+            .sort(
+              (a, b) =>
+                (b.createdAt?.seconds || 0) -
+                (a.createdAt?.seconds || 0)
+            );
+
+          for (const daten of eintraege) {
+
+            if (
+              typeof daten.path === "string" &&
+              !bildInformationen.has(daten.path)
+            ) {
+
+              bildInformationen.set(
+                daten.path,
+                daten
+              );
+            }
+          }
+
+          aktualisiereBeschriftungen();
+        },
+
+        fehler => {
+
+          console.warn(
+            "Firebase-Bildbeschreibungen:",
+            fehler.code,
+            fehler.message
+          );
+        }
+      );
+
+    } catch (fehler) {
+
+      console.error(
+        "Firebase konnte nicht geladen werden:",
+        fehler
+      );
+
+      messageNews(
+        "News sind derzeit nicht verfügbar."
+      );
+    }
+
+  </script>
+
 </body>
 </html>
