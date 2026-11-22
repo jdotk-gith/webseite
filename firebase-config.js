@@ -1,6 +1,6 @@
 
 export const firebaseConfig = {
-  apiKey: "HIER_API_KEY_EINFUEGEN",
+  apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
   authDomain: "jdotk-webseite.firebaseapp.com",
   projectId: "jdotk-webseite",
   storageBucket: "jdotk-webseite.firebasestorage.app",
