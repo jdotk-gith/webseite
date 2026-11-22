@@ -1,980 +1,1284 @@
 
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de-CH">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Administration</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration</title>
 
-<style>
-:root {
-  font-family: Arial, Helvetica, sans-serif;
-  color: #172338;
-  background: #f1f5f9;
-}
+  <style>
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
 
-* { box-sizing: border-box; }
-body { margin: 0; }
+    body {
+      margin: 0;
+      background: #edf2f7;
+      color: #1d3045;
+      font: 16px/1.6 Arial, sans-serif;
+    }
 
-header {
-  background: #172b4d;
-  color: white;
-  padding: 18px 22px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
+    header {
+      background: #173450;
+      color: white;
+      padding: 17px 20px;
+    }
 
-header h1 {
-  font-size: 21px;
-  margin: 0;
-}
+    header div {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
 
-header a { color: white; }
+    header h1 {
+      font-size: 22px;
+      margin: 0;
+    }
 
-main {
-  max-width: 1100px;
-  margin: 25px auto;
-  padding: 0 16px;
-}
+    header a { color: white; }
 
-.layout {
-  display: grid;
-  grid-template-columns: 210px 1fr;
-  gap: 18px;
-}
+    main {
+      max-width: 1100px;
+      margin: 25px auto;
+      padding: 0 16px;
+    }
 
-.sidebar, .panel {
-  background: white;
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 3px 15px #15223812;
-}
+    .layout {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 18px;
+    }
 
-.sidebar button {
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  color: #172338;
-  margin: 3px 0;
-}
+    .menu, .panel, .gate {
+      background: white;
+      padding: 20px;
+      border-radius: 13px;
+      box-shadow: 0 3px 15px #17345012;
+    }
 
-.sidebar button.active {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
+    .gate {
+      max-width: 600px;
+      margin: 40px auto;
+    }
 
-.panel { min-height: 400px; }
+    .menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 5px 0;
+      background: #e2e8f0;
+      color: #173450;
+    }
 
-button, .btn {
-  border: 0;
-  border-radius: 8px;
-  padding: 11px 14px;
-  background: #2563eb;
-  color: white;
-  cursor: pointer;
-  font: inherit;
-  text-decoration: none;
-  display: inline-block;
-}
+    .menu button.active {
+      background: #2563eb;
+      color: white;
+    }
 
-button:hover, .btn:hover {
-  filter: brightness(.95);
-}
+    h2, h3 { color: #173450; }
 
-button:disabled {
-  opacity: .6;
-  cursor: wait;
-}
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 14px;
+    }
 
-.muted { color: #64748b; }
-.secondary { background: #64748b; }
-.danger { background: #b91c1c; }
+    input, select, textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+      margin-top: 5px;
+    }
 
-input, textarea, select {
-  display: block;
-  width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 11px;
-  font: inherit;
-  margin: 7px 0 15px;
-}
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
 
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
+    button, .btn {
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
 
-label {
-  font-weight: bold;
-  display: block;
-}
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
 
-section[hidden], div[hidden] {
-  display: none !important;
-}
+    .secondary { background: #64748b; }
+    .danger { background: #b91c1c; }
+    .muted { color: #64748b; }
 
-.item {
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 14px;
-  margin: 12px 0;
-}
+    .status {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-wrap: anywhere;
+    }
 
-.item p { white-space: pre-wrap; }
+    .item {
+      border: 1px solid #d9e2ec;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
 
-.actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
+    .item p { white-space: pre-wrap; }
 
-.status {
-  padding: 12px;
-  border-radius: 8px;
-  background: #e2e8f0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
+    .item img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
 
-.error {
-  background: #fee2e2;
-  color: #991b1b;
-}
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 13px;
+    }
 
-.ok {
-  background: #dcfce7;
-  color: #166534;
-}
+    @media (max-width: 720px) {
+      .layout { grid-template-columns: 1fr; }
 
-.small { font-size: 13px; }
+      .menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
 
-.thumb {
-  max-width: 120px;
-  max-height: 90px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-#gate {
-  max-width: 640px;
-  margin: 60px auto;
-  background: white;
-  padding: 28px;
-  border-radius: 14px;
-}
-
-#dashboard { display: none; }
-
-@media (max-width: 700px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4px;
-  }
-
-  .sidebar button { font-size: 14px; }
-  header { flex-wrap: wrap; }
-}
-</style>
+      .menu button { width: auto; }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Administration</h1>
-  <a href="/">Zur Startseite</a>
-</header>
-
-<div id="gate">
-  <h2>Zugriff wird geprüft</h2>
-
-  <p id="gateMessage" class="status" role="status">
-    Firebase wird geladen ...
-  </p>
-
-  <a class="btn" href="/login.html">
-    Zur Anmeldung
-  </a>
-</div>
-
-<main id="dashboard">
-
-  <p class="row">
-    <strong id="who"></strong>
-    <button id="logout" class="secondary">
-      Abmelden
-    </button>
-  </p>
-
-  <div class="layout">
-
-    <nav class="sidebar" aria-label="Administration">
-      <button type="button" data-tab="texte" class="active">
-        📝 Texte
-      </button>
-
-      <button type="button" data-tab="bilder">
-        🖼️ Bilder
-      </button>
-
-      <button type="button" data-tab="news">
-        📰 News
-      </button>
-
-      <button type="button" data-tab="benutzer">
-        👥 Benutzer
-      </button>
-
-      <button type="button" data-tab="einstellungen">
-        ⚙️ Einstellungen
-      </button>
-    </nav>
-
-    <div class="panel">
-
-      <div id="notice" class="status" role="status"
-           aria-live="polite">
-        Bereit.
-      </div>
-
-      <!-- TEXTE -->
-      <section id="tab-texte">
-        <h2>Texte bearbeiten</h2>
-
-        <p class="muted">
-          Der Begrüssungstext wird in
-          content/homepage gespeichert.
-          Weitere Texte werden ebenfalls dort gespeichert.
-        </p>
-
-        <form id="textForm">
-          <label for="welcome">Begrüssungstext</label>
-          <textarea id="welcome"></textarea>
-
-          <label for="intro">Einleitungstext</label>
-          <textarea id="intro"></textarea>
-
-          <button type="submit">
-            Texte speichern
-          </button>
-        </form>
-      </section>
-
-      <!-- BILDER -->
-      <section id="tab-bilder" hidden>
-        <h2>Bildergalerie</h2>
-
-        <p class="muted">
-          Hier verwaltest du Bildinformationen.
-          Die Bilddateien liegen weiterhin auf GitHub
-          und werden durch dieses Dashboard nicht
-          hochgeladen oder gelöscht.
-        </p>
-
-        <form id="imageForm">
-          <label for="imagePath">
-            Bildpfad auf deiner Webseite
-          </label>
-
-          <input id="imagePath"
-                 placeholder="bilder/beispiel.jpg"
-                 required>
-
-          <label for="imageTitle">Bildtitel</label>
-          <input id="imageTitle" required>
-
-          <label for="imageDescription">
-            Beschreibung
-          </label>
-
-          <textarea id="imageDescription"></textarea>
-
-          <button type="submit">
-            Bildinformation hinzufügen
-          </button>
-        </form>
-
-        <div id="imageList"></div>
-      </section>
-
-      <!-- NEWS -->
-      <section id="tab-news" hidden>
-        <h2>News verwalten</h2>
-
-        <form id="newsForm">
-          <input type="hidden" id="newsId">
-
-          <label for="newsTitle">Titel</label>
-          <input id="newsTitle" required maxlength="160">
-
-          <label for="newsBody">Mitteilung</label>
-          <textarea id="newsBody" required></textarea>
-
-          <button type="submit">
-            News speichern
-          </button>
-
-          <button type="button"
-                  class="secondary"
-                  id="newsCancel">
-            Eingabe leeren
-          </button>
-        </form>
-
-        <h3>Gespeicherte News</h3>
-        <div id="newsList"></div>
-      </section>
-
-      <!-- BENUTZER -->
-      <section id="tab-benutzer" hidden>
-        <h2>Benutzer</h2>
-
-        <p class="muted">
-          Die Benutzerrollen aus Firestore
-          werden hier angezeigt.
-          E-Mail-Adressen sind in diesen
-          Rollendokumenten nicht enthalten.
-          Konten verwaltest du weiterhin
-          in Firebase Authentication.
-        </p>
-
-        <button id="reloadUsers" type="button">
-          Benutzer neu laden
-        </button>
-
-        <div id="userList"></div>
-      </section>
-
-      <!-- EINSTELLUNGEN -->
-      <section id="tab-einstellungen" hidden>
-        <h2>Einstellungen</h2>
-
-        <form id="settingsForm">
-          <label for="siteTitle">Webseitentitel</label>
-          <input id="siteTitle" maxlength="120">
-
-          <label for="contact">
-            Kontaktinformation
-          </label>
-
-          <textarea id="contact"></textarea>
-
-          <button type="submit">
-            Einstellungen speichern
-          </button>
-        </form>
-
-        <p class="muted small">
-          Diese Werte werden in Firestore gespeichert.
-          Deine index.html muss sie separat auslesen,
-          bevor sie auf der öffentlichen Webseite erscheinen.
-        </p>
-      </section>
-
+  <header>
+    <div>
+      <h1>Administration</h1>
+      <a href="/">Zur Startseite</a>
     </div>
-  </div>
-</main>
+  </header>
 
-<script type="module">
+  <main>
 
-// WICHTIG:
-// Falls deine login.html einen anderen apiKey verwendet,
-// übernimm die funktionierende Konfiguration von dort.
+    <!-- ZUGANGSPRÜFUNG -->
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
-  authDomain: "jdotk-webseite.firebaseapp.com",
-  projectId: "jdotk-webseite",
-  storageBucket: "jdotk-webseite.firebasestorage.app",
-  messagingSenderId: "1015775184620",
-  appId: "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
-};
+    <div id="gate" class="gate">
+      <h2>Zugang wird geprüft</h2>
 
-const $ = id => document.getElementById(id);
+      <p id="gateStatus" class="status" role="status">
+        Firebase wird geladen ...
+      </p>
 
-const gate = $("gate");
-const dashboard = $("dashboard");
+      <a class="btn" href="/login.html">
+        Zur Anmeldung
+      </a>
+    </div>
 
-function notice(msg, error = false) {
-  $("notice").textContent = msg;
+    <!-- ADMINISTRATOR-DASHBOARD -->
 
-  $("notice").className =
-    "status " + (error ? "error" : "ok");
-}
+    <div id="dashboard" hidden>
 
-function gateStatus(msg, error = false) {
-  $("gateMessage").textContent = msg;
+      <p>
+        <strong id="userName"></strong>
 
-  $("gateMessage").className =
-    "status " + (error ? "error" : "");
-}
+        <button
+          type="button"
+          id="logout"
+          class="secondary">
+          Abmelden
+        </button>
+      </p>
 
-function el(tag, text) {
-  const n = document.createElement(tag);
+      <div class="layout">
 
-  if (text !== undefined) {
-    n.textContent = text;
-  }
+        <nav
+          class="menu"
+          aria-label="Administrator-Menü">
 
-  return n;
-}
+          <button
+            type="button"
+            class="active"
+            data-tab="texte">
+            Texte
+          </button>
 
-function empty(node) {
-  node.replaceChildren();
-}
+          <button
+            type="button"
+            data-tab="bilder">
+            Bilder
+          </button>
 
-function addAction(parent, label, handler, danger = false) {
-  const b = el("button", label);
+          <button
+            type="button"
+            data-tab="news">
+            News
+          </button>
 
-  b.type = "button";
+          <button
+            type="button"
+            data-tab="benutzer">
+            Benutzer
+          </button>
 
-  if (danger) {
-    b.className = "danger";
-  }
+          <button
+            type="button"
+            data-tab="einstellungen">
+            Einstellungen
+          </button>
+        </nav>
 
-  b.addEventListener("click", handler);
-  parent.append(b);
-}
+        <div class="panel">
 
-let auth;
-let db;
-let fs;
-let authLib;
-let allowed = false;
+          <p
+            id="status"
+            class="status"
+            role="status"
+            aria-live="polite">
+            Bereit.
+          </p>
 
-function assertAdmin() {
-  if (!allowed || !auth.currentUser) {
-    throw new Error(
-      "Kein Administratorzugriff. Bitte neu anmelden."
-    );
-  }
-}
+          <!-- TEXTE -->
 
-// TEXTE LADEN
-async function loadText() {
-  const s = await fs.getDoc(
-    fs.doc(db, "content", "homepage")
-  );
+          <section id="tab-texte">
+            <h2>Texte bearbeiten</h2>
 
-  const d = s.exists() ? s.data() : {};
+            <form id="textForm">
 
-  $("welcome").value =
-    typeof d.begrussung === "string"
-      ? d.begrussung
-      : "";
+              <label for="welcome">
+                Begrüssungstext
+              </label>
+              <textarea id="welcome"></textarea>
 
-  $("intro").value =
-    typeof d.einleitung === "string"
-      ? d.einleitung
-      : "";
-}
+              <label for="intro">
+                Einleitungstext
+              </label>
+              <textarea id="intro"></textarea>
 
-// EINSTELLUNGEN LADEN
-async function loadSettings() {
-  const s = await fs.getDoc(
-    fs.doc(db, "content", "settings")
-  );
+              <p>
+                <button type="submit">
+                  Texte speichern
+                </button>
+              </p>
 
-  const d = s.exists() ? s.data() : {};
+            </form>
+          </section>
 
-  $("siteTitle").value =
-    typeof d.titel === "string" ? d.titel : "";
+          <!-- BILDER -->
 
-  $("contact").value =
-    typeof d.kontakt === "string" ? d.kontakt : "";
-}
+          <section id="tab-bilder" hidden>
 
-// BENUTZER LADEN
-async function loadUsers() {
-  assertAdmin();
+            <h2>Bildtitel und Beschreibungen</h2>
 
-  const snap = await fs.getDocs(
-    fs.collection(db, "users")
-  );
+            <p class="muted">
+              Fotos zuerst auf GitHub unter
+              webseite/bilder hochladen.
+              Hier bearbeitest du nur Titel
+              und Beschreibung.
+            </p>
 
-  const target = $("userList");
-  empty(target);
+            <form id="imageForm">
 
-  if (snap.empty) {
-    target.append(
-      el("p", "Keine Rollendokumente gefunden.")
-    );
-    return;
-  }
+              <input id="imageId" type="hidden">
 
-  snap.forEach(d => {
-    const item = el("div");
-    item.className = "item";
+              <label for="folder">Ordner</label>
 
-    item.append(
-      el("strong", "UID: " + d.id),
-      el("p", "Rolle: " + (d.data().role || "unbekannt"))
-    );
+              <select id="folder">
+                <option value="">
+                  Bisherige Fotos direkt in bilder/ (Rest)
+                </option>
 
-    target.append(item);
-  });
-}
+                <option>Food</option>
+                <option>Drinks</option>
+                <option value="Citys">City’s</option>
+                <option>Comics</option>
+                <option>Nature</option>
+                <option>Art</option>
+                <option>Sport</option>
+                <option>Animals</option>
+                <option>Rest</option>
+              </select>
 
-// BILDER LADEN
-async function loadImages() {
-  assertAdmin();
+              <label for="filename">
+                Dateiname
+              </label>
 
-  const snap = await fs.getDocs(
-    fs.collection(db, "gallery")
-  );
+              <input
+                id="filename"
+                value="Bild1.jpg"
+                required
+                placeholder="Bild1.jpg">
 
-  const target = $("imageList");
-  empty(target);
+              <p
+                class="muted"
+                id="pathPreview">
+              </p>
 
-  if (snap.empty) {
-    target.append(
-      el("p", "Noch keine Bildinformationen gespeichert.")
-    );
-    return;
-  }
+              <label for="imageTitle">
+                Bildtitel
+              </label>
 
-  snap.forEach(d => {
-    const x = d.data();
-    const item = el("div");
+              <input
+                id="imageTitle"
+                maxlength="150"
+                required
+                placeholder="Mein Foto">
 
-    item.className = "item";
+              <label for="imageDescription">
+                Beschreibung
+              </label>
 
-    item.append(
-      el("strong", x.title || "Ohne Titel"),
-      el("p", x.path || ""),
-      el("p", x.description || "")
-    );
+              <textarea
+                id="imageDescription"
+                maxlength="3000">
+              </textarea>
 
-    if (
-      typeof x.path === "string" &&
-      /^bilder\/[a-zA-Z0-9_./-]+\.(jpg|jpeg|png|webp|gif)$/i.test(x.path) &&
-      !x.path.includes("..")
-    ) {
-      const img = el("img");
+              <div class="actions">
 
-      img.src = "/" + x.path;
-      img.alt = x.title || "";
-      img.className = "thumb";
+                <button type="submit">
+                  Bildbeschreibung speichern
+                </button>
 
-      item.append(img);
+                <button
+                  type="button"
+                  class="secondary"
+                  id="imageReset">
+                  Neue Eingabe
+                </button>
+
+              </div>
+            </form>
+
+            <h3>Gespeicherte Bildbeschreibungen</h3>
+
+            <div id="images"></div>
+          </section>
+
+          <!-- NEWS -->
+
+          <section id="tab-news" hidden>
+
+            <h2>News verwalten</h2>
+
+            <form id="newsForm">
+
+              <input id="newsId" type="hidden">
+
+              <label for="newsTitle">Titel</label>
+              <input
+                id="newsTitle"
+                required
+                maxlength="160">
+
+              <label for="newsBody">
+                Mitteilung
+              </label>
+
+              <textarea
+                id="newsBody"
+                required>
+              </textarea>
+
+              <div class="actions">
+
+                <button type="submit">
+                  News speichern
+                </button>
+
+                <button
+                  type="button"
+                  class="secondary"
+                  id="newsReset">
+                  Neue Eingabe
+                </button>
+
+              </div>
+            </form>
+
+            <h3>Gespeicherte News</h3>
+            <div id="newsItems"></div>
+          </section>
+
+          <!-- BENUTZER -->
+
+          <section id="tab-benutzer" hidden>
+
+            <h2>Benutzerrollen</h2>
+
+            <p class="muted">
+              Nur Anzeige: Konten und Passwörter
+              bleiben in Firebase Authentication.
+            </p>
+
+            <button
+              type="button"
+              id="reloadUsers">
+              Benutzer neu laden
+            </button>
+
+            <div id="users"></div>
+          </section>
+
+          <!-- EINSTELLUNGEN -->
+
+          <section id="tab-einstellungen" hidden>
+
+            <h2>Einstellungen</h2>
+
+            <form id="settingsForm">
+
+              <label for="siteTitle">
+                Webseitentitel
+              </label>
+
+              <input
+                id="siteTitle"
+                maxlength="120">
+
+              <label for="contact">
+                Kontaktinformationen
+              </label>
+
+              <textarea id="contact"></textarea>
+
+              <p>
+                <button type="submit">
+                  Einstellungen speichern
+                </button>
+              </p>
+
+            </form>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+
+    const $ = id =>
+      document.getElementById(id);
+
+    const txt = (v, f = "") =>
+      typeof v === "string" ? v : f;
+
+    function neu(tag, inhalt = "") {
+      const n = document.createElement(tag);
+      n.textContent = inhalt;
+      return n;
     }
 
-    addAction(
-      item,
-      "Eintrag löschen",
-      async () => {
-        if (!confirm(
-          "Bildinformation wirklich löschen? " +
-          "Die GitHub-Datei bleibt erhalten."
-        )) {
-          return;
-        }
+    function status(nachricht, fehler = false) {
+      $("status").textContent = nachricht;
 
-        try {
-          assertAdmin();
+      $("status").style.color =
+        fehler ? "#b91c1c" : "#166534";
+    }
 
-          await fs.deleteDoc(
-            fs.doc(db, "gallery", d.id)
-          );
+    let auth;
+    let a;
+    let fs;
+    let db;
+    let admin = false;
 
-          notice("Bildinformation gelöscht.");
-          await loadImages();
-
-        } catch (e) {
-          notice(e.message, true);
-        }
-      },
-      true
-    );
-
-    target.append(item);
-  });
-}
-
-// NEWS LADEN
-async function loadNews() {
-  assertAdmin();
-
-  const snap = await fs.getDocs(
-    fs.collection(db, "news")
-  );
-
-  const target = $("newsList");
-  empty(target);
-
-  if (snap.empty) {
-    target.append(
-      el("p", "Noch keine News vorhanden.")
-    );
-    return;
-  }
-
-  const rows = snap.docs.sort(
-    (a, b) =>
-      (b.data().createdAt?.seconds || 0) -
-      (a.data().createdAt?.seconds || 0)
-  );
-
-  for (const d of rows) {
-    const x = d.data();
-    const item = el("div");
-
-    item.className = "item";
-
-    item.append(
-      el("h3", x.title || "Ohne Titel"),
-      el("p", x.body || "")
-    );
-
-    addAction(
-      item,
-      "Bearbeiten",
-      () => {
-        $("newsId").value = d.id;
-        $("newsTitle").value = x.title || "";
-        $("newsBody").value = x.body || "";
-        $("newsTitle").focus();
+    function pruefeAdmin() {
+      if (!admin || !auth.currentUser) {
+        throw new Error(
+          "Administrator-Anmeldung erforderlich."
+        );
       }
-    );
-
-    addAction(
-      item,
-      "Löschen",
-      async () => {
-        if (!confirm("Diese News wirklich löschen?")) {
-          return;
-        }
-
-        try {
-          assertAdmin();
-
-          await fs.deleteDoc(
-            fs.doc(db, "news", d.id)
-          );
-
-          notice("News gelöscht.");
-          await loadNews();
-
-        } catch (e) {
-          notice(e.message, true);
-        }
-      },
-      true
-    );
-
-    target.append(item);
-  }
-}
-
-// SPEICHERFUNKTION MIT FEHLERANZEIGE
-async function run(fn) {
-  try {
-    assertAdmin();
-
-    notice("Bitte warten ...");
-
-    await fn();
-
-    notice("Erfolgreich gespeichert.");
-
-  } catch (e) {
-    notice("Fehler: " + e.message, true);
-  }
-}
-
-// FIREBASE STARTEN
-try {
-  const [appLib, a, f] = await Promise.all([
-    import(
-      "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
-    ),
-
-    import(
-      "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
-    ),
-
-    import(
-      "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
-    )
-  ]);
-
-  authLib = a;
-  fs = f;
-
-  const app = appLib.initializeApp(firebaseConfig);
-
-  auth = a.getAuth(app);
-  db = f.getFirestore(app);
-
-  // ADMINISTRATOR PRÜFEN
-  a.onAuthStateChanged(auth, async user => {
-    allowed = false;
-
-    dashboard.style.display = "none";
-    gate.style.display = "block";
-
-    if (!user) {
-      gateStatus(
-        "Nicht angemeldet. Bitte zuerst anmelden."
-      );
-      return;
     }
 
-    gateStatus(
-      "Administratorrolle wird geprüft ..."
+    function bildPfad() {
+      return "bilder/" +
+        (
+          $("folder").value
+            ? $("folder").value + "/"
+            : ""
+        ) +
+        $("filename").value.trim();
+    }
+
+    function pfadVorschau() {
+      $("pathPreview").textContent =
+        "Bildpfad: " + bildPfad();
+    }
+
+    function bildReset() {
+      $("imageForm").reset();
+      $("imageId").value = "";
+      pfadVorschau();
+    }
+
+    $("folder").addEventListener(
+      "change",
+      pfadVorschau
     );
 
-    try {
-      const role = await fs.getDoc(
-        fs.doc(db, "users", user.uid)
+    $("filename").addEventListener(
+      "input",
+      pfadVorschau
+    );
+
+    $("imageReset").addEventListener(
+      "click",
+      bildReset
+    );
+
+    $("newsReset").addEventListener(
+      "click",
+      () => $("newsForm").reset()
+    );
+
+    pfadVorschau();
+
+    // TEXTE LADEN
+
+    async function ladeTexte() {
+      const snap = await fs.getDoc(
+        fs.doc(db, "content", "homepage")
       );
 
-      if (
-        !role.exists() ||
-        role.data().role !== "admin"
-      ) {
-        gateStatus(
-          "Zugriff verweigert: " +
-          "Dieses Konto ist kein Administrator.",
-          true
+      $("welcome").value =
+        txt(snap.data()?.begrussung);
+
+      $("intro").value =
+        txt(snap.data()?.einleitung);
+    }
+
+    // EINSTELLUNGEN LADEN
+
+    async function ladeEinstellungen() {
+      const snap = await fs.getDoc(
+        fs.doc(db, "content", "settings")
+      );
+
+      $("siteTitle").value =
+        txt(snap.data()?.titel);
+
+      $("contact").value =
+        txt(snap.data()?.kontakt);
+    }
+
+    // BILDBESCHREIBUNGEN LADEN
+
+    async function ladeBilder() {
+      pruefeAdmin();
+
+      const snap = await fs.getDocs(
+        fs.collection(db, "gallery")
+      );
+
+      $("images").replaceChildren();
+
+      if (snap.empty) {
+        $("images").append(
+          neu(
+            "p",
+            "Noch keine Bildbeschreibungen gespeichert."
+          )
         );
 
         return;
       }
 
-      allowed = true;
+      for (const d of snap.docs) {
+        const daten = d.data();
+        const pfad = txt(daten.path);
 
-      $("who").textContent =
-        "Angemeldet: " + (user.email || user.uid);
+        const item = neu("article");
+        item.className = "item";
 
-      await Promise.all([
-        loadText(),
-        loadSettings()
-      ]);
+        const gueltig =
+          /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Rest\/)?Bild[1-9]\d*\.jpg$/.test(pfad);
 
-      dashboard.style.display = "block";
-      gate.style.display = "none";
+        if (gueltig) {
+          const img = neu("img");
+          img.src = "/" + pfad;
+          img.alt = txt(daten.title);
+          img.loading = "lazy";
 
-      notice("Administratorzugriff bestätigt.");
+          item.append(img);
+        }
 
-    } catch (e) {
-      allowed = false;
+        item.append(
+          neu(
+            "strong",
+            txt(daten.title, "Ohne Titel")
+          ),
+          neu("p", pfad),
+          neu("p", txt(daten.description))
+        );
 
-      gateStatus(
-        "Prüfung fehlgeschlagen: " + e.message,
-        true
-      );
+        const aktionen = neu("div");
+        aktionen.className = "actions";
+
+        const edit = neu(
+          "button",
+          "Bearbeiten"
+        );
+
+        edit.type = "button";
+
+        edit.addEventListener("click", () => {
+          const match = pfad.match(
+            /^bilder\/(?:(Food|Drinks|Citys|Comics|Nature|Art|Sport|Animals|Rest)\/)?(Bild[1-9]\d*\.jpg)$/
+          );
+
+          if (!match) {
+            status(
+              "Dateipfad ist nicht im erwarteten Format.",
+              true
+            );
+
+            return;
+          }
+
+          $("folder").value = match[1] || "";
+          $("filename").value = match[2];
+          $("imageId").value = d.id;
+          $("imageTitle").value =
+            txt(daten.title);
+
+          $("imageDescription").value =
+            txt(daten.description);
+
+          pfadVorschau();
+          $("imageTitle").focus();
+        });
+
+        const del = neu(
+          "button",
+          "Beschreibung löschen"
+        );
+
+        del.type = "button";
+        del.className = "danger";
+
+        del.addEventListener(
+          "click",
+          async () => {
+            if (!confirm(
+              "Nur Beschreibung löschen? Das Foto bleibt auf GitHub."
+            )) {
+              return;
+            }
+
+            try {
+              pruefeAdmin();
+
+              await fs.deleteDoc(
+                fs.doc(
+                  db,
+                  "gallery",
+                  d.id
+                )
+              );
+
+              await ladeBilder();
+
+              status(
+                "Beschreibung gelöscht."
+              );
+
+            } catch (e) {
+              status(
+                "Löschen fehlgeschlagen: " +
+                e.message,
+                true
+              );
+            }
+          }
+        );
+
+        aktionen.append(edit, del);
+        item.append(aktionen);
+        $("images").append(item);
+      }
     }
-  });
 
-  // ABMELDEN
-  $("logout").addEventListener("click", async () => {
-    allowed = false;
+    // NEWS LADEN
 
-    await a.signOut(auth);
+    async function ladeNews() {
+      pruefeAdmin();
 
-    location.href = "/login.html";
-  });
+      const snap = await fs.getDocs(
+        fs.collection(db, "news")
+      );
 
-  // MENÜSTEUERUNG
-  document.querySelectorAll("[data-tab]").forEach(
-    button => button.addEventListener(
-      "click",
-      async () => {
+      $("newsItems").replaceChildren();
 
-        document.querySelectorAll("[data-tab]").forEach(
-          b => b.classList.toggle(
-            "active",
-            b === button
+      for (const d of snap.docs) {
+        const daten = d.data();
+
+        const item = neu("article");
+        item.className = "item";
+
+        item.append(
+          neu("strong", txt(daten.title)),
+          neu("p", txt(daten.body))
+        );
+
+        const aktionen = neu("div");
+        aktionen.className = "actions";
+
+        const edit = neu(
+          "button",
+          "Bearbeiten"
+        );
+
+        edit.type = "button";
+
+        edit.addEventListener("click", () => {
+          $("newsId").value = d.id;
+          $("newsTitle").value =
+            txt(daten.title);
+
+          $("newsBody").value =
+            txt(daten.body);
+
+          $("newsTitle").focus();
+        });
+
+        const del = neu(
+          "button",
+          "Löschen"
+        );
+
+        del.type = "button";
+        del.className = "danger";
+
+        del.addEventListener(
+          "click",
+          async () => {
+            if (!confirm(
+              "News wirklich löschen?"
+            )) {
+              return;
+            }
+
+            try {
+              pruefeAdmin();
+
+              await fs.deleteDoc(
+                fs.doc(db, "news", d.id)
+              );
+
+              await ladeNews();
+
+              status("News gelöscht.");
+
+            } catch (e) {
+              status(
+                "Löschen fehlgeschlagen: " +
+                e.message,
+                true
+              );
+            }
+          }
+        );
+
+        aktionen.append(edit, del);
+        item.append(aktionen);
+
+        $("newsItems").append(item);
+      }
+
+      if (snap.empty) {
+        $("newsItems").append(
+          neu("p", "Noch keine News vorhanden.")
+        );
+      }
+    }
+
+    // BENUTZERROLLEN LADEN
+
+    async function ladeBenutzer() {
+      pruefeAdmin();
+
+      const snap = await fs.getDocs(
+        fs.collection(db, "users")
+      );
+
+      $("users").replaceChildren();
+
+      snap.forEach(d => {
+        const item = neu("div");
+        item.className = "item";
+
+        item.append(
+          neu("p", "UID: " + d.id),
+          neu(
+            "p",
+            "Rolle: " + txt(d.data().role)
           )
         );
 
-        document.querySelectorAll("[id^='tab-']").forEach(
-          s => {
-            s.hidden =
-              s.id !== "tab-" + button.dataset.tab;
-          }
-        );
+        $("users").append(item);
+      });
+    }
 
-        try {
-          if (button.dataset.tab === "bilder") {
-            await loadImages();
-          }
+    // GEMEINSAME SPEICHERFUNKTION
 
-          if (button.dataset.tab === "news") {
-            await loadNews();
-          }
+    async function ausfuehren(
+      aktion,
+      erfolg
+    ) {
+      try {
+        pruefeAdmin();
 
-          if (button.dataset.tab === "benutzer") {
-            await loadUsers();
-          }
+        status("Bitte warten ...");
 
-          if (button.dataset.tab === "texte") {
-            await loadText();
-          }
+        await aktion();
 
-          if (button.dataset.tab === "einstellungen") {
-            await loadSettings();
-          }
+        status(erfolg);
 
-        } catch (e) {
-          notice(
-            "Laden fehlgeschlagen: " + e.message,
-            true
-          );
-        }
-      }
-    )
-  );
-
-  // TEXTE SPEICHERN
-  $("textForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    run(() => fs.setDoc(
-      fs.doc(db, "content", "homepage"),
-      {
-        begrussung: $("welcome").value,
-        einleitung: $("intro").value
-      },
-      { merge: true }
-    ));
-  });
-
-  // EINSTELLUNGEN SPEICHERN
-  $("settingsForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    run(() => fs.setDoc(
-      fs.doc(db, "content", "settings"),
-      {
-        titel: $("siteTitle").value,
-        kontakt: $("contact").value
-      },
-      { merge: true }
-    ));
-  });
-
-  // BILDINFORMATIONEN SPEICHERN
-  $("imageForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    run(async () => {
-      const path = $("imagePath").value.trim();
-
-      if (
-        !/^bilder\/[a-zA-Z0-9_./-]+\.(jpg|jpeg|png|webp|gif)$/i.test(path) ||
-        path.includes("..")
-      ) {
-        throw new Error(
-          "Bitte einen gültigen Bildpfad " +
-          "im Ordner bilder/ eingeben."
+      } catch (e) {
+        status(
+          "Fehler: " + e.message,
+          true
         );
       }
+    }
 
-      await fs.addDoc(
-        fs.collection(db, "gallery"),
-        {
-          path,
-          title: $("imageTitle").value.trim(),
-          description: $("imageDescription").value,
-          createdAt: fs.serverTimestamp()
+    // FIREBASE STARTEN
+
+    try {
+      const [
+        { firebaseConfig },
+        appModul,
+        authModul,
+        firestore
+      ] = await Promise.all([
+        import("./firebase-config.js"),
+
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+        ),
+
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
+        ),
+
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+        )
+      ]);
+
+      a = authModul;
+      fs = firestore;
+
+      const app =
+        appModul.getApps().length
+          ? appModul.getApp()
+          : appModul.initializeApp(
+              firebaseConfig
+            );
+
+      auth = a.getAuth(app);
+      db = fs.getFirestore(app);
+
+      // ADMINISTRATORRECHTE PRÜFEN
+
+      a.onAuthStateChanged(
+        auth,
+        async user => {
+          admin = false;
+
+          $("dashboard").hidden = true;
+          $("gate").hidden = false;
+
+          if (!user) {
+            $("gateStatus").textContent =
+              "Bitte zuerst in login.html anmelden.";
+
+            return;
+          }
+
+          $("gateStatus").textContent =
+            "Administratorrolle wird geprüft ...";
+
+          try {
+            const rolle = await fs.getDoc(
+              fs.doc(db, "users", user.uid)
+            );
+
+            if (
+              !rolle.exists() ||
+              rolle.data().role !== "admin"
+            ) {
+              $("gateStatus").textContent =
+                "Zugriff verweigert: Dieses Konto ist kein Administrator.";
+
+              return;
+            }
+
+            if (
+              auth.currentUser?.uid !== user.uid
+            ) {
+              return;
+            }
+
+            admin = true;
+
+            $("userName").textContent =
+              "Angemeldet: " + user.email;
+
+            $("gate").hidden = true;
+            $("dashboard").hidden = false;
+
+            status(
+              "Administratorzugriff bestätigt."
+            );
+
+            await ladeTexte();
+
+          } catch (e) {
+            admin = false;
+
+            $("dashboard").hidden = true;
+            $("gate").hidden = false;
+
+            $("gateStatus").textContent =
+              "Zugriffsprüfung fehlgeschlagen: " +
+              e.message;
+          }
         }
       );
 
-      $("imageForm").reset();
+      // ABMELDEN
 
-      await loadImages();
-    });
-  });
+      $("logout").addEventListener(
+        "click",
+        async () => {
+          admin = false;
 
-  // NEWS SPEICHERN
-  $("newsForm").addEventListener("submit", e => {
-    e.preventDefault();
+          await a.signOut(auth);
 
-    run(async () => {
-      const id = $("newsId").value;
+          location.href = "/login.html";
+        }
+      );
 
-      const data = {
-        title: $("newsTitle").value.trim(),
-        body: $("newsBody").value.trim(),
-        updatedAt: fs.serverTimestamp()
-      };
+      // MENÜ
 
-      if (!data.title || !data.body) {
-        throw new Error(
-          "Titel und Text fehlen."
+      document
+        .querySelectorAll("[data-tab]")
+        .forEach(
+          b => b.addEventListener(
+            "click",
+            async () => {
+              if (!admin) return;
+
+              document
+                .querySelectorAll("[data-tab]")
+                .forEach(
+                  x => x.classList.toggle(
+                    "active",
+                    x === b
+                  )
+                );
+
+              document
+                .querySelectorAll("[id^='tab-']")
+                .forEach(
+                  x => x.hidden =
+                    x.id !==
+                    "tab-" + b.dataset.tab
+                );
+
+              try {
+                if (
+                  b.dataset.tab === "bilder"
+                ) {
+                  await ladeBilder();
+                }
+
+                if (
+                  b.dataset.tab === "news"
+                ) {
+                  await ladeNews();
+                }
+
+                if (
+                  b.dataset.tab === "benutzer"
+                ) {
+                  await ladeBenutzer();
+                }
+
+                if (
+                  b.dataset.tab === "texte"
+                ) {
+                  await ladeTexte();
+                }
+
+                if (
+                  b.dataset.tab === "einstellungen"
+                ) {
+                  await ladeEinstellungen();
+                }
+
+              } catch (e) {
+                status(
+                  "Laden fehlgeschlagen: " +
+                  e.message,
+                  true
+                );
+              }
+            }
+          )
         );
-      }
 
-      if (id) {
-        await fs.setDoc(
-          fs.doc(db, "news", id),
-          data,
-          { merge: true }
-        );
+      // TEXTE SPEICHERN
 
-      } else {
-        await fs.addDoc(
-          fs.collection(db, "news"),
-          {
-            ...data,
-            createdAt: fs.serverTimestamp()
-          }
-        );
-      }
+      $("textForm").addEventListener(
+        "submit",
+        ev => {
+          ev.preventDefault();
 
-      $("newsForm").reset();
+          ausfuehren(
+            () => fs.setDoc(
+              fs.doc(
+                db,
+                "content",
+                "homepage"
+              ),
+              {
+                begrussung:
+                  $("welcome").value,
 
-      await loadNews();
-    });
-  });
+                einleitung:
+                  $("intro").value
+              },
+              { merge: true }
+            ),
+            "Texte gespeichert."
+          );
+        }
+      );
 
-  // NEWS-EINGABE LEEREN
-  $("newsCancel").addEventListener(
-    "click",
-    () => $("newsForm").reset()
-  );
+      // EINSTELLUNGEN SPEICHERN
 
-  // BENUTZER NEU LADEN
-  $("reloadUsers").addEventListener(
-    "click",
-    async () => {
-      try {
-        await loadUsers();
+      $("settingsForm").addEventListener(
+        "submit",
+        ev => {
+          ev.preventDefault();
 
-        notice(
-          "Benutzerrollen aktualisiert."
-        );
+          ausfuehren(
+            () => fs.setDoc(
+              fs.doc(
+                db,
+                "content",
+                "settings"
+              ),
+              {
+                titel:
+                  $("siteTitle").value,
 
-      } catch (e) {
-        notice(e.message, true);
-      }
+                kontakt:
+                  $("contact").value
+              },
+              { merge: true }
+            ),
+            "Einstellungen gespeichert."
+          );
+        }
+      );
+
+      // BILDTITEL UND BESCHREIBUNG SPEICHERN
+
+      $("imageForm").addEventListener(
+        "submit",
+        ev => {
+          ev.preventDefault();
+
+          ausfuehren(
+            async () => {
+              const datei =
+                $("filename").value.trim();
+
+              if (
+                !/^Bild[1-9]\d*\.jpg$/.test(
+                  datei
+                )
+              ) {
+                throw new Error(
+                  "Dateiname muss Bild1.jpg, Bild2.jpg usw. heissen."
+                );
+              }
+
+              const titel =
+                $("imageTitle").value.trim();
+
+              if (!titel) {
+                throw new Error(
+                  "Bitte Bildtitel eingeben."
+                );
+              }
+
+              const pfad = bildPfad();
+
+              const daten = {
+                path: pfad,
+                title: titel,
+                description:
+                  $("imageDescription").value,
+
+                updatedAt:
+                  fs.serverTimestamp()
+              };
+
+              let id =
+                $("imageId").value;
+
+              const alle = await fs.getDocs(
+                fs.collection(
+                  db,
+                  "gallery"
+                )
+              );
+
+              const bereits =
+                alle.docs.find(
+                  d => d.data().path === pfad
+                );
+
+              if (
+                bereits &&
+                bereits.id !== id
+              ) {
+                id = bereits.id;
+              }
+
+              if (id) {
+                await fs.setDoc(
+                  fs.doc(
+                    db,
+                    "gallery",
+                    id
+                  ),
+                  daten,
+                  { merge: true }
+                );
+
+              } else {
+                await fs.addDoc(
+                  fs.collection(
+                    db,
+                    "gallery"
+                  ),
+                  {
+                    ...daten,
+                    createdAt:
+                      fs.serverTimestamp()
+                  }
+                );
+              }
+
+              bildReset();
+              await ladeBilder();
+            },
+
+            "Bildtitel und Beschreibung gespeichert."
+          );
+        }
+      );
+
+      // NEWS SPEICHERN
+
+      $("newsForm").addEventListener(
+        "submit",
+        ev => {
+          ev.preventDefault();
+
+          ausfuehren(
+            async () => {
+              const daten = {
+                title:
+                  $("newsTitle").value.trim(),
+
+                body:
+                  $("newsBody").value.trim(),
+
+                updatedAt:
+                  fs.serverTimestamp()
+              };
+
+              if (
+                !daten.title ||
+                !daten.body
+              ) {
+                throw new Error(
+                  "Titel und Text sind erforderlich."
+                );
+              }
+
+              const id =
+                $("newsId").value;
+
+              if (id) {
+                await fs.setDoc(
+                  fs.doc(
+                    db,
+                    "news",
+                    id
+                  ),
+                  daten,
+                  { merge: true }
+                );
+
+              } else {
+                await fs.addDoc(
+                  fs.collection(
+                    db,
+                    "news"
+                  ),
+                  {
+                    ...daten,
+                    createdAt:
+                      fs.serverTimestamp()
+                  }
+                );
+              }
+
+              $("newsForm").reset();
+              await ladeNews();
+            },
+
+            "News gespeichert."
+          );
+        }
+      );
+
+      $("reloadUsers").addEventListener(
+        "click",
+        () => ausfuehren(
+          ladeBenutzer,
+          "Benutzer neu geladen."
+        )
+      );
+
+    } catch (e) {
+      $("gateStatus").textContent =
+        "Firebase konnte nicht geladen werden: " +
+        e.message;
     }
-  );
 
-} catch (e) {
-  gateStatus(
-    "Firebase konnte nicht geladen werden: " +
-    e.message,
-    true
-  );
-}
-
-</script>
+  </script>
 </body>
 </html>
