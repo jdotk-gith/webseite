@@ -8,66 +8,321 @@
   <style>
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: #edf2f7; color: #1d3045; font: 16px/1.6 Arial, sans-serif; }
-    .wrap { max-width: 1080px; margin: auto; padding: 0 18px; }
-    header, footer { background: #173450; color: white; }
-    .top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; padding: 17px 0; }
-    #siteName { color: white; font-size: 23px; font-weight: bold; text-decoration: none; }
-    nav { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; }
-    nav a { color: white; text-decoration: none; }
-    .login { background: #2563eb; border-radius: 8px; padding: 10px 15px; }
-    .hero { padding: 68px 18px; background: #24496b; color: white; text-align: center; }
-    .hero h1 { margin: 0 0 12px; font-size: clamp(30px, 5vw, 44px); }
-    .hero p { max-width: 760px; margin: auto; color: #ecf3fa; font-size: 18px; }
-    main { padding-top: 26px !important; padding-bottom: 28px !important; }
-    .panel { padding: 26px; margin-bottom: 25px; background: white; border-radius: 12px; box-shadow: 0 3px 16px #1734500d; }
-    h2 { margin-top: 0; color: #173450; }
-    .muted { color: #64748b; }
-    .preline { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-    .filters button { padding: 9px 13px; background: #e2e8f0; color: #173450; border: 0; border-radius: 20px; cursor: pointer; font: inherit; }
-    .filters button.active { background: #2563eb; color: white; }
-    .gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-    .photo { border: 1px solid #d9e2ec; border-radius: 10px; overflow: hidden; margin: 0; background: #f9fbfd; }
-    .photo-button { display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
-    .photo img { width: 100%; height: 190px; object-fit: cover; display: block; }
-    .photo figcaption { padding: 12px 14px; }
-    .photo strong { display: block; }
-    .photo p { margin: 4px 0 0; font-size: 14px; color: #64748b; white-space: pre-wrap; }
-    .news { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 15px; }
-    .news article { padding: 17px; border: 1px solid #d9e2ec; background: #f9fbfd; border-radius: 10px; }
-    .news h3 { margin: 0 0 6px; }
-    .news time { color: #64748b; font-size: 13px; }
-    .news p { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .more { display: block; margin: 20px auto 0; padding: 11px 18px; background: #2563eb; color: white; border: 0; border-radius: 8px; font: inherit; cursor: pointer; }
-    .viewer { border: 0; border-radius: 12px; padding: 18px; max-width: min(96vw, 1000px); max-height: 95vh; }
-    .viewer::backdrop { background: #000c; }
-    .viewer img { display: block; max-width: 100%; max-height: 76vh; object-fit: contain; margin: 10px auto; }
-    .viewer button { padding: 8px 14px; color: white; background: #173450; border: 0; border-radius: 7px; cursor: pointer; }
-    [hidden] { display: none !important; }
-    footer { text-align: center; padding: 24px 12px; }
-    footer p { margin: 3px 0; }
-    @media (max-width: 750px) {
-      .gallery { grid-template-columns: repeat(2, 1fr); }
-      .top, nav { justify-content: center; }
+    body {
+      margin: 0;
+      background: #edf2f7;
+      color: #1d3045;
+      font: 16px/1.6 Arial, sans-serif;
     }
+
+    .wrap {
+      max-width: 1080px;
+      margin: auto;
+      padding: 0 18px;
+    }
+
+    header, footer {
+      background: #173450;
+      color: white;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 17px 0;
+    }
+
+    #siteName {
+      color: white;
+      font-size: 23px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .login {
+      background: #2563eb;
+      border-radius: 8px;
+      padding: 10px 15px;
+    }
+
+    .hero {
+      padding: 68px 18px;
+      background: #24496b;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 5vw, 44px);
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: auto;
+      color: #ecf3fa;
+      font-size: 18px;
+    }
+
+    main {
+      padding-top: 26px !important;
+      padding-bottom: 28px !important;
+    }
+
+    .panel {
+      padding: 26px;
+      margin-bottom: 25px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 16px #1734500d;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #173450;
+    }
+
+    .muted {
+      color: #64748b;
+    }
+
+    .preline {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    /* ZEHN KATEGORIEN AUF EINER ZEILE */
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 5px;
+      margin: 18px 0;
+    }
+
+    .filters button {
+      min-width: 0;
+      padding: 9px 3px;
+      background: #e2e8f0;
+      color: #173450;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .filters button.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .filters button:focus-visible {
+      outline: 3px solid #f59e0b;
+      outline-offset: 2px;
+    }
+
+    /* HANDY UND TABLET:
+       EINE ZEILE, SEITLICH VERSCHIEBBAR */
+
+    @media (max-width: 950px) {
+      .filters {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        scrollbar-width: thin;
+      }
+
+      .filters button {
+        flex: 0 0 auto;
+        padding: 9px 13px;
+        font-size: 14px;
+      }
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .photo {
+      border: 1px solid #d9e2ec;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0;
+      background: #f9fbfd;
+    }
+
+    .photo-button {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: zoom-in;
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+
+    .photo figcaption {
+      padding: 12px 14px;
+    }
+
+    .photo strong {
+      display: block;
+    }
+
+    .photo p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: #64748b;
+      white-space: pre-wrap;
+    }
+
+    .news {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+      gap: 15px;
+    }
+
+    .news article {
+      padding: 17px;
+      border: 1px solid #d9e2ec;
+      background: #f9fbfd;
+      border-radius: 10px;
+    }
+
+    .news h3 {
+      margin: 0 0 6px;
+    }
+
+    .news time {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .news p {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .more {
+      display: block;
+      margin: 20px auto 0;
+      padding: 11px 18px;
+      background: #2563eb;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .viewer {
+      border: 0;
+      border-radius: 12px;
+      padding: 18px;
+      max-width: min(96vw, 1000px);
+      max-height: 95vh;
+    }
+
+    .viewer::backdrop {
+      background: #000c;
+    }
+
+    .viewer img {
+      display: block;
+      max-width: 100%;
+      max-height: 76vh;
+      object-fit: contain;
+      margin: 10px auto;
+    }
+
+    .viewer button {
+      padding: 8px 14px;
+      color: white;
+      background: #173450;
+      border: 0;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 12px;
+    }
+
+    footer p {
+      margin: 3px 0;
+    }
+
+    @media (max-width: 750px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .top, nav {
+        justify-content: center;
+      }
+    }
+
     @media (max-width: 510px) {
-      .gallery { grid-template-columns: 1fr; }
-      .panel { padding: 18px; }
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 18px;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <header>
     <div class="wrap top">
-      <a id="siteName" href="#start">Meine Webseite</a>
+      <a id="siteName" href="#start">
+        Meine Webseite
+      </a>
+
       <nav aria-label="Hauptnavigation">
         <a href="#start">Start</a>
         <a href="#ueber">Über mich</a>
         <a href="#news">News</a>
         <a href="#bilder">Bilder</a>
         <a href="#kontakt">Kontakt</a>
-        <a class="login" href="/login.html">Anmelden</a>
+        <a class="login" href="/login.html">
+          Anmelden
+        </a>
       </nav>
     </div>
   </header>
@@ -75,6 +330,7 @@
   <section class="hero" id="start">
     <div class="wrap">
       <h1>Herzlich willkommen</h1>
+
       <p class="preline" id="welcome">
         Willkommen auf meiner Webseite!
       </p>
@@ -82,38 +338,50 @@
   </section>
 
   <main class="wrap">
+
     <section class="panel" id="ueber">
       <h2>Über diese Webseite</h2>
+
       <p class="preline" id="intro">
-        Hier findest du Neuigkeiten, Informationen und Fotos.
+        Hier findest du Neuigkeiten,
+        Informationen und Fotos.
       </p>
     </section>
 
     <section class="panel" id="news">
       <h2>Aktuelles und News</h2>
+
       <div class="news" id="newsList">
-        <p class="muted">News werden geladen ...</p>
+        <p class="muted">
+          News werden geladen ...
+        </p>
       </div>
     </section>
 
     <section class="panel" id="bilder">
       <h2>Bildergalerie</h2>
+
       <p class="muted">
-        Wähle eine Kategorie. Es erscheinen nur Fotos,
-        die im Administratorbereich zugeordnet wurden.
+        Wähle eine Kategorie.
+        Es erscheinen nur Fotos, die im
+        Administratorbereich zugeordnet wurden.
       </p>
+
       <div
         class="filters"
         id="filters"
         aria-label="Bilderkategorien">
       </div>
+
       <p
-        id="galleryStatus"
         class="muted"
+        id="galleryStatus"
         role="status">
         Bilder werden geladen ...
       </p>
+
       <div class="gallery" id="gallery"></div>
+
       <button
         id="more"
         class="more"
@@ -125,6 +393,7 @@
 
     <section class="panel" id="kontakt">
       <h2>Kontakt</h2>
+
       <p class="preline" id="contact">
         Kontaktinformationen folgen.
       </p>
@@ -135,16 +404,17 @@
     id="viewer"
     class="viewer"
     aria-label="Foto vergrössert">
-    <button
-      type="button"
-      id="closeViewer">
+
+    <button id="closeViewer" type="button">
       Schliessen
     </button>
+
     <img id="largePhoto" alt="Foto">
   </dialog>
 
   <footer>
     <p id="footerName">Meine Webseite</p>
+
     <p>
       © <span id="year"></span>
       Alle Rechte vorbehalten.
@@ -152,12 +422,13 @@
   </footer>
 
   <script type="module">
+
     const $ = id =>
       document.getElementById(id);
 
-    const text = (v, fallback = "") =>
-      typeof v === "string"
-        ? v
+    const text = (value, fallback = "") =>
+      typeof value === "string"
+        ? value
         : fallback;
 
     const node = (tag, content = "") => {
@@ -166,8 +437,7 @@
       return el;
     };
 
-    // ZEHN KATEGORIEN
-    // Jokes zwischen Animals und Diverses
+    // DIE ZEHN BILDERKATEGORIEN
 
     const categories = [
       "Food",
@@ -199,8 +469,8 @@
     $("year").textContent =
       new Date().getFullYear();
 
-    // BILDERGALERIE ANZEIGEN
-    // Originaldateinamen bleiben unsichtbar.
+    // NUR ZUGEORDNETE BILDER ANZEIGEN
+    // ORIGINALDATEINAMEN NICHT ANZEIGEN
 
     function renderGallery() {
       const matching = images.filter(
@@ -229,8 +499,10 @@
         );
 
         const img = node("img");
+
         img.src = "/" + image.path;
         img.loading = "lazy";
+
         img.alt =
           text(image.title).trim() ||
           "Foto";
@@ -260,9 +532,8 @@
           text(image.description).trim();
 
         if (title || description) {
-          const caption = node(
-            "figcaption"
-          );
+          const caption =
+            node("figcaption");
 
           if (title) {
             caption.append(
@@ -294,17 +565,15 @@
               ? `${Math.min(imageLimit, matching.length)} von ${matching.length} Fotos angezeigt.`
               : "In dieser Kategorie sind noch keine zugeordneten Fotos vorhanden.";
 
+      // KATEGORIE-BUTTONS OHNE ZAHLEN
+      // DAMIT ALLE IN EINE ZEILE PASSEN
+
       $("filters").replaceChildren();
 
       for (const category of categories) {
-        const count = images.filter(
-          image =>
-            image.category === category
-        ).length;
-
         const button = node(
           "button",
-          `${displayName(category)} (${count})`
+          displayName(category)
         );
 
         button.type = "button";
@@ -316,9 +585,7 @@
 
         button.setAttribute(
           "aria-pressed",
-          String(
-            category === selectedCategory
-          )
+          String(category === selectedCategory)
         );
 
         button.addEventListener(
@@ -334,6 +601,8 @@
       }
     }
 
+    // MEHR BILDER ANZEIGEN
+
     $("more").addEventListener(
       "click",
       () => {
@@ -341,6 +610,8 @@
         renderGallery();
       }
     );
+
+    // VERGRÖSSERTE BILDER SCHLIESSEN
 
     $("closeViewer").addEventListener(
       "click",
@@ -398,9 +669,7 @@
 
           const time = node(
             "time",
-            date.toLocaleDateString(
-              "de-CH"
-            )
+            date.toLocaleDateString("de-CH")
           );
 
           time.dateTime =
@@ -417,7 +686,7 @@
       }
     }
 
-    // FIREBASE STARTEN
+    // FIREBASE VERBINDEN
 
     try {
       const [
@@ -439,14 +708,12 @@
       const app =
         appApi.getApps().length
           ? appApi.getApp()
-          : appApi.initializeApp(
-              firebaseConfig
-            );
+          : appApi.initializeApp(firebaseConfig);
 
       const db =
         fs.getFirestore(app);
 
-      // TEXTE
+      // STARTSEITENTEXTE
 
       fs.onSnapshot(
         fs.doc(
@@ -531,9 +798,8 @@
         }
       );
 
-      // BILDER
-      // Nur explizit zugeordnete Fotos
-      // werden öffentlich angezeigt.
+      // ÖFFENTLICHE BILDERGALERIE
+      // NUR MIT GESPEICHERTER KATEGORIE
 
       fs.onSnapshot(
         fs.collection(db, "gallery"),
@@ -541,14 +807,14 @@
         snapshot => {
           const items = snapshot.docs
             .map(doc => doc.data())
+
             .filter(
               data =>
                 typeof data.path ===
                   "string" &&
-                pathPattern.test(
-                  data.path
-                )
+                pathPattern.test(data.path)
             )
+
             .sort(
               (a, b) =>
                 (
@@ -576,11 +842,13 @@
             }
 
             seen.add(data.path);
+
             return true;
           });
 
           loaded = true;
           loadError = false;
+
           renderGallery();
         },
 
@@ -617,6 +885,7 @@
         )
       );
     }
+
   </script>
 </body>
 </html>
