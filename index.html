@@ -1,31 +1,21 @@
 
 <!DOCTYPE html>
 <html lang="de-CH">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-
-  <meta name="description"
-        content="Meine persönliche Webseite mit Bildern, News und Informationen.">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meine Webseite</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
-      font: 16px/1.6 Arial, sans-serif;
       background: #edf2f7;
       color: #1d3045;
+      font: 16px/1.6 Arial, sans-serif;
     }
 
     .wrap {
@@ -34,7 +24,7 @@
       padding: 0 18px;
     }
 
-    header {
+    header, footer {
       background: #173450;
       color: white;
     }
@@ -43,10 +33,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
       flex-wrap: wrap;
-      padding-top: 18px;
-      padding-bottom: 18px;
+      gap: 15px;
+      padding: 17px 0;
     }
 
     #siteName {
@@ -58,9 +47,9 @@
 
     nav {
       display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
       align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     nav a {
@@ -68,22 +57,17 @@
       text-decoration: none;
     }
 
-    nav a:hover {
-      text-decoration: underline;
-    }
-
     .login {
-      border-radius: 8px;
       background: #2563eb;
-      padding: 10px 16px;
-      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 15px;
     }
 
     .hero {
+      padding: 68px 18px;
       background: #24496b;
       color: white;
       text-align: center;
-      padding: 68px 18px;
     }
 
     .hero h1 {
@@ -92,177 +76,142 @@
     }
 
     .hero p {
-      font-size: 18px;
       max-width: 760px;
       margin: auto;
       color: #ecf3fa;
+      font-size: 18px;
     }
 
     main {
-      padding-top: 28px;
-      padding-bottom: 24px;
+      padding-top: 26px !important;
+      padding-bottom: 28px !important;
     }
 
     .panel {
+      padding: 26px;
       margin-bottom: 25px;
-      padding: 28px;
       background: white;
       border-radius: 12px;
       box-shadow: 0 3px 16px #1734500d;
     }
 
     h2 {
+      margin-top: 0;
       color: #173450;
-      margin: 0 0 12px;
     }
 
-    .subtitle {
-      color: #64748b;
-      margin-top: 0;
-    }
+    .muted { color: #64748b; }
 
     .preline {
       white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
 
-    /* NEWS */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0;
+    }
 
-    .news-grid {
+    .filters button {
+      padding: 9px 13px;
+      background: #e2e8f0;
+      color: #173450;
+      border: 0;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .filters button.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .gallery {
       display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(235px, 1fr));
-      gap: 16px;
-    }
-
-    .news-card {
-      padding: 18px;
-      background: #f9fbfd;
-      border: 1px solid #d9e2ec;
-      border-radius: 10px;
-    }
-
-    .news-card h3 {
-      margin: 0 0 6px;
-    }
-
-    .news-card time {
-      font-size: 13px;
-      color: #64748b;
-    }
-
-    .news-card p {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-
-    /* BILDERGALERIE */
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
 
     .photo {
-      margin: 0;
-      overflow: hidden;
-      border-radius: 10px;
       border: 1px solid #d9e2ec;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0;
       background: #f9fbfd;
     }
 
-    .photo a {
-      display: block;
-      overflow: hidden;
-    }
+    .photo a { display: block; }
 
     .photo img {
-      display: block;
       width: 100%;
       height: 190px;
       object-fit: cover;
-      transition: transform 0.2s;
-    }
-
-    .photo a:hover img {
-      transform: scale(1.04);
-    }
-
-    .photo figcaption {
-      padding: 12px 14px;
-    }
-
-    .photo strong {
       display: block;
     }
 
+    .photo figcaption { padding: 12px 14px; }
+
+    .photo strong { display: block; }
+
     .photo p {
-      color: #64748b;
       margin: 4px 0 0;
       font-size: 14px;
+      color: #64748b;
       white-space: pre-wrap;
     }
 
-    /* GALERIE-BUTTON */
-
-    .gallery-controls {
-      margin-top: 25px;
-      text-align: center;
+    .news {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+      gap: 15px;
     }
 
-    .more-button {
+    .news article {
+      padding: 17px;
+      border: 1px solid #d9e2ec;
+      background: #f9fbfd;
+      border-radius: 10px;
+    }
+
+    .news h3 { margin: 0 0 6px; }
+
+    .news time {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .news p {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .more {
+      display: block;
+      margin: 20px auto 0;
       background: #2563eb;
       color: white;
-      border: none;
-      padding: 13px 24px;
+      border: 0;
       border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
+      padding: 11px 18px;
+      font: inherit;
       cursor: pointer;
     }
 
-    .more-button:hover {
-      background: #1d4ed8;
-    }
-
-    .more-button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    .more-button[hidden] {
-      display: none;
-    }
-
-    .gallery-status {
-      color: #64748b;
-      margin: 12px 0;
-      font-size: 14px;
-    }
-
-    .muted {
-      color: #64748b;
-    }
+    [hidden] { display: none !important; }
 
     footer {
-      color: white;
-      background: #173450;
       text-align: center;
       padding: 24px 12px;
     }
 
-    footer p {
-      margin: 3px 0;
-    }
-
-    /* TABLET */
+    footer p { margin: 3px 0; }
 
     @media (max-width: 750px) {
-      .gallery-grid {
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .top {
@@ -270,300 +219,251 @@
         text-align: center;
       }
 
-      nav {
-        justify-content: center;
-      }
+      nav { justify-content: center; }
     }
 
-    /* HANDY */
-
     @media (max-width: 510px) {
-      .gallery-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .panel {
-        padding: 18px;
-      }
-
-      .hero {
-        padding: 50px 15px;
-      }
+      .gallery { grid-template-columns: 1fr; }
+      .panel { padding: 18px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- NAVIGATION -->
-
   <header>
     <div class="wrap top">
-
-      <a id="siteName" href="#start">
-        Meine Webseite
-      </a>
+      <a id="siteName" href="#start">Meine Webseite</a>
 
       <nav aria-label="Hauptnavigation">
-
         <a href="#start">Start</a>
         <a href="#ueber">Über mich</a>
         <a href="#news">News</a>
         <a href="#bilder">Bilder</a>
         <a href="#kontakt">Kontakt</a>
-
-        <a class="login" href="/login.html">
-          Anmelden
-        </a>
-
+        <a class="login" href="/login.html">Anmelden</a>
       </nav>
     </div>
   </header>
 
-  <!-- BEGRÜSSUNG -->
-
-  <section id="start" class="hero">
+  <section class="hero" id="start">
     <div class="wrap">
-
       <h1>Herzlich willkommen</h1>
-
-      <p id="welcome" class="preline">
+      <p class="preline" id="welcome">
         Willkommen auf meiner Webseite!
       </p>
-
     </div>
   </section>
 
-  <!-- HAUPTSEITE -->
-
   <main class="wrap">
 
-    <!-- ÜBER MICH -->
-
     <section class="panel" id="ueber">
-
       <h2>Über diese Webseite</h2>
-
-      <p id="intro" class="preline">
+      <p class="preline" id="intro">
         Hier findest du Neuigkeiten,
         Informationen und Fotos.
       </p>
-
     </section>
-
-    <!-- NEWS -->
 
     <section class="panel" id="news">
-
       <h2>Aktuelles und News</h2>
-
-      <p class="subtitle">
-        Die neuesten Mitteilungen
-      </p>
-
-      <div class="news-grid"
-           id="newsList"
-           aria-live="polite">
-
-        <p class="muted">
-          News werden geladen ...
-        </p>
-
+      <div class="news" id="newsList">
+        <p class="muted">News werden geladen ...</p>
       </div>
     </section>
-
-    <!-- UNBEGRENZTE BILDERGALERIE -->
 
     <section class="panel" id="bilder">
-
       <h2>Bildergalerie</h2>
-
-      <p class="subtitle">
-        Klicke auf ein Foto, um es zu vergrössern.
+      <p class="muted">
+        Kategorie auswählen. Zum Vergrössern auf ein Foto klicken.
       </p>
 
-      <div class="gallery-grid"
-           id="galleryGrid">
+      <div
+        class="filters"
+        id="filters"
+        aria-label="Bilderkategorien">
       </div>
 
-      <div class="gallery-controls">
+      <p
+        class="muted"
+        id="galleryStatus"
+        role="status">
+        Bilder werden gesucht ...
+      </p>
 
-        <button id="loadMore"
-                class="more-button"
-                type="button"
-                hidden>
-          Weitere Bilder anzeigen
-        </button>
+      <div class="gallery" id="gallery"></div>
 
-        <p id="galleryStatus"
-           class="gallery-status"
-           role="status"
-           aria-live="polite">
-          Bilder werden geladen ...
-        </p>
-
-      </div>
+      <button
+        id="more"
+        class="more"
+        type="button"
+        hidden>
+        Weitere Bilder anzeigen
+      </button>
     </section>
 
-    <!-- KONTAKT -->
-
     <section class="panel" id="kontakt">
-
       <h2>Kontakt</h2>
-
-      <p id="contact" class="preline">
+      <p class="preline" id="contact">
         Kontaktinformationen folgen.
       </p>
-
     </section>
 
   </main>
 
-  <!-- FUSSZEILE -->
-
   <footer>
-
     <p id="footerName">Meine Webseite</p>
-
     <p>
       © <span id="year"></span>
       Alle Rechte vorbehalten.
     </p>
-
   </footer>
 
-  <!-- GALERIE MIT AUTOMATISCHER BILDERSUCHE -->
+  <script type="module">
+    const $ = id => document.getElementById(id);
 
-  <script>
+    const txt = (v, fallback = "") =>
+      typeof v === "string" ? v : fallback;
 
-    document.getElementById("year").textContent =
+    $("year").textContent =
       new Date().getFullYear();
 
-    const galleryGrid =
-      document.getElementById("galleryGrid");
+    const kategorien = [
+      "Food",
+      "Drinks",
+      "Citys",
+      "Comics",
+      "Nature",
+      "Art",
+      "Sport",
+      "Animals",
+      "Rest"
+    ];
 
-    const loadMoreButton =
-      document.getElementById("loadMore");
+    const anzeigename = name =>
+      name === "Citys" ? "City’s" : name;
 
-    const galleryStatus =
-      document.getElementById("galleryStatus");
+    const fotos = [];
 
-    const BILDER_PRO_SEITE = 24;
+    let metadaten = new Map();
+    let kategorie = "Alle";
+    let limit = 24;
+    let sucheFertig = false;
 
-    let naechsteNummer = 1;
-    let anzahlBilder = 0;
-
-    let galerieLaedt = false;
-    let galerieFertig = false;
-
-    // Firebase-Bildbeschreibungen:
-    // Standardmässig bleibt jedes Foto sichtbar.
-
-    const bildInformationen = new Map();
-
-    function aktualisiereBeschriftungen() {
-
-      document
-        .querySelectorAll(".photo[data-image-path]")
-        .forEach(karte => {
-
-          const pfad =
-            karte.dataset.imagePath;
-
-          const daten =
-            bildInformationen.get(pfad);
-
-          const standardTitel =
-            karte.dataset.standardTitel;
-
-          const titel =
-            typeof daten?.title === "string"
-            && daten.title.trim()
-              ? daten.title.trim()
-              : standardTitel;
-
-          const beschreibung =
-            typeof daten?.description === "string"
-              ? daten.description
-              : "";
-
-          karte.querySelector("strong").textContent =
-            titel;
-
-          karte.querySelector("figcaption p").textContent =
-            beschreibung;
-
-          karte.querySelector("img").alt =
-            titel;
-        });
+    function neu(tag, inhalt = "") {
+      const node = document.createElement(tag);
+      node.textContent = inhalt;
+      return node;
     }
 
-    // Einzelnes Bild als Karte anzeigen
+    // FOTO MIT TITEL UND BESCHREIBUNG ANZEIGEN
 
-    function erstelleBild(nummer) {
-
-      const pfad =
-        "bilder/Bild" + nummer + ".jpg";
-
-      const karte =
-        document.createElement("figure");
-
-      karte.className = "photo";
-
-      karte.dataset.imagePath = pfad;
-      karte.dataset.standardTitel =
-        "Bild " + nummer;
-
-      const link =
-        document.createElement("a");
-
-      link.href = "/" + pfad;
-      link.target = "_blank";
-      link.rel = "noopener";
-
-      const bild =
-        document.createElement("img");
-
-      bild.src = "/" + pfad;
-      bild.alt = "Bild " + nummer;
-      bild.loading = "lazy";
-
-      link.append(bild);
-
-      const beschriftung =
-        document.createElement("figcaption");
+    function karte(foto) {
+      const daten = metadaten.get(foto.pfad) || {};
 
       const titel =
-        document.createElement("strong");
+        txt(daten.title).trim() ||
+        "Bild " + foto.nummer;
 
-      titel.textContent =
-        "Bild " + nummer;
+      const fig = neu("figure");
+      fig.className = "photo";
 
-      const text =
-        document.createElement("p");
+      const a = neu("a");
+      a.href = "/" + foto.pfad;
+      a.target = "_blank";
+      a.rel = "noopener";
 
-      beschriftung.append(titel, text);
+      const img = neu("img");
+      img.src = a.href;
+      img.alt = titel;
+      img.loading = "lazy";
 
-      karte.append(link, beschriftung);
+      a.append(img);
 
-      galleryGrid.append(karte);
+      const beschriftung = neu("figcaption");
+      beschriftung.append(
+        neu("strong", titel),
+        neu("p", txt(daten.description))
+      );
 
-      anzahlBilder++;
+      fig.append(a, beschriftung);
 
-      aktualisiereBeschriftungen();
+      return fig;
     }
 
-    // Prüfen, ob eine Datei auf GitHub Pages existiert
+    // GALERIE UND KATEGORIE-BUTTONS ANZEIGEN
 
-    async function bildExistiert(nummer) {
+    function aktualisieren() {
+      const auswahl =
+        kategorie === "Alle"
+          ? fotos
+          : fotos.filter(
+              f => f.kategorie === kategorie
+            );
 
-      const pfad =
-        "/bilder/Bild" + nummer + ".jpg";
+      const sichtbar = auswahl.slice(0, limit);
 
-      const antwort = await fetch(pfad, {
-        method: "HEAD",
-        cache: "no-store"
-      });
+      $("gallery").replaceChildren(
+        ...sichtbar.map(karte)
+      );
+
+      $("more").hidden =
+        sichtbar.length >= auswahl.length;
+
+      $("galleryStatus").textContent =
+        auswahl.length
+          ? `${sichtbar.length} von ${auswahl.length} Bildern angezeigt.`
+          : sucheFertig
+            ? "In dieser Kategorie sind noch keine Bilder vorhanden."
+            : "Bilder werden gesucht ...";
+
+      $("filters").replaceChildren();
+
+      for (const name of ["Alle", ...kategorien]) {
+        const anzahl =
+          name === "Alle"
+            ? fotos.length
+            : fotos.filter(
+                f => f.kategorie === name
+              ).length;
+
+        const b = neu(
+          "button",
+          `${anzeigename(name)} (${anzahl})`
+        );
+
+        b.type = "button";
+
+        b.className =
+          name === kategorie ? "active" : "";
+
+        b.setAttribute(
+          "aria-pressed",
+          String(name === kategorie)
+        );
+
+        b.addEventListener("click", () => {
+          kategorie = name;
+          limit = 24;
+          aktualisieren();
+        });
+
+        $("filters").append(b);
+      }
+    }
+
+    $("more").addEventListener("click", () => {
+      limit += 24;
+      aktualisieren();
+    });
+
+    // PRÜFEN, OB EINE BILDDATEI EXISTIERT
+
+    async function vorhanden(pfad) {
+      const antwort = await fetch(
+        "/" + pfad,
+        { method: "HEAD" }
+      );
 
       if (
         antwort.status === 404 ||
@@ -574,206 +474,127 @@
 
       if (!antwort.ok) {
         throw new Error(
-          "Bilddatei konnte nicht geprüft werden: " +
-          antwort.status
+          pfad + ": HTTP " + antwort.status
         );
       }
 
       return true;
     }
 
-    // Weitere Bilder laden
+    // HÖCHSTE FORTLAUFENDE BILDNUMMER FINDEN
 
-    async function ladeWeitereBilder() {
+    async function bildzahl(prefix) {
+      const pfad = nr =>
+        prefix + nr + ".jpg";
 
-      if (galerieLaedt || galerieFertig) {
-        return;
+      if (!(await vorhanden(pfad(1)))) {
+        return 0;
       }
 
-      galerieLaedt = true;
+      let ja = 1;
+      let nein = 2;
 
-      loadMoreButton.disabled = true;
-      loadMoreButton.hidden = true;
+      while (await vorhanden(pfad(nein))) {
+        ja = nein;
+        nein *= 2;
+      }
 
-      galleryStatus.textContent =
-        "Weitere Bilder werden gesucht ...";
+      while (nein - ja > 1) {
+        const mitte =
+          Math.floor((ja + nein) / 2);
 
-      let hinzugefuegt = 0;
-
-      try {
-
-        while (hinzugefuegt < BILDER_PRO_SEITE) {
-
-          // Maximal sechs Dateiprüfungen gleichzeitig
-
-          const gruppe = Math.min(
-            6,
-            BILDER_PRO_SEITE - hinzugefuegt
-          );
-
-          const ergebnisse = await Promise.all(
-            Array.from(
-              { length: gruppe },
-              (_, index) =>
-                bildExistiert(
-                  naechsteNummer + index
-                )
-            )
-          );
-
-          const fehlendePosition =
-            ergebnisse.indexOf(false);
-
-          const vorhandeneAnzahl =
-            fehlendePosition === -1
-              ? gruppe
-              : fehlendePosition;
-
-          for (
-            let i = 0;
-            i < vorhandeneAnzahl;
-            i++
-          ) {
-            erstelleBild(naechsteNummer + i);
-          }
-
-          naechsteNummer += vorhandeneAnzahl;
-
-          hinzugefuegt += vorhandeneAnzahl;
-
-          if (fehlendePosition !== -1) {
-            galerieFertig = true;
-            break;
-          }
-        }
-
-        // Prüfen, ob nach dieser Seite
-        // noch mindestens ein Foto existiert.
-
-        if (!galerieFertig) {
-
-          const weiteresVorhanden =
-            await bildExistiert(naechsteNummer);
-
-          if (!weiteresVorhanden) {
-            galerieFertig = true;
-          }
-        }
-
-        if (anzahlBilder === 0) {
-
-          galleryStatus.textContent =
-            "Noch keine Bilder vorhanden.";
-
-        } else if (galerieFertig) {
-
-          galleryStatus.textContent =
-            anzahlBilder +
-            " Bilder in der Galerie.";
-
+        if (await vorhanden(pfad(mitte))) {
+          ja = mitte;
         } else {
-
-          galleryStatus.textContent =
-            anzahlBilder +
-            " Bilder angezeigt. Weitere verfügbar.";
-
-          loadMoreButton.hidden = false;
+          nein = mitte;
         }
+      }
 
-      } catch (fehler) {
+      return ja;
+    }
 
-        console.error(
-          "Fehler beim Laden der Galerie:",
-          fehler
+    // ALLE KATEGORIEN SUCHEN
+
+    async function galerieLaden() {
+      const ordner = [
+        ...kategorien.map(k => ({
+          k,
+          prefix: `bilder/${k}/Bild`
+        })),
+
+        // Alte Fotos direkt in bilder/
+        // werden zusätzlich unter Rest gezeigt.
+        {
+          k: "Rest",
+          prefix: "bilder/Bild"
+        }
+      ];
+
+      const ergebnisse =
+        await Promise.allSettled(
+          ordner.map(async o => ({
+            ...o,
+            anzahl: await bildzahl(o.prefix)
+          }))
         );
 
-        galleryStatus.textContent =
-          "Einige Bilder konnten nicht geprüft werden. " +
-          "Bitte erneut versuchen.";
+      fotos.length = 0;
 
-        loadMoreButton.hidden = false;
+      let fehler = 0;
 
-      } finally {
+      for (
+        let i = 0;
+        i < ergebnisse.length;
+        i++
+      ) {
+        const e = ergebnisse[i];
 
-        galerieLaedt = false;
-        loadMoreButton.disabled = false;
+        if (e.status !== "fulfilled") {
+          fehler++;
+
+          console.warn(
+            "Galerie:",
+            ordner[i].prefix,
+            e.reason
+          );
+
+          continue;
+        }
+
+        for (
+          let nr = 1;
+          nr <= e.value.anzahl;
+          nr++
+        ) {
+          fotos.push({
+            kategorie: e.value.k,
+            nummer: nr,
+            pfad:
+              e.value.prefix +
+              nr +
+              ".jpg"
+          });
+        }
+      }
+
+      sucheFertig = true;
+      aktualisieren();
+
+      if (fehler) {
+        $("galleryStatus").textContent +=
+          " Einige Ordner konnten nicht geprüft werden.";
       }
     }
 
-    loadMoreButton.addEventListener(
-      "click",
-      ladeWeitereBilder
-    );
+    // Fotos funktionieren unabhängig von Firebase.
+    galerieLaden();
 
-    // Galerie beim Seitenaufruf starten
+    // NEWS AUS FIREBASE ANZEIGEN
 
-    ladeWeitereBilder();
+    function newsAnzeigen(dokumente) {
+      $("newsList").replaceChildren();
 
-  </script>
-
-  <!-- FIREBASE -->
-
-  <script type="module">
-
-    /*
-      WICHTIG:
-
-      Bitte den apiKey durch den exakten Wert
-      aus deiner funktionierenden login.html
-      ersetzen.
-
-      Die anderen Werte ebenfalls vergleichen.
-    */
-
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyD4jMTeAzdFjt1gQ26e4dIjD9Fq_OX6UiQ",
-
-      authDomain:
-        "jdotk-webseite.firebaseapp.com",
-
-      projectId:
-        "jdotk-webseite",
-
-      storageBucket:
-        "jdotk-webseite.firebasestorage.app",
-
-      messagingSenderId:
-        "1015775184620",
-
-      appId:
-        "1:1015775184620:web:6e8aa8b627eb1d7907c7c9"
-    };
-
-    const byId = id =>
-      document.getElementById(id);
-
-    const text = (wert, ersatz = "") =>
-      typeof wert === "string"
-        ? wert
-        : ersatz;
-
-    function messageNews(nachricht) {
-
-      const p =
-        document.createElement("p");
-
-      p.className = "muted";
-      p.textContent = nachricht;
-
-      byId("newsList").replaceChildren(p);
-    }
-
-    // NEWS AUF DER WEBSEITE ANZEIGEN
-
-    function zeigeNews(dokumente) {
-
-      const ziel = byId("newsList");
-
-      ziel.replaceChildren();
-
-      const eintraege = dokumente
+      const liste = dokumente
         .map(d => d.data())
         .sort(
           (a, b) =>
@@ -782,183 +603,148 @@
         )
         .slice(0, 12);
 
-      if (eintraege.length === 0) {
-
-        messageNews(
-          "Noch keine Neuigkeiten veröffentlicht."
+      if (!liste.length) {
+        $("newsList").append(
+          neu("p", "Noch keine News vorhanden.")
         );
 
         return;
       }
 
-      for (const daten of eintraege) {
+      for (const d of liste) {
+        const artikel = neu("article");
 
-        const karte =
-          document.createElement("article");
+        artikel.append(
+          neu(
+            "h3",
+            txt(d.title, "Mitteilung")
+          )
+        );
 
-        karte.className = "news-card";
+        if (d.createdAt?.toDate) {
+          const zeit = neu(
+            "time",
+            d.createdAt
+              .toDate()
+              .toLocaleDateString("de-CH")
+          );
 
-        const titel =
-          document.createElement("h3");
+          zeit.dateTime =
+            d.createdAt.toDate().toISOString();
 
-        titel.textContent =
-          text(daten.title, "Mitteilung");
-
-        karte.append(titel);
-
-        if (daten.createdAt?.toDate) {
-
-          const datum =
-            document.createElement("time");
-
-          const zeitpunkt =
-            daten.createdAt.toDate();
-
-          datum.dateTime =
-            zeitpunkt.toISOString();
-
-          datum.textContent =
-            zeitpunkt.toLocaleDateString(
-              "de-CH"
-            );
-
-          karte.append(datum);
+          artikel.append(zeit);
         }
 
-        const absatz =
-          document.createElement("p");
+        artikel.append(
+          neu("p", txt(d.body))
+        );
 
-        absatz.textContent =
-          text(daten.body);
-
-        karte.append(absatz);
-
-        ziel.append(karte);
+        $("newsList").append(artikel);
       }
     }
 
-    // FIREBASE STARTEN
+    // FIREBASE VERBINDEN
 
     try {
+      const [
+        { firebaseConfig },
+        appModul,
+        fs
+      ] = await Promise.all([
+        import("./firebase-config.js"),
 
-      const [appModule, fs] =
-        await Promise.all([
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+        ),
 
-          import(
-            "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
-          ),
-
-          import(
-            "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
-          )
-
-        ]);
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+        )
+      ]);
 
       const app =
-        appModule.initializeApp(firebaseConfig);
+        appModul.getApps().length
+          ? appModul.getApp()
+          : appModul.initializeApp(
+              firebaseConfig
+            );
 
-      const db =
-        fs.getFirestore(app);
+      const db = fs.getFirestore(app);
 
       // TEXTE
 
       fs.onSnapshot(
-
         fs.doc(db, "content", "homepage"),
 
         snap => {
-
-          const daten =
+          const d =
             snap.exists()
               ? snap.data()
               : {};
 
-          byId("welcome").textContent =
-            text(
-              daten.begrussung,
+          $("welcome").textContent =
+            txt(
+              d.begrussung,
               "Willkommen auf meiner Webseite!"
             );
 
-          byId("intro").textContent =
-            text(
-              daten.einleitung,
+          $("intro").textContent =
+            txt(
+              d.einleitung,
               "Hier findest du Neuigkeiten, Informationen und Fotos."
             );
         },
 
-        fehler => {
-
-          console.error(
-            "Firebase-Texte:",
-            fehler.code,
-            fehler.message
-          );
-        }
+        err => console.error("Texte:", err)
       );
 
       // EINSTELLUNGEN
 
       fs.onSnapshot(
-
         fs.doc(db, "content", "settings"),
 
         snap => {
-
-          const daten =
+          const d =
             snap.exists()
               ? snap.data()
               : {};
 
           const titel =
-            text(daten.titel).trim() ||
+            txt(d.titel).trim() ||
             "Meine Webseite";
 
-          byId("siteName").textContent =
-            titel;
+          $("siteName").textContent = titel;
+          $("footerName").textContent = titel;
+          document.title = titel;
 
-          byId("footerName").textContent =
-            titel;
-
-          document.title =
-            titel;
-
-          byId("contact").textContent =
-            text(
-              daten.kontakt,
+          $("contact").textContent =
+            txt(
+              d.kontakt,
               "Kontaktinformationen folgen."
             );
         },
 
-        fehler => {
-
-          console.error(
-            "Firebase-Einstellungen:",
-            fehler.code,
-            fehler.message
-          );
-        }
+        err => console.error(
+          "Einstellungen:",
+          err
+        )
       );
 
       // NEWS
 
       fs.onSnapshot(
-
         fs.collection(db, "news"),
 
-        snap => {
-          zeigeNews(snap.docs);
-        },
+        snap => newsAnzeigen(snap.docs),
 
-        fehler => {
+        err => {
+          console.error("News:", err);
 
-          console.error(
-            "Firebase-News:",
-            fehler.code,
-            fehler.message
-          );
-
-          messageNews(
-            "News sind derzeit nicht verfügbar."
+          $("newsList").replaceChildren(
+            neu(
+              "p",
+              "News momentan nicht verfügbar."
+            )
           );
         }
       );
@@ -966,61 +752,62 @@
       // BILDTITEL UND BESCHREIBUNGEN
 
       fs.onSnapshot(
-
         fs.collection(db, "gallery"),
 
         snap => {
+          metadaten = new Map();
 
-          bildInformationen.clear();
-
-          const eintraege = snap.docs
-            .map(d => d.data())
+          const docs = snap.docs
+            .slice()
             .sort(
               (a, b) =>
-                (b.createdAt?.seconds || 0) -
-                (a.createdAt?.seconds || 0)
+                (
+                  b.data().updatedAt?.seconds ||
+                  b.data().createdAt?.seconds ||
+                  0
+                ) -
+                (
+                  a.data().updatedAt?.seconds ||
+                  a.data().createdAt?.seconds ||
+                  0
+                )
             );
 
-          for (const daten of eintraege) {
-
+          for (const d of docs) {
             if (
-              typeof daten.path === "string" &&
-              !bildInformationen.has(daten.path)
+              typeof d.data().path === "string" &&
+              !metadaten.has(d.data().path)
             ) {
-
-              bildInformationen.set(
-                daten.path,
-                daten
+              metadaten.set(
+                d.data().path,
+                d.data()
               );
             }
           }
 
-          aktualisiereBeschriftungen();
+          aktualisieren();
         },
 
-        fehler => {
-
-          console.warn(
-            "Firebase-Bildbeschreibungen:",
-            fehler.code,
-            fehler.message
-          );
-        }
+        err => console.warn(
+          "Bildbeschriftungen:",
+          err
+        )
       );
 
-    } catch (fehler) {
-
+    } catch (err) {
       console.error(
         "Firebase konnte nicht geladen werden:",
-        fehler
+        err
       );
 
-      messageNews(
-        "News sind derzeit nicht verfügbar."
+      $("newsList").replaceChildren(
+        neu(
+          "p",
+          "Firebase ist momentan nicht erreichbar."
+        )
       );
     }
 
   </script>
-
 </body>
 </html>
