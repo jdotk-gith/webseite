@@ -47,7 +47,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: 190px minmax(0, 1fr);
+      grid-template-columns: 190px minmax(0,1fr);
       gap: 18px;
     }
 
@@ -176,8 +176,6 @@
 
   <main>
 
-    <!-- ZUGANGSPRÜFUNG -->
-
     <div id="gate" class="gate">
       <h2>Zugang wird geprüft</h2>
 
@@ -190,10 +188,7 @@
       </a>
     </div>
 
-    <!-- ADMINISTRATOR-DASHBOARD -->
-
     <div id="dashboard" hidden>
-
       <p>
         <strong id="userName"></strong>
 
@@ -207,40 +202,12 @@
 
       <div class="layout">
 
-        <nav
-          class="menu"
-          aria-label="Administrator-Menü">
-
-          <button
-            type="button"
-            class="active"
-            data-tab="texte">
-            Texte
-          </button>
-
-          <button
-            type="button"
-            data-tab="bilder">
-            Bilder
-          </button>
-
-          <button
-            type="button"
-            data-tab="news">
-            News
-          </button>
-
-          <button
-            type="button"
-            data-tab="benutzer">
-            Benutzer
-          </button>
-
-          <button
-            type="button"
-            data-tab="einstellungen">
-            Einstellungen
-          </button>
+        <nav class="menu" aria-label="Administrator-Menü">
+          <button type="button" class="active" data-tab="texte">Texte</button>
+          <button type="button" data-tab="bilder">Bilder</button>
+          <button type="button" data-tab="news">News</button>
+          <button type="button" data-tab="benutzer">Benutzer</button>
+          <button type="button" data-tab="einstellungen">Einstellungen</button>
         </nav>
 
         <div class="panel">
@@ -259,15 +226,10 @@
             <h2>Texte bearbeiten</h2>
 
             <form id="textForm">
-
-              <label for="welcome">
-                Begrüssungstext
-              </label>
+              <label for="welcome">Begrüssungstext</label>
               <textarea id="welcome"></textarea>
 
-              <label for="intro">
-                Einleitungstext
-              </label>
+              <label for="intro">Einleitungstext</label>
               <textarea id="intro"></textarea>
 
               <p>
@@ -275,34 +237,29 @@
                   Texte speichern
                 </button>
               </p>
-
             </form>
           </section>
 
           <!-- BILDER -->
 
           <section id="tab-bilder" hidden>
-
             <h2>Bildtitel und Beschreibungen</h2>
 
             <p class="muted">
-              Fotos zuerst auf GitHub unter
-              webseite/bilder hochladen.
-              Hier bearbeitest du nur Titel
+              Fotos zuerst auf GitHub unter webseite/bilder
+              hochladen. Hier bearbeitest du nur Titel
               und Beschreibung.
             </p>
 
             <form id="imageForm">
-
               <input id="imageId" type="hidden">
 
               <label for="folder">Ordner</label>
 
               <select id="folder">
                 <option value="">
-                  Bisherige Fotos direkt in bilder/ (Rest)
+                  Bisherige Fotos direkt in bilder/ (ohne Kategorie)
                 </option>
-
                 <option>Food</option>
                 <option>Drinks</option>
                 <option value="Citys">City’s</option>
@@ -311,12 +268,10 @@
                 <option>Art</option>
                 <option>Sport</option>
                 <option>Animals</option>
-                <option>Rest</option>
+                <option>Diverses</option>
               </select>
 
-              <label for="filename">
-                Dateiname
-              </label>
+              <label for="filename">Dateiname</label>
 
               <input
                 id="filename"
@@ -324,14 +279,9 @@
                 required
                 placeholder="Bild1.jpg">
 
-              <p
-                class="muted"
-                id="pathPreview">
-              </p>
+              <p class="muted" id="pathPreview"></p>
 
-              <label for="imageTitle">
-                Bildtitel
-              </label>
+              <label for="imageTitle">Bildtitel</label>
 
               <input
                 id="imageTitle"
@@ -339,9 +289,7 @@
                 required
                 placeholder="Mein Foto">
 
-              <label for="imageDescription">
-                Beschreibung
-              </label>
+              <label for="imageDescription">Beschreibung</label>
 
               <textarea
                 id="imageDescription"
@@ -349,7 +297,6 @@
               </textarea>
 
               <div class="actions">
-
                 <button type="submit">
                   Bildbeschreibung speichern
                 </button>
@@ -360,23 +307,19 @@
                   id="imageReset">
                   Neue Eingabe
                 </button>
-
               </div>
             </form>
 
             <h3>Gespeicherte Bildbeschreibungen</h3>
-
             <div id="images"></div>
           </section>
 
           <!-- NEWS -->
 
           <section id="tab-news" hidden>
-
             <h2>News verwalten</h2>
 
             <form id="newsForm">
-
               <input id="newsId" type="hidden">
 
               <label for="newsTitle">Titel</label>
@@ -385,17 +328,10 @@
                 required
                 maxlength="160">
 
-              <label for="newsBody">
-                Mitteilung
-              </label>
-
-              <textarea
-                id="newsBody"
-                required>
-              </textarea>
+              <label for="newsBody">Mitteilung</label>
+              <textarea id="newsBody" required></textarea>
 
               <div class="actions">
-
                 <button type="submit">
                   News speichern
                 </button>
@@ -406,7 +342,6 @@
                   id="newsReset">
                   Neue Eingabe
                 </button>
-
               </div>
             </form>
 
@@ -417,7 +352,6 @@
           <!-- BENUTZER -->
 
           <section id="tab-benutzer" hidden>
-
             <h2>Benutzerrollen</h2>
 
             <p class="muted">
@@ -425,9 +359,7 @@
               bleiben in Firebase Authentication.
             </p>
 
-            <button
-              type="button"
-              id="reloadUsers">
+            <button type="button" id="reloadUsers">
               Benutzer neu laden
             </button>
 
@@ -437,23 +369,13 @@
           <!-- EINSTELLUNGEN -->
 
           <section id="tab-einstellungen" hidden>
-
             <h2>Einstellungen</h2>
 
             <form id="settingsForm">
+              <label for="siteTitle">Webseitentitel</label>
+              <input id="siteTitle" maxlength="120">
 
-              <label for="siteTitle">
-                Webseitentitel
-              </label>
-
-              <input
-                id="siteTitle"
-                maxlength="120">
-
-              <label for="contact">
-                Kontaktinformationen
-              </label>
-
+              <label for="contact">Kontaktinformationen</label>
               <textarea id="contact"></textarea>
 
               <p>
@@ -461,7 +383,6 @@
                   Einstellungen speichern
                 </button>
               </p>
-
             </form>
           </section>
 
@@ -471,10 +392,7 @@
   </main>
 
   <script type="module">
-
-    const $ = id =>
-      document.getElementById(id);
-
+    const $ = id => document.getElementById(id);
     const txt = (v, f = "") =>
       typeof v === "string" ? v : f;
 
@@ -605,23 +523,19 @@
         const item = neu("article");
         item.className = "item";
 
-        const gueltig =
-          /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Rest\/)?Bild[1-9]\d*\.jpg$/.test(pfad);
+        const istBildpfad =
+          /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Diverses\/)?Bild[1-9]\d*\.jpg$/.test(pfad);
 
-        if (gueltig) {
+        if (istBildpfad) {
           const img = neu("img");
           img.src = "/" + pfad;
           img.alt = txt(daten.title);
           img.loading = "lazy";
-
           item.append(img);
         }
 
         item.append(
-          neu(
-            "strong",
-            txt(daten.title, "Ohne Titel")
-          ),
+          neu("strong", txt(daten.title, "Ohne Titel")),
           neu("p", pfad),
           neu("p", txt(daten.description))
         );
@@ -629,16 +543,12 @@
         const aktionen = neu("div");
         aktionen.className = "actions";
 
-        const edit = neu(
-          "button",
-          "Bearbeiten"
-        );
-
+        const edit = neu("button", "Bearbeiten");
         edit.type = "button";
 
         edit.addEventListener("click", () => {
           const match = pfad.match(
-            /^bilder\/(?:(Food|Drinks|Citys|Comics|Nature|Art|Sport|Animals|Rest)\/)?(Bild[1-9]\d*\.jpg)$/
+            /^bilder\/(?:(Food|Drinks|Citys|Comics|Nature|Art|Sport|Animals|Diverses)\/)?(Bild[1-9]\d*\.jpg)$/
           );
 
           if (!match) {
@@ -646,16 +556,13 @@
               "Dateipfad ist nicht im erwarteten Format.",
               true
             );
-
             return;
           }
 
           $("folder").value = match[1] || "";
           $("filename").value = match[2];
           $("imageId").value = d.id;
-          $("imageTitle").value =
-            txt(daten.title);
-
+          $("imageTitle").value = txt(daten.title);
           $("imageDescription").value =
             txt(daten.description);
 
@@ -671,41 +578,31 @@
         del.type = "button";
         del.className = "danger";
 
-        del.addEventListener(
-          "click",
-          async () => {
-            if (!confirm(
-              "Nur Beschreibung löschen? Das Foto bleibt auf GitHub."
-            )) {
-              return;
-            }
-
-            try {
-              pruefeAdmin();
-
-              await fs.deleteDoc(
-                fs.doc(
-                  db,
-                  "gallery",
-                  d.id
-                )
-              );
-
-              await ladeBilder();
-
-              status(
-                "Beschreibung gelöscht."
-              );
-
-            } catch (e) {
-              status(
-                "Löschen fehlgeschlagen: " +
-                e.message,
-                true
-              );
-            }
+        del.addEventListener("click", async () => {
+          if (!confirm(
+            "Nur Beschreibung löschen? Das Foto bleibt auf GitHub."
+          )) {
+            return;
           }
-        );
+
+          try {
+            pruefeAdmin();
+
+            await fs.deleteDoc(
+              fs.doc(db, "gallery", d.id)
+            );
+
+            await ladeBilder();
+
+            status("Beschreibung gelöscht.");
+          } catch (e) {
+            status(
+              "Löschen fehlgeschlagen: " +
+              e.message,
+              true
+            );
+          }
+        });
 
         aktionen.append(edit, del);
         item.append(aktionen);
@@ -738,65 +635,46 @@
         const aktionen = neu("div");
         aktionen.className = "actions";
 
-        const edit = neu(
-          "button",
-          "Bearbeiten"
-        );
-
+        const edit = neu("button", "Bearbeiten");
         edit.type = "button";
 
         edit.addEventListener("click", () => {
           $("newsId").value = d.id;
-          $("newsTitle").value =
-            txt(daten.title);
-
-          $("newsBody").value =
-            txt(daten.body);
-
+          $("newsTitle").value = txt(daten.title);
+          $("newsBody").value = txt(daten.body);
           $("newsTitle").focus();
         });
 
-        const del = neu(
-          "button",
-          "Löschen"
-        );
-
+        const del = neu("button", "Löschen");
         del.type = "button";
         del.className = "danger";
 
-        del.addEventListener(
-          "click",
-          async () => {
-            if (!confirm(
-              "News wirklich löschen?"
-            )) {
-              return;
-            }
-
-            try {
-              pruefeAdmin();
-
-              await fs.deleteDoc(
-                fs.doc(db, "news", d.id)
-              );
-
-              await ladeNews();
-
-              status("News gelöscht.");
-
-            } catch (e) {
-              status(
-                "Löschen fehlgeschlagen: " +
-                e.message,
-                true
-              );
-            }
+        del.addEventListener("click", async () => {
+          if (!confirm("News wirklich löschen?")) {
+            return;
           }
-        );
+
+          try {
+            pruefeAdmin();
+
+            await fs.deleteDoc(
+              fs.doc(db, "news", d.id)
+            );
+
+            await ladeNews();
+
+            status("News gelöscht.");
+          } catch (e) {
+            status(
+              "Löschen fehlgeschlagen: " +
+              e.message,
+              true
+            );
+          }
+        });
 
         aktionen.append(edit, del);
         item.append(aktionen);
-
         $("newsItems").append(item);
       }
 
@@ -824,10 +702,7 @@
 
         item.append(
           neu("p", "UID: " + d.id),
-          neu(
-            "p",
-            "Rolle: " + txt(d.data().role)
-          )
+          neu("p", "Rolle: " + txt(d.data().role))
         );
 
         $("users").append(item);
@@ -836,10 +711,7 @@
 
     // GEMEINSAME SPEICHERFUNKTION
 
-    async function ausfuehren(
-      aktion,
-      erfolg
-    ) {
+    async function ausfuehren(aktion, erfolg) {
       try {
         pruefeAdmin();
 
@@ -848,7 +720,6 @@
         await aktion();
 
         status(erfolg);
-
       } catch (e) {
         status(
           "Fehler: " + e.message,
@@ -884,83 +755,69 @@
       a = authModul;
       fs = firestore;
 
-      const app =
-        appModul.getApps().length
-          ? appModul.getApp()
-          : appModul.initializeApp(
-              firebaseConfig
-            );
+      const app = appModul.getApps().length
+        ? appModul.getApp()
+        : appModul.initializeApp(firebaseConfig);
 
       auth = a.getAuth(app);
       db = fs.getFirestore(app);
 
       // ADMINISTRATORRECHTE PRÜFEN
 
-      a.onAuthStateChanged(
-        auth,
-        async user => {
+      a.onAuthStateChanged(auth, async user => {
+        admin = false;
+
+        $("dashboard").hidden = true;
+        $("gate").hidden = false;
+
+        if (!user) {
+          $("gateStatus").textContent =
+            "Bitte zuerst in login.html anmelden.";
+          return;
+        }
+
+        $("gateStatus").textContent =
+          "Administratorrolle wird geprüft ...";
+
+        try {
+          const rolle = await fs.getDoc(
+            fs.doc(db, "users", user.uid)
+          );
+
+          if (
+            !rolle.exists() ||
+            rolle.data().role !== "admin"
+          ) {
+            $("gateStatus").textContent =
+              "Zugriff verweigert: Dieses Konto ist kein Administrator.";
+            return;
+          }
+
+          if (auth.currentUser?.uid !== user.uid) {
+            return;
+          }
+
+          admin = true;
+          $("userName").textContent =
+            "Angemeldet: " + user.email;
+
+          $("gate").hidden = true;
+          $("dashboard").hidden = false;
+
+          status("Administratorzugriff bestätigt.");
+
+          await ladeTexte();
+        } catch (e) {
           admin = false;
 
           $("dashboard").hidden = true;
           $("gate").hidden = false;
 
-          if (!user) {
-            $("gateStatus").textContent =
-              "Bitte zuerst in login.html anmelden.";
-
-            return;
-          }
-
           $("gateStatus").textContent =
-            "Administratorrolle wird geprüft ...";
-
-          try {
-            const rolle = await fs.getDoc(
-              fs.doc(db, "users", user.uid)
-            );
-
-            if (
-              !rolle.exists() ||
-              rolle.data().role !== "admin"
-            ) {
-              $("gateStatus").textContent =
-                "Zugriff verweigert: Dieses Konto ist kein Administrator.";
-
-              return;
-            }
-
-            if (
-              auth.currentUser?.uid !== user.uid
-            ) {
-              return;
-            }
-
-            admin = true;
-
-            $("userName").textContent =
-              "Angemeldet: " + user.email;
-
-            $("gate").hidden = true;
-            $("dashboard").hidden = false;
-
-            status(
-              "Administratorzugriff bestätigt."
-            );
-
-            await ladeTexte();
-
-          } catch (e) {
-            admin = false;
-
-            $("dashboard").hidden = true;
-            $("gate").hidden = false;
-
-            $("gateStatus").textContent =
-              "Zugriffsprüfung fehlgeschlagen: " +
-              e.message;
-          }
+            "Zugriffsprüfung fehlgeschlagen: " +
+            e.message;
         }
-      );
+      });
 
       // ABMELDEN
 
@@ -968,9 +825,7 @@
         "click",
         async () => {
           admin = false;
-
           await a.signOut(auth);
-
           location.href = "/login.html";
         }
       );
@@ -979,70 +834,55 @@
 
       document
         .querySelectorAll("[data-tab]")
-        .forEach(
-          b => b.addEventListener(
-            "click",
-            async () => {
-              if (!admin) return;
+        .forEach(b => {
+          b.addEventListener("click", async () => {
+            if (!admin) return;
 
-              document
-                .querySelectorAll("[data-tab]")
-                .forEach(
-                  x => x.classList.toggle(
-                    "active",
-                    x === b
-                  )
+            document
+              .querySelectorAll("[data-tab]")
+              .forEach(x => {
+                x.classList.toggle(
+                  "active",
+                  x === b
                 );
+              });
 
-              document
-                .querySelectorAll("[id^='tab-']")
-                .forEach(
-                  x => x.hidden =
-                    x.id !==
-                    "tab-" + b.dataset.tab
-                );
+            document
+              .querySelectorAll("[id^='tab-']")
+              .forEach(x => {
+                x.hidden =
+                  x.id !== "tab-" + b.dataset.tab;
+              });
 
-              try {
-                if (
-                  b.dataset.tab === "bilder"
-                ) {
-                  await ladeBilder();
-                }
-
-                if (
-                  b.dataset.tab === "news"
-                ) {
-                  await ladeNews();
-                }
-
-                if (
-                  b.dataset.tab === "benutzer"
-                ) {
-                  await ladeBenutzer();
-                }
-
-                if (
-                  b.dataset.tab === "texte"
-                ) {
-                  await ladeTexte();
-                }
-
-                if (
-                  b.dataset.tab === "einstellungen"
-                ) {
-                  await ladeEinstellungen();
-                }
-
-              } catch (e) {
-                status(
-                  "Laden fehlgeschlagen: " +
-                  e.message,
-                  true
-                );
+            try {
+              if (b.dataset.tab === "bilder") {
+                await ladeBilder();
               }
+
+              if (b.dataset.tab === "news") {
+                await ladeNews();
+              }
+
+              if (b.dataset.tab === "benutzer") {
+                await ladeBenutzer();
+              }
+
+              if (b.dataset.tab === "texte") {
+                await ladeTexte();
+              }
+
+              if (b.dataset.tab === "einstellungen") {
+                await ladeEinstellungen();
+              }
+            } catch (e) {
+              status(
+                "Laden fehlgeschlagen: " +
+                e.message,
+                true
+              );
             }
-          )
-        );
+          });
+        });
 
       // TEXTE SPEICHERN
 
@@ -1053,17 +893,10 @@
 
           ausfuehren(
             () => fs.setDoc(
-              fs.doc(
-                db,
-                "content",
-                "homepage"
-              ),
+              fs.doc(db, "content", "homepage"),
               {
-                begrussung:
-                  $("welcome").value,
-
-                einleitung:
-                  $("intro").value
+                begrussung: $("welcome").value,
+                einleitung: $("intro").value
               },
               { merge: true }
             ),
@@ -1081,17 +914,10 @@
 
           ausfuehren(
             () => fs.setDoc(
-              fs.doc(
-                db,
-                "content",
-                "settings"
-              ),
+              fs.doc(db, "content", "settings"),
               {
-                titel:
-                  $("siteTitle").value,
-
-                kontakt:
-                  $("contact").value
+                titel: $("siteTitle").value,
+                kontakt: $("contact").value
               },
               { merge: true }
             ),
@@ -1113,9 +939,7 @@
                 $("filename").value.trim();
 
               if (
-                !/^Bild[1-9]\d*\.jpg$/.test(
-                  datei
-                )
+                !/^Bild[1-9]\d*\.jpg$/.test(datei)
               ) {
                 throw new Error(
                   "Dateiname muss Bild1.jpg, Bild2.jpg usw. heissen."
@@ -1138,54 +962,37 @@
                 title: titel,
                 description:
                   $("imageDescription").value,
-
                 updatedAt:
                   fs.serverTimestamp()
               };
 
-              let id =
-                $("imageId").value;
+              let id = $("imageId").value;
 
               const alle = await fs.getDocs(
-                fs.collection(
-                  db,
-                  "gallery"
-                )
+                fs.collection(db, "gallery")
               );
 
-              const bereits =
-                alle.docs.find(
-                  d => d.data().path === pfad
-                );
+              const bereits = alle.docs.find(
+                d => d.data().path === pfad
+              );
 
-              if (
-                bereits &&
-                bereits.id !== id
-              ) {
+              if (bereits && bereits.id !== id) {
                 id = bereits.id;
               }
 
               if (id) {
                 await fs.setDoc(
-                  fs.doc(
-                    db,
-                    "gallery",
-                    id
-                  ),
+                  fs.doc(db, "gallery", id),
                   daten,
                   { merge: true }
                 );
 
               } else {
                 await fs.addDoc(
-                  fs.collection(
-                    db,
-                    "gallery"
-                  ),
+                  fs.collection(db, "gallery"),
                   {
                     ...daten,
-                    createdAt:
-                      fs.serverTimestamp()
+                    createdAt: fs.serverTimestamp()
                   }
                 );
               }
@@ -1193,7 +1000,6 @@
               bildReset();
               await ladeBilder();
             },
-
             "Bildtitel und Beschreibung gespeichert."
           );
         }
@@ -1209,49 +1015,32 @@
           ausfuehren(
             async () => {
               const daten = {
-                title:
-                  $("newsTitle").value.trim(),
-
-                body:
-                  $("newsBody").value.trim(),
-
-                updatedAt:
-                  fs.serverTimestamp()
+                title: $("newsTitle").value.trim(),
+                body: $("newsBody").value.trim(),
+                updatedAt: fs.serverTimestamp()
               };
 
-              if (
-                !daten.title ||
-                !daten.body
-              ) {
+              if (!daten.title || !daten.body) {
                 throw new Error(
                   "Titel und Text sind erforderlich."
                 );
               }
 
-              const id =
-                $("newsId").value;
+              const id = $("newsId").value;
 
               if (id) {
                 await fs.setDoc(
-                  fs.doc(
-                    db,
-                    "news",
-                    id
-                  ),
+                  fs.doc(db, "news", id),
                   daten,
                   { merge: true }
                 );
 
               } else {
                 await fs.addDoc(
-                  fs.collection(
-                    db,
-                    "news"
-                  ),
+                  fs.collection(db, "news"),
                   {
                     ...daten,
-                    createdAt:
-                      fs.serverTimestamp()
+                    createdAt: fs.serverTimestamp()
                   }
                 );
               }
@@ -1259,7 +1048,6 @@
               $("newsForm").reset();
               await ladeNews();
             },
-
             "News gespeichert."
           );
         }
@@ -1278,7 +1066,6 @@
         "Firebase konnte nicht geladen werden: " +
         e.message;
     }
-
   </script>
 </body>
 </html>
