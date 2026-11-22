@@ -11,9 +11,9 @@
     body { margin: 0; background: #edf2f7; color: #1d3045; font: 16px/1.6 Arial, sans-serif; }
     .wrap { max-width: 1080px; margin: auto; padding: 0 18px; }
     header, footer { background: #173450; color: white; }
-    .top { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; padding: 17px 0; }
-    #siteName { color: white; text-decoration: none; font-size: 23px; font-weight: bold; }
-    nav { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+    .top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; padding: 17px 0; }
+    #siteName { color: white; font-size: 23px; font-weight: bold; text-decoration: none; }
+    nav { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; }
     nav a { color: white; text-decoration: none; }
     .login { background: #2563eb; border-radius: 8px; padding: 10px 15px; }
     .hero { padding: 68px 18px; background: #24496b; color: white; text-align: center; }
@@ -29,8 +29,8 @@
     .filters button.active { background: #2563eb; color: white; }
     .gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
     .photo { border: 1px solid #d9e2ec; border-radius: 10px; overflow: hidden; margin: 0; background: #f9fbfd; }
-    .photo-button { display: block; width: 100%; padding: 0; background: transparent; border: 0; cursor: zoom-in; }
-    .photo img { display: block; width: 100%; height: 190px; object-fit: cover; }
+    .photo-button { display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+    .photo img { width: 100%; height: 190px; object-fit: cover; display: block; }
     .photo figcaption { padding: 12px 14px; }
     .photo strong { display: block; }
     .photo p { margin: 4px 0 0; font-size: 14px; color: #64748b; white-space: pre-wrap; }
@@ -39,16 +39,22 @@
     .news h3 { margin: 0 0 6px; }
     .news time { color: #64748b; font-size: 13px; }
     .news p { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .more { display: block; margin: 20px auto 0; background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 11px 18px; font: inherit; cursor: pointer; }
-    .viewer { border: 0; border-radius: 12px; padding: 18px; max-width: min(96vw, 1000px); max-height: 95vh; background: #fff; }
+    .more { display: block; margin: 20px auto 0; padding: 11px 18px; background: #2563eb; color: white; border: 0; border-radius: 8px; font: inherit; cursor: pointer; }
+    .viewer { border: 0; border-radius: 12px; padding: 18px; max-width: min(96vw, 1000px); max-height: 95vh; }
     .viewer::backdrop { background: #000c; }
     .viewer img { display: block; max-width: 100%; max-height: 76vh; object-fit: contain; margin: 10px auto; }
-    .viewer button { background: #173450; color: white; border: 0; border-radius: 7px; padding: 8px 14px; cursor: pointer; }
+    .viewer button { padding: 8px 14px; color: white; background: #173450; border: 0; border-radius: 7px; cursor: pointer; }
     [hidden] { display: none !important; }
     footer { text-align: center; padding: 24px 12px; }
     footer p { margin: 3px 0; }
-    @media (max-width: 750px) { .gallery { grid-template-columns: repeat(2, 1fr); } .top { justify-content: center; text-align: center; } nav { justify-content: center; } }
-    @media (max-width: 510px) { .gallery { grid-template-columns: 1fr; } .panel { padding: 18px; } }
+    @media (max-width: 750px) {
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .top, nav { justify-content: center; }
+    }
+    @media (max-width: 510px) {
+      .gallery { grid-template-columns: 1fr; }
+      .panel { padding: 18px; }
+    }
   </style>
 </head>
 <body>
@@ -69,14 +75,18 @@
   <section class="hero" id="start">
     <div class="wrap">
       <h1>Herzlich willkommen</h1>
-      <p class="preline" id="welcome">Willkommen auf meiner Webseite!</p>
+      <p class="preline" id="welcome">
+        Willkommen auf meiner Webseite!
+      </p>
     </div>
   </section>
 
   <main class="wrap">
     <section class="panel" id="ueber">
       <h2>Über diese Webseite</h2>
-      <p class="preline" id="intro">Hier findest du Neuigkeiten, Informationen und Fotos.</p>
+      <p class="preline" id="intro">
+        Hier findest du Neuigkeiten, Informationen und Fotos.
+      </p>
     </section>
 
     <section class="panel" id="news">
@@ -89,19 +99,26 @@
     <section class="panel" id="bilder">
       <h2>Bildergalerie</h2>
       <p class="muted">
-        Wähle eine Kategorie. Es erscheinen nur freigegebene,
-        zugeordnete Fotos.
+        Wähle eine Kategorie. Es erscheinen nur Fotos,
+        die im Administratorbereich zugeordnet wurden.
       </p>
-
-      <div class="filters" id="filters" aria-label="Bilderkategorien"></div>
-
-      <p id="galleryStatus" class="muted" role="status">
+      <div
+        class="filters"
+        id="filters"
+        aria-label="Bilderkategorien">
+      </div>
+      <p
+        id="galleryStatus"
+        class="muted"
+        role="status">
         Bilder werden geladen ...
       </p>
-
       <div class="gallery" id="gallery"></div>
-
-      <button id="more" class="more" type="button" hidden>
+      <button
+        id="more"
+        class="more"
+        type="button"
+        hidden>
         Weitere Bilder anzeigen
       </button>
     </section>
@@ -114,29 +131,45 @@
     </section>
   </main>
 
-  <dialog id="viewer" class="viewer" aria-label="Foto vergrössert">
-    <button type="button" id="closeViewer">Schliessen</button>
+  <dialog
+    id="viewer"
+    class="viewer"
+    aria-label="Foto vergrössert">
+    <button
+      type="button"
+      id="closeViewer">
+      Schliessen
+    </button>
     <img id="largePhoto" alt="Foto">
   </dialog>
 
   <footer>
     <p id="footerName">Meine Webseite</p>
-    <p>© <span id="year"></span> Alle Rechte vorbehalten.</p>
+    <p>
+      © <span id="year"></span>
+      Alle Rechte vorbehalten.
+    </p>
   </footer>
 
   <script type="module">
-    const $ = id => document.getElementById(id);
+    const $ = id =>
+      document.getElementById(id);
 
-    const text = (wert, ersatz = "") =>
-      typeof wert === "string" ? wert : ersatz;
+    const text = (v, fallback = "") =>
+      typeof v === "string"
+        ? v
+        : fallback;
 
-    const element = (tag, inhalt = "") => {
-      const e = document.createElement(tag);
-      e.textContent = inhalt;
-      return e;
+    const node = (tag, content = "") => {
+      const el = document.createElement(tag);
+      el.textContent = content;
+      return el;
     };
 
-    const kategorien = [
+    // ZEHN KATEGORIEN
+    // Jokes zwischen Animals und Diverses
+
+    const categories = [
       "Food",
       "Drinks",
       "Citys",
@@ -145,140 +178,167 @@
       "Art",
       "Sport",
       "Animals",
+      "Jokes",
       "Diverses"
     ];
 
-    const anzeigename = k =>
-      k === "Citys" ? "City’s" : k;
+    const displayName = category =>
+      category === "Citys"
+        ? "City’s"
+        : category;
 
-    const pfadMuster =
-      /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Diverses\/|Rest\/)?Bild[1-9]\d*\.jpg$/;
+    const pathPattern =
+      /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Jokes\/|Diverses\/|Rest\/)?Bild[1-9]\d*\.jpg$/;
 
-    let fotos = [];
-    let aktiv = "Food";
-    let limit = 24;
-    let geladen = false;
-    let ladefehler = false;
+    let images = [];
+    let selectedCategory = "Food";
+    let imageLimit = 24;
+    let loaded = false;
+    let loadError = false;
 
     $("year").textContent =
       new Date().getFullYear();
 
-    // Nur Bilder mit einer explizit gespeicherten
-    // Kategorie erscheinen öffentlich.
-    // GitHub-Ordner allein veröffentlichen kein Bild.
+    // BILDERGALERIE ANZEIGEN
+    // Originaldateinamen bleiben unsichtbar.
 
-    function zeichnen() {
-      const auswahl =
-        fotos.filter(f => f.category === aktiv);
+    function renderGallery() {
+      const matching = images.filter(
+        image =>
+          image.category === selectedCategory
+      );
 
       $("gallery").replaceChildren();
 
-      for (const foto of auswahl.slice(0, limit)) {
-        const karte = element("figure");
-        karte.className = "photo";
+      for (
+        const image of matching.slice(
+          0,
+          imageLimit
+        )
+      ) {
+        const figure = node("figure");
+        figure.className = "photo";
 
-        const knopf = element("button");
-        knopf.type = "button";
-        knopf.className = "photo-button";
-        knopf.setAttribute(
+        const button = node("button");
+        button.className = "photo-button";
+        button.type = "button";
+
+        button.setAttribute(
           "aria-label",
           "Foto vergrössern"
         );
 
-        const bild = element("img");
-        bild.src = "/" + foto.path;
-        bild.loading = "lazy";
-        bild.alt = text(foto.title).trim() || "Foto";
+        const img = node("img");
+        img.src = "/" + image.path;
+        img.loading = "lazy";
+        img.alt =
+          text(image.title).trim() ||
+          "Foto";
 
-        knopf.append(bild);
+        button.append(img);
 
-        knopf.addEventListener("click", () => {
-          $("largePhoto").src = "/" + foto.path;
-          $("largePhoto").alt =
-            text(foto.title).trim() || "Foto";
+        button.addEventListener(
+          "click",
+          () => {
+            $("largePhoto").src =
+              "/" + image.path;
 
-          $("viewer").showModal();
-        });
+            $("largePhoto").alt =
+              text(image.title).trim() ||
+              "Foto";
 
-        karte.append(knopf);
+            $("viewer").showModal();
+          }
+        );
 
-        // Niemals den Originaldateinamen
-        // als sichtbaren Bildtitel verwenden.
-        const titel =
-          text(foto.title).trim();
+        figure.append(button);
 
-        const beschreibung =
-          text(foto.description).trim();
+        const title =
+          text(image.title).trim();
 
-        if (titel || beschreibung) {
-          const beschriftung =
-            element("figcaption");
+        const description =
+          text(image.description).trim();
 
-          if (titel) {
-            beschriftung.append(
-              element("strong", titel)
+        if (title || description) {
+          const caption = node(
+            "figcaption"
+          );
+
+          if (title) {
+            caption.append(
+              node("strong", title)
             );
           }
 
-          if (beschreibung) {
-            beschriftung.append(
-              element("p", beschreibung)
+          if (description) {
+            caption.append(
+              node("p", description)
             );
           }
 
-          karte.append(beschriftung);
+          figure.append(caption);
         }
 
-        $("gallery").append(karte);
+        $("gallery").append(figure);
       }
 
       $("more").hidden =
-        limit >= auswahl.length;
+        imageLimit >= matching.length;
 
       $("galleryStatus").textContent =
-        ladefehler
+        loadError
           ? "Bilder können momentan nicht geladen werden."
-          : !geladen
+          : !loaded
             ? "Bilder werden geladen ..."
-            : auswahl.length
-              ? `${Math.min(limit, auswahl.length)} von ${auswahl.length} Fotos angezeigt.`
+            : matching.length
+              ? `${Math.min(imageLimit, matching.length)} von ${matching.length} Fotos angezeigt.`
               : "In dieser Kategorie sind noch keine zugeordneten Fotos vorhanden.";
 
       $("filters").replaceChildren();
 
-      for (const k of kategorien) {
-        const anzahl =
-          fotos.filter(f => f.category === k).length;
+      for (const category of categories) {
+        const count = images.filter(
+          image =>
+            image.category === category
+        ).length;
 
-        const b = element(
+        const button = node(
           "button",
-          `${anzeigename(k)} (${anzahl})`
+          `${displayName(category)} (${count})`
         );
 
-        b.type = "button";
-        b.className =
-          k === aktiv ? "active" : "";
+        button.type = "button";
 
-        b.setAttribute(
+        button.className =
+          category === selectedCategory
+            ? "active"
+            : "";
+
+        button.setAttribute(
           "aria-pressed",
-          String(k === aktiv)
+          String(
+            category === selectedCategory
+          )
         );
 
-        b.addEventListener("click", () => {
-          aktiv = k;
-          limit = 24;
-          zeichnen();
-        });
+        button.addEventListener(
+          "click",
+          () => {
+            selectedCategory = category;
+            imageLimit = 24;
+            renderGallery();
+          }
+        );
 
-        $("filters").append(b);
+        $("filters").append(button);
       }
     }
 
     $("more").addEventListener(
       "click",
       () => {
-        limit += 24;
-        zeichnen();
+        imageLimit += 24;
+        renderGallery();
       }
     );
 
@@ -289,22 +349,22 @@
 
     $("viewer").addEventListener(
       "click",
-      e => {
-        if (e.target === $("viewer")) {
+      event => {
+        if (event.target === $("viewer")) {
           $("viewer").close();
         }
       }
     );
 
-    zeichnen();
+    renderGallery();
 
     // NEWS ANZEIGEN
 
-    function zeigeNews(dokumente) {
+    function renderNews(documents) {
       $("newsList").replaceChildren();
 
-      const eintraege = dokumente
-        .map(d => d.data())
+      const items = documents
+        .map(doc => doc.data())
         .sort(
           (a, b) =>
             (b.createdAt?.seconds || 0) -
@@ -312,9 +372,9 @@
         )
         .slice(0, 12);
 
-      if (!eintraege.length) {
+      if (!items.length) {
         $("newsList").append(
-          element(
+          node(
             "p",
             "Noch keine News vorhanden."
           )
@@ -322,44 +382,47 @@
         return;
       }
 
-      for (const eintrag of eintraege) {
-        const artikel = element("article");
+      for (const item of items) {
+        const article = node("article");
 
-        artikel.append(
-          element(
+        article.append(
+          node(
             "h3",
-            text(eintrag.title, "Mitteilung")
+            text(item.title, "Mitteilung")
           )
         );
 
-        if (eintrag.createdAt?.toDate) {
-          const datum =
-            eintrag.createdAt.toDate();
+        if (item.createdAt?.toDate) {
+          const date =
+            item.createdAt.toDate();
 
-          const zeit = element(
+          const time = node(
             "time",
-            datum.toLocaleDateString("de-CH")
+            date.toLocaleDateString(
+              "de-CH"
+            )
           );
 
-          zeit.dateTime = datum.toISOString();
+          time.dateTime =
+            date.toISOString();
 
-          artikel.append(zeit);
+          article.append(time);
         }
 
-        artikel.append(
-          element("p", text(eintrag.body))
+        article.append(
+          node("p", text(item.body))
         );
 
-        $("newsList").append(artikel);
+        $("newsList").append(article);
       }
     }
 
-    // FIREBASE LADEN
+    // FIREBASE STARTEN
 
     try {
       const [
         { firebaseConfig },
-        appModul,
+        appApi,
         fs
       ] = await Promise.all([
         import("./firebase-config.js"),
@@ -373,60 +436,79 @@
         )
       ]);
 
-      const app = appModul.getApps().length
-        ? appModul.getApp()
-        : appModul.initializeApp(firebaseConfig);
+      const app =
+        appApi.getApps().length
+          ? appApi.getApp()
+          : appApi.initializeApp(
+              firebaseConfig
+            );
 
-      const db = fs.getFirestore(app);
+      const db =
+        fs.getFirestore(app);
 
-      // STARTSEITENTEXTE
+      // TEXTE
 
       fs.onSnapshot(
-        fs.doc(db, "content", "homepage"),
+        fs.doc(
+          db,
+          "content",
+          "homepage"
+        ),
 
-        snap => {
-          const d = snap.data() || {};
+        snapshot => {
+          const data =
+            snapshot.data() || {};
 
-          $("welcome").textContent = text(
-            d.begrussung,
-            "Willkommen auf meiner Webseite!"
-          );
+          $("welcome").textContent =
+            text(
+              data.begrussung,
+              "Willkommen auf meiner Webseite!"
+            );
 
-          $("intro").textContent = text(
-            d.einleitung,
-            "Hier findest du Neuigkeiten, Informationen und Fotos."
-          );
+          $("intro").textContent =
+            text(
+              data.einleitung,
+              "Hier findest du Neuigkeiten, Informationen und Fotos."
+            );
         },
 
-        err => console.error("Texte:", err)
+        error =>
+          console.error("Texte:", error)
       );
 
       // EINSTELLUNGEN
 
       fs.onSnapshot(
-        fs.doc(db, "content", "settings"),
+        fs.doc(
+          db,
+          "content",
+          "settings"
+        ),
 
-        snap => {
-          const d = snap.data() || {};
+        snapshot => {
+          const data =
+            snapshot.data() || {};
 
-          const titel =
-            text(d.titel).trim() ||
+          const title =
+            text(data.titel).trim() ||
             "Meine Webseite";
 
-          $("siteName").textContent = titel;
-          $("footerName").textContent = titel;
-          document.title = titel;
+          $("siteName").textContent = title;
+          $("footerName").textContent = title;
+          document.title = title;
 
-          $("contact").textContent = text(
-            d.kontakt,
-            "Kontaktinformationen folgen."
-          );
+          $("contact").textContent =
+            text(
+              data.kontakt,
+              "Kontaktinformationen folgen."
+            );
         },
 
-        err => console.error(
-          "Einstellungen:",
-          err
-        )
+        error =>
+          console.error(
+            "Einstellungen:",
+            error
+          )
       );
 
       // NEWS
@@ -434,13 +516,14 @@
       fs.onSnapshot(
         fs.collection(db, "news"),
 
-        snap => zeigeNews(snap.docs),
+        snapshot =>
+          renderNews(snapshot.docs),
 
-        err => {
-          console.error("News:", err);
+        error => {
+          console.error("News:", error);
 
           $("newsList").replaceChildren(
-            element(
+            node(
               "p",
               "News momentan nicht verfügbar."
             )
@@ -448,20 +531,23 @@
         }
       );
 
-      // BILDERGALERIE
-      // Nur Dokumente mit einer zugeordneten
-      // der neun Kategorien sind sichtbar.
+      // BILDER
+      // Nur explizit zugeordnete Fotos
+      // werden öffentlich angezeigt.
 
       fs.onSnapshot(
         fs.collection(db, "gallery"),
 
-        snap => {
-          const alle = snap.docs
-            .map(d => d.data())
+        snapshot => {
+          const items = snapshot.docs
+            .map(doc => doc.data())
             .filter(
-              d =>
-                typeof d.path === "string" &&
-                pfadMuster.test(d.path)
+              data =>
+                typeof data.path ===
+                  "string" &&
+                pathPattern.test(
+                  data.path
+                )
             )
             .sort(
               (a, b) =>
@@ -477,54 +563,55 @@
                 )
             );
 
-          const gesehen = new Set();
+          const seen = new Set();
 
-          fotos = alle.filter(d => {
-            if (gesehen.has(d.path)) {
+          images = items.filter(data => {
+            if (
+              !categories.includes(
+                data.category
+              ) ||
+              seen.has(data.path)
+            ) {
               return false;
             }
 
-            gesehen.add(d.path);
-
-            return kategorien.includes(
-              d.category
-            );
+            seen.add(data.path);
+            return true;
           });
 
-          geladen = true;
-          ladefehler = false;
-
-          zeichnen();
+          loaded = true;
+          loadError = false;
+          renderGallery();
         },
 
-        err => {
+        error => {
           console.error(
             "Bildergalerie:",
-            err
+            error
           );
 
-          fotos = [];
-          geladen = true;
-          ladefehler = true;
+          images = [];
+          loaded = true;
+          loadError = true;
 
-          zeichnen();
+          renderGallery();
         }
       );
 
-    } catch (fehler) {
+    } catch (error) {
       console.error(
         "Firebase konnte nicht geladen werden:",
-        fehler
+        error
       );
 
-      fotos = [];
-      geladen = true;
-      ladefehler = true;
+      images = [];
+      loaded = true;
+      loadError = true;
 
-      zeichnen();
+      renderGallery();
 
       $("newsList").replaceChildren(
-        element(
+        node(
           "p",
           "Firebase ist momentan nicht erreichbar."
         )
