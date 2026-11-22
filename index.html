@@ -11,11 +11,11 @@
     body { margin: 0; background: #edf2f7; color: #1d3045; font: 16px/1.6 Arial, sans-serif; }
     .wrap { max-width: 1080px; margin: auto; padding: 0 18px; }
     header, footer { background: #173450; color: white; }
-    .top { display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; padding: 17px 0; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; padding: 17px 0; }
     #siteName { color: white; text-decoration: none; font-size: 23px; font-weight: bold; }
-    nav { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+    nav { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
     nav a { color: white; text-decoration: none; }
-    .login, .more { background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 10px 15px; }
+    .login { background: #2563eb; border-radius: 8px; padding: 10px 15px; }
     .hero { padding: 68px 18px; background: #24496b; color: white; text-align: center; }
     .hero h1 { margin: 0 0 12px; font-size: clamp(30px, 5vw, 44px); }
     .hero p { max-width: 760px; margin: auto; color: #ecf3fa; font-size: 18px; }
@@ -29,8 +29,8 @@
     .filters button.active { background: #2563eb; color: white; }
     .gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
     .photo { border: 1px solid #d9e2ec; border-radius: 10px; overflow: hidden; margin: 0; background: #f9fbfd; }
-    .photo a { display: block; }
-    .photo img { width: 100%; height: 190px; object-fit: cover; display: block; }
+    .photo-button { display: block; width: 100%; padding: 0; background: transparent; border: 0; cursor: zoom-in; }
+    .photo img { display: block; width: 100%; height: 190px; object-fit: cover; }
     .photo figcaption { padding: 12px 14px; }
     .photo strong { display: block; }
     .photo p { margin: 4px 0 0; font-size: 14px; color: #64748b; white-space: pre-wrap; }
@@ -39,7 +39,11 @@
     .news h3 { margin: 0 0 6px; }
     .news time { color: #64748b; font-size: 13px; }
     .news p { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .more { display: block; margin: 20px auto 0; font: inherit; cursor: pointer; }
+    .more { display: block; margin: 20px auto 0; background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 11px 18px; font: inherit; cursor: pointer; }
+    .viewer { border: 0; border-radius: 12px; padding: 18px; max-width: min(96vw, 1000px); max-height: 95vh; background: #fff; }
+    .viewer::backdrop { background: #000c; }
+    .viewer img { display: block; max-width: 100%; max-height: 76vh; object-fit: contain; margin: 10px auto; }
+    .viewer button { background: #173450; color: white; border: 0; border-radius: 7px; padding: 8px 14px; cursor: pointer; }
     [hidden] { display: none !important; }
     footer { text-align: center; padding: 24px 12px; }
     footer p { margin: 3px 0; }
@@ -74,23 +78,46 @@
       <h2>Über diese Webseite</h2>
       <p class="preline" id="intro">Hier findest du Neuigkeiten, Informationen und Fotos.</p>
     </section>
+
     <section class="panel" id="news">
       <h2>Aktuelles und News</h2>
-      <div class="news" id="newsList"><p class="muted">News werden geladen ...</p></div>
+      <div class="news" id="newsList">
+        <p class="muted">News werden geladen ...</p>
+      </div>
     </section>
+
     <section class="panel" id="bilder">
       <h2>Bildergalerie</h2>
-      <p class="muted">Wähle eine Kategorie. Klicke auf ein Bild, um es zu vergrössern.</p>
+      <p class="muted">
+        Wähle eine Kategorie. Es erscheinen nur freigegebene,
+        zugeordnete Fotos.
+      </p>
+
       <div class="filters" id="filters" aria-label="Bilderkategorien"></div>
-      <p id="galleryStatus" class="muted" role="status">Bilder werden gesucht ...</p>
+
+      <p id="galleryStatus" class="muted" role="status">
+        Bilder werden geladen ...
+      </p>
+
       <div class="gallery" id="gallery"></div>
-      <button id="more" class="more" type="button" hidden>Weitere Bilder anzeigen</button>
+
+      <button id="more" class="more" type="button" hidden>
+        Weitere Bilder anzeigen
+      </button>
     </section>
+
     <section class="panel" id="kontakt">
       <h2>Kontakt</h2>
-      <p class="preline" id="contact">Kontaktinformationen folgen.</p>
+      <p class="preline" id="contact">
+        Kontaktinformationen folgen.
+      </p>
     </section>
   </main>
+
+  <dialog id="viewer" class="viewer" aria-label="Foto vergrössert">
+    <button type="button" id="closeViewer">Schliessen</button>
+    <img id="largePhoto" alt="Foto">
+  </dialog>
 
   <footer>
     <p id="footerName">Meine Webseite</p>
@@ -99,219 +126,409 @@
 
   <script type="module">
     const $ = id => document.getElementById(id);
-    const text = (wert, ersatz = "") => typeof wert === "string" ? wert : ersatz;
+
+    const text = (wert, ersatz = "") =>
+      typeof wert === "string" ? wert : ersatz;
+
     const element = (tag, inhalt = "") => {
       const e = document.createElement(tag);
       e.textContent = inhalt;
       return e;
     };
-    const kategorien = ["Food", "Drinks", "Citys", "Comics", "Nature", "Art", "Sport", "Animals", "Diverses"];
-    const kategorienamen = k => k === "Citys" ? "City’s" : k;
-    const fotos = [];
-    let datenNachPfad = new Map();
-    let aktiv = "Diverses";
-    let sichtbareAnzahl = 24;
-    let sucheFertig = false;
-    $("year").textContent = new Date().getFullYear();
 
-    // Ein Foto bleibt am bisherigen GitHub-Pfad.
-    // Die Firestore-Eigenschaft "category" bestimmt die Anzeige.
-    function effektiveKategorie(foto) {
-      const daten = datenNachPfad.get(foto.pfad) || {};
-      const k = daten.category === "Rest" ? "Diverses" : daten.category;
-      return kategorien.includes(k) ? k : foto.standardKategorie;
-    }
+    const kategorien = [
+      "Food",
+      "Drinks",
+      "Citys",
+      "Comics",
+      "Nature",
+      "Art",
+      "Sport",
+      "Animals",
+      "Diverses"
+    ];
 
-    function zeichneGalerie() {
-      const passende = fotos.filter(f => effektiveKategorie(f) === aktiv);
+    const anzeigename = k =>
+      k === "Citys" ? "City’s" : k;
+
+    const pfadMuster =
+      /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Diverses\/|Rest\/)?Bild[1-9]\d*\.jpg$/;
+
+    let fotos = [];
+    let aktiv = "Food";
+    let limit = 24;
+    let geladen = false;
+    let ladefehler = false;
+
+    $("year").textContent =
+      new Date().getFullYear();
+
+    // Nur Bilder mit einer explizit gespeicherten
+    // Kategorie erscheinen öffentlich.
+    // GitHub-Ordner allein veröffentlichen kein Bild.
+
+    function zeichnen() {
+      const auswahl =
+        fotos.filter(f => f.category === aktiv);
+
       $("gallery").replaceChildren();
 
-      for (const foto of passende.slice(0, sichtbareAnzahl)) {
-        const daten = datenNachPfad.get(foto.pfad) || {};
-        const titel = text(daten.title).trim() || `Bild ${foto.nummer}`;
+      for (const foto of auswahl.slice(0, limit)) {
         const karte = element("figure");
         karte.className = "photo";
-        const link = element("a");
-        link.href = "/" + foto.pfad;
-        link.target = "_blank";
-        link.rel = "noopener";
+
+        const knopf = element("button");
+        knopf.type = "button";
+        knopf.className = "photo-button";
+        knopf.setAttribute(
+          "aria-label",
+          "Foto vergrössern"
+        );
+
         const bild = element("img");
-        bild.src = link.href;
+        bild.src = "/" + foto.path;
         bild.loading = "lazy";
-        bild.alt = titel;
-        link.append(bild);
-        const beschriftung = element("figcaption");
-        beschriftung.append(element("strong", titel));
-        if (text(daten.description).trim()) {
-          beschriftung.append(element("p", daten.description));
+        bild.alt = text(foto.title).trim() || "Foto";
+
+        knopf.append(bild);
+
+        knopf.addEventListener("click", () => {
+          $("largePhoto").src = "/" + foto.path;
+          $("largePhoto").alt =
+            text(foto.title).trim() || "Foto";
+
+          $("viewer").showModal();
+        });
+
+        karte.append(knopf);
+
+        // Niemals den Originaldateinamen
+        // als sichtbaren Bildtitel verwenden.
+        const titel =
+          text(foto.title).trim();
+
+        const beschreibung =
+          text(foto.description).trim();
+
+        if (titel || beschreibung) {
+          const beschriftung =
+            element("figcaption");
+
+          if (titel) {
+            beschriftung.append(
+              element("strong", titel)
+            );
+          }
+
+          if (beschreibung) {
+            beschriftung.append(
+              element("p", beschreibung)
+            );
+          }
+
+          karte.append(beschriftung);
         }
-        karte.append(link, beschriftung);
+
         $("gallery").append(karte);
       }
 
-      $("more").hidden = passende.length <= sichtbareAnzahl;
-      $("galleryStatus").textContent = !sucheFertig
-        ? "Bilder werden gesucht ..."
-        : passende.length
-          ? `${Math.min(sichtbareAnzahl, passende.length)} von ${passende.length} Bildern angezeigt.`
-          : "In dieser Kategorie sind noch keine Bilder vorhanden.";
+      $("more").hidden =
+        limit >= auswahl.length;
+
+      $("galleryStatus").textContent =
+        ladefehler
+          ? "Bilder können momentan nicht geladen werden."
+          : !geladen
+            ? "Bilder werden geladen ..."
+            : auswahl.length
+              ? `${Math.min(limit, auswahl.length)} von ${auswahl.length} Fotos angezeigt.`
+              : "In dieser Kategorie sind noch keine zugeordneten Fotos vorhanden.";
 
       $("filters").replaceChildren();
+
       for (const k of kategorien) {
-        const anzahl = fotos.filter(f => effektiveKategorie(f) === k).length;
-        const knopf = element("button", `${kategorienamen(k)} (${anzahl})`);
-        knopf.type = "button";
-        knopf.className = aktiv === k ? "active" : "";
-        knopf.setAttribute("aria-pressed", String(aktiv === k));
-        knopf.addEventListener("click", () => {
+        const anzahl =
+          fotos.filter(f => f.category === k).length;
+
+        const b = element(
+          "button",
+          `${anzeigename(k)} (${anzahl})`
+        );
+
+        b.type = "button";
+        b.className =
+          k === aktiv ? "active" : "";
+
+        b.setAttribute(
+          "aria-pressed",
+          String(k === aktiv)
+        );
+
+        b.addEventListener("click", () => {
           aktiv = k;
-          sichtbareAnzahl = 24;
-          zeichneGalerie();
+          limit = 24;
+          zeichnen();
         });
-        $("filters").append(knopf);
+
+        $("filters").append(b);
       }
     }
 
-    $("more").addEventListener("click", () => {
-      sichtbareAnzahl += 24;
-      zeichneGalerie();
-    });
-    zeichneGalerie();
-
-    // Bilder müssen je GitHub-Ordner fortlaufend Bild1.jpg,
-    // Bild2.jpg usw. heissen (ohne Nummernlücken).
-    async function existiert(pfad) {
-      const antwort = await fetch("/" + pfad, { method: "HEAD" });
-      if (antwort.status === 404 || antwort.status === 410) return false;
-      if (!antwort.ok) throw new Error(`${pfad}: HTTP ${antwort.status}`);
-      return true;
-    }
-
-    async function bildanzahl(prefix) {
-      const pfad = nr => `${prefix}${nr}.jpg`;
-      if (!(await existiert(pfad(1)))) return 0;
-      let vorhanden = 1;
-      let nichtVorhanden = 2;
-      while (await existiert(pfad(nichtVorhanden))) {
-        vorhanden = nichtVorhanden;
-        nichtVorhanden *= 2;
+    $("more").addEventListener(
+      "click",
+      () => {
+        limit += 24;
+        zeichnen();
       }
-      while (nichtVorhanden - vorhanden > 1) {
-        const mitte = Math.floor((vorhanden + nichtVorhanden) / 2);
-        if (await existiert(pfad(mitte))) vorhanden = mitte;
-        else nichtVorhanden = mitte;
-      }
-      return vorhanden;
-    }
+    );
 
-    async function ladeFotos() {
-      const quellen = [
-        ...kategorien.map(k => ({ prefix: `bilder/${k}/Bild`, standardKategorie: k })),
-        { prefix: "bilder/Rest/Bild", standardKategorie: "Diverses" },
-        { prefix: "bilder/Bild", standardKategorie: "Diverses" }
-      ];
-      const ergebnisse = await Promise.allSettled(quellen.map(async quelle => ({
-        ...quelle,
-        anzahl: await bildanzahl(quelle.prefix)
-      })));
-      let fehler = 0;
-      for (const ergebnis of ergebnisse) {
-        if (ergebnis.status === "rejected") {
-          fehler++;
-          console.warn("Bildordner konnte nicht gelesen werden:", ergebnis.reason);
-          continue;
-        }
-        const quelle = ergebnis.value;
-        for (let nummer = 1; nummer <= quelle.anzahl; nummer++) {
-          fotos.push({
-            pfad: `${quelle.prefix}${nummer}.jpg`,
-            nummer,
-            standardKategorie: quelle.standardKategorie
-          });
+    $("closeViewer").addEventListener(
+      "click",
+      () => $("viewer").close()
+    );
+
+    $("viewer").addEventListener(
+      "click",
+      e => {
+        if (e.target === $("viewer")) {
+          $("viewer").close();
         }
       }
-      sucheFertig = true;
-      zeichneGalerie();
-      if (fehler) $("galleryStatus").textContent += " Einige Bildordner konnten nicht geprüft werden.";
-    }
+    );
 
-    // Bilder funktionieren auch, wenn Firebase vorübergehend nicht erreichbar ist.
-    ladeFotos();
+    zeichnen();
+
+    // NEWS ANZEIGEN
 
     function zeigeNews(dokumente) {
       $("newsList").replaceChildren();
-      const eintraege = dokumente.map(d => d.data())
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+
+      const eintraege = dokumente
+        .map(d => d.data())
+        .sort(
+          (a, b) =>
+            (b.createdAt?.seconds || 0) -
+            (a.createdAt?.seconds || 0)
+        )
         .slice(0, 12);
+
       if (!eintraege.length) {
-        $("newsList").append(element("p", "Noch keine News vorhanden."));
+        $("newsList").append(
+          element(
+            "p",
+            "Noch keine News vorhanden."
+          )
+        );
         return;
       }
+
       for (const eintrag of eintraege) {
         const artikel = element("article");
-        artikel.append(element("h3", text(eintrag.title, "Mitteilung")));
+
+        artikel.append(
+          element(
+            "h3",
+            text(eintrag.title, "Mitteilung")
+          )
+        );
+
         if (eintrag.createdAt?.toDate) {
-          const datum = eintrag.createdAt.toDate();
-          const zeit = element("time", datum.toLocaleDateString("de-CH"));
+          const datum =
+            eintrag.createdAt.toDate();
+
+          const zeit = element(
+            "time",
+            datum.toLocaleDateString("de-CH")
+          );
+
           zeit.dateTime = datum.toISOString();
+
           artikel.append(zeit);
         }
-        artikel.append(element("p", text(eintrag.body)));
+
+        artikel.append(
+          element("p", text(eintrag.body))
+        );
+
         $("newsList").append(artikel);
       }
     }
 
+    // FIREBASE LADEN
+
     try {
-      const [{ firebaseConfig }, appModul, fs] = await Promise.all([
+      const [
+        { firebaseConfig },
+        appModul,
+        fs
+      ] = await Promise.all([
         import("./firebase-config.js"),
-        import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
-        import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js")
+
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+        ),
+
+        import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+        )
       ]);
+
       const app = appModul.getApps().length
         ? appModul.getApp()
         : appModul.initializeApp(firebaseConfig);
+
       const db = fs.getFirestore(app);
 
-      fs.onSnapshot(fs.doc(db, "content", "homepage"), snap => {
-        const d = snap.data() || {};
-        $("welcome").textContent = text(d.begrussung, "Willkommen auf meiner Webseite!");
-        $("intro").textContent = text(d.einleitung, "Hier findest du Neuigkeiten, Informationen und Fotos.");
-      }, err => console.error("Texte:", err));
+      // STARTSEITENTEXTE
 
-      fs.onSnapshot(fs.doc(db, "content", "settings"), snap => {
-        const d = snap.data() || {};
-        const titel = text(d.titel).trim() || "Meine Webseite";
-        $("siteName").textContent = titel;
-        $("footerName").textContent = titel;
-        document.title = titel;
-        $("contact").textContent = text(d.kontakt, "Kontaktinformationen folgen.");
-      }, err => console.error("Einstellungen:", err));
+      fs.onSnapshot(
+        fs.doc(db, "content", "homepage"),
 
-      fs.onSnapshot(fs.collection(db, "news"),
+        snap => {
+          const d = snap.data() || {};
+
+          $("welcome").textContent = text(
+            d.begrussung,
+            "Willkommen auf meiner Webseite!"
+          );
+
+          $("intro").textContent = text(
+            d.einleitung,
+            "Hier findest du Neuigkeiten, Informationen und Fotos."
+          );
+        },
+
+        err => console.error("Texte:", err)
+      );
+
+      // EINSTELLUNGEN
+
+      fs.onSnapshot(
+        fs.doc(db, "content", "settings"),
+
+        snap => {
+          const d = snap.data() || {};
+
+          const titel =
+            text(d.titel).trim() ||
+            "Meine Webseite";
+
+          $("siteName").textContent = titel;
+          $("footerName").textContent = titel;
+          document.title = titel;
+
+          $("contact").textContent = text(
+            d.kontakt,
+            "Kontaktinformationen folgen."
+          );
+        },
+
+        err => console.error(
+          "Einstellungen:",
+          err
+        )
+      );
+
+      // NEWS
+
+      fs.onSnapshot(
+        fs.collection(db, "news"),
+
         snap => zeigeNews(snap.docs),
+
         err => {
           console.error("News:", err);
-          $("newsList").replaceChildren(element("p", "News momentan nicht verfügbar."));
+
+          $("newsList").replaceChildren(
+            element(
+              "p",
+              "News momentan nicht verfügbar."
+            )
+          );
         }
       );
 
-      fs.onSnapshot(fs.collection(db, "gallery"), snap => {
-        const docs = snap.docs.slice().sort((a, b) =>
-          (b.data().updatedAt?.seconds || b.data().createdAt?.seconds || 0) -
-          (a.data().updatedAt?.seconds || a.data().createdAt?.seconds || 0)
-        );
-        datenNachPfad = new Map();
-        for (const dokument of docs) {
-          const d = dokument.data();
-          if (typeof d.path === "string" && !datenNachPfad.has(d.path)) {
-            datenNachPfad.set(d.path, d);
-          }
+      // BILDERGALERIE
+      // Nur Dokumente mit einer zugeordneten
+      // der neun Kategorien sind sichtbar.
+
+      fs.onSnapshot(
+        fs.collection(db, "gallery"),
+
+        snap => {
+          const alle = snap.docs
+            .map(d => d.data())
+            .filter(
+              d =>
+                typeof d.path === "string" &&
+                pfadMuster.test(d.path)
+            )
+            .sort(
+              (a, b) =>
+                (
+                  b.updatedAt?.seconds ||
+                  b.createdAt?.seconds ||
+                  0
+                ) -
+                (
+                  a.updatedAt?.seconds ||
+                  a.createdAt?.seconds ||
+                  0
+                )
+            );
+
+          const gesehen = new Set();
+
+          fotos = alle.filter(d => {
+            if (gesehen.has(d.path)) {
+              return false;
+            }
+
+            gesehen.add(d.path);
+
+            return kategorien.includes(
+              d.category
+            );
+          });
+
+          geladen = true;
+          ladefehler = false;
+
+          zeichnen();
+        },
+
+        err => {
+          console.error(
+            "Bildergalerie:",
+            err
+          );
+
+          fotos = [];
+          geladen = true;
+          ladefehler = true;
+
+          zeichnen();
         }
-        zeichneGalerie();
-      }, err => console.warn("Bildbeschriftungen:", err));
+      );
+
     } catch (fehler) {
-      console.error("Firebase konnte nicht geladen werden:", fehler);
-      $("newsList").replaceChildren(element("p", "Firebase ist momentan nicht erreichbar."));
+      console.error(
+        "Firebase konnte nicht geladen werden:",
+        fehler
+      );
+
+      fotos = [];
+      geladen = true;
+      ladefehler = true;
+
+      zeichnen();
+
+      $("newsList").replaceChildren(
+        element(
+          "p",
+          "Firebase ist momentan nicht erreichbar."
+        )
+      );
     }
   </script>
 </body>
