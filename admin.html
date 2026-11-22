@@ -4,139 +4,612 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Meine Webseite</title>
+  <title>Administration</title>
+
   <style>
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; background: #edf2f7; color: #1d3045; font: 16px/1.6 Arial, sans-serif; }
-    .wrap { max-width: 1080px; margin: auto; padding: 0 18px; }
-    header, footer { background: #173450; color: white; }
-    .top { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; padding: 17px 0; }
-    #siteName { color: white; text-decoration: none; font-size: 23px; font-weight: bold; }
-    nav { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-    nav a { color: white; text-decoration: none; }
-    .login { background: #2563eb; border-radius: 8px; padding: 10px 15px; }
-    .hero { padding: 68px 18px; background: #24496b; color: white; text-align: center; }
-    .hero h1 { margin: 0 0 12px; font-size: clamp(30px, 5vw, 44px); }
-    .hero p { max-width: 760px; margin: auto; color: #ecf3fa; font-size: 18px; }
-    main { padding-top: 26px !important; padding-bottom: 28px !important; }
-    .panel { padding: 26px; margin-bottom: 25px; background: white; border-radius: 12px; box-shadow: 0 3px 16px #1734500d; }
-    h2 { margin-top: 0; color: #173450; }
-    .muted { color: #64748b; }
-    .preline { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-    .filters button { padding: 9px 13px; background: #e2e8f0; color: #173450; border: 0; border-radius: 20px; cursor: pointer; font: inherit; }
-    .filters button.active { background: #2563eb; color: white; }
-    .gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-    .photo { border: 1px solid #d9e2ec; border-radius: 10px; overflow: hidden; margin: 0; background: #f9fbfd; }
-    .photo-button { display: block; width: 100%; padding: 0; background: transparent; border: 0; cursor: zoom-in; }
-    .photo img { display: block; width: 100%; height: 190px; object-fit: cover; }
-    .photo figcaption { padding: 12px 14px; }
-    .photo strong { display: block; }
-    .photo p { margin: 4px 0 0; font-size: 14px; color: #64748b; white-space: pre-wrap; }
-    .news { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 15px; }
-    .news article { padding: 17px; border: 1px solid #d9e2ec; background: #f9fbfd; border-radius: 10px; }
-    .news h3 { margin: 0 0 6px; }
-    .news time { color: #64748b; font-size: 13px; }
-    .news p { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .more { display: block; margin: 20px auto 0; background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 11px 18px; font: inherit; cursor: pointer; }
-    .viewer { border: 0; border-radius: 12px; padding: 18px; max-width: min(96vw, 1000px); max-height: 95vh; background: #fff; }
-    .viewer::backdrop { background: #000c; }
-    .viewer img { display: block; max-width: 100%; max-height: 76vh; object-fit: contain; margin: 10px auto; }
-    .viewer button { background: #173450; color: white; border: 0; border-radius: 7px; padding: 8px 14px; cursor: pointer; }
     [hidden] { display: none !important; }
-    footer { text-align: center; padding: 24px 12px; }
-    footer p { margin: 3px 0; }
-    @media (max-width: 750px) { .gallery { grid-template-columns: repeat(2, 1fr); } .top { justify-content: center; text-align: center; } nav { justify-content: center; } }
-    @media (max-width: 510px) { .gallery { grid-template-columns: 1fr; } .panel { padding: 18px; } }
+
+    body {
+      margin: 0;
+      background: #edf2f7;
+      color: #1d3045;
+      font: 16px/1.6 Arial, sans-serif;
+    }
+
+    header {
+      background: #173450;
+      color: white;
+      padding: 18px;
+    }
+
+    .top {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .top h1 {
+      font-size: 23px;
+      margin: 0;
+    }
+
+    .top a { color: white; }
+
+    main {
+      max-width: 1100px;
+      margin: 25px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 12px;
+      box-shadow: 0 3px 15px #17345012;
+    }
+
+    .gate {
+      max-width: 620px;
+      margin: 45px auto;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .menu button {
+      width: 100%;
+      text-align: left;
+      margin: 4px 0;
+      background: #e2e8f0;
+      color: #173450;
+    }
+
+    .menu button.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    h2, h3 { color: #173450; }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 13px 0 4px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input[readonly] {
+      background: #f1f5f9;
+    }
+
+    button {
+      border: 0;
+      background: #2563eb;
+      color: white;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    .secondary { background: #64748b; }
+    .danger { background: #b91c1c; }
+    .muted { color: #64748b; }
+
+    .status {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .actions, .filterbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+    }
+
+    .filterbar button {
+      background: #e2e8f0;
+      color: #173450;
+    }
+
+    .filterbar button.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .item {
+      border: 1px solid #d9e2ec;
+      border-radius: 10px;
+      padding: 13px;
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .item p {
+      margin: 4px 0;
+      white-space: pre-wrap;
+    }
+
+    .photo-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .photo-item img {
+      width: 110px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .photo-item > div {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .small { font-size: 13px; }
+
+    @media (max-width: 720px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .menu button {
+        width: auto;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header>
-    <div class="wrap top">
-      <a id="siteName" href="#start">Meine Webseite</a>
-      <nav aria-label="Hauptnavigation">
-        <a href="#start">Start</a>
-        <a href="#ueber">Über mich</a>
-        <a href="#news">News</a>
-        <a href="#bilder">Bilder</a>
-        <a href="#kontakt">Kontakt</a>
-        <a class="login" href="/login.html">Anmelden</a>
-      </nav>
+    <div class="top">
+      <h1>Administration</h1>
+      <a href="/">Zur Startseite</a>
     </div>
   </header>
 
-  <section class="hero" id="start">
-    <div class="wrap">
-      <h1>Herzlich willkommen</h1>
-      <p class="preline" id="welcome">Willkommen auf meiner Webseite!</p>
+  <main>
+
+    <!-- ANMELDUNG -->
+
+    <div id="gate" class="card gate">
+      <h2>Administrator-Anmeldung</h2>
+
+      <p
+        id="gateStatus"
+        class="status"
+        role="status">
+        Zugang wird geprüft ...
+      </p>
+
+      <p>
+        <a href="/login.html">
+          Zur Anmeldung
+        </a>
+      </p>
     </div>
-  </section>
 
-  <main class="wrap">
-    <section class="panel" id="ueber">
-      <h2>Über diese Webseite</h2>
-      <p class="preline" id="intro">Hier findest du Neuigkeiten, Informationen und Fotos.</p>
-    </section>
+    <!-- ADMINISTRATORBEREICH -->
 
-    <section class="panel" id="news">
-      <h2>Aktuelles und News</h2>
-      <div class="news" id="newsList">
-        <p class="muted">News werden geladen ...</p>
+    <div id="dashboard" hidden>
+
+      <p>
+        <strong id="userName"></strong>
+
+        <button
+          id="logout"
+          type="button"
+          class="secondary">
+          Abmelden
+        </button>
+      </p>
+
+      <div class="layout">
+
+        <!-- MENÜ -->
+
+        <nav
+          class="card menu"
+          aria-label="Administrator-Menü">
+
+          <button
+            type="button"
+            class="active"
+            data-tab="texte">
+            Texte
+          </button>
+
+          <button
+            type="button"
+            data-tab="bilder">
+            Bilder
+          </button>
+
+          <button
+            type="button"
+            data-tab="news">
+            News
+          </button>
+
+          <button
+            type="button"
+            data-tab="benutzer">
+            Benutzer
+          </button>
+
+          <button
+            type="button"
+            data-tab="einstellungen">
+            Einstellungen
+          </button>
+        </nav>
+
+        <div class="card">
+
+          <p
+            id="status"
+            class="status"
+            role="status"
+            aria-live="polite">
+            Bereit.
+          </p>
+
+          <!-- TEXTE -->
+
+          <section id="tab-texte">
+
+            <h2>Texte bearbeiten</h2>
+
+            <form id="textForm">
+
+              <label for="welcome">
+                Begrüssungstext
+              </label>
+
+              <textarea id="welcome"></textarea>
+
+              <label for="intro">
+                Einleitungstext
+              </label>
+
+              <textarea id="intro"></textarea>
+
+              <p>
+                <button type="submit">
+                  Texte speichern
+                </button>
+              </p>
+
+            </form>
+          </section>
+
+          <!-- BILDER -->
+
+          <section id="tab-bilder" hidden>
+
+            <h2>Bilder verwalten</h2>
+
+            <p>
+              Hier siehst du die Originaldateinamen.
+
+              <strong>
+                Nicht zugeordnete Fotos erscheinen
+                nicht in der öffentlichen Galerie.
+              </strong>
+            </p>
+
+            <p class="muted">
+              Neue Fotos lädst du weiterhin auf
+              GitHub in
+              <code>webseite/bilder/</code> hoch.
+
+              Unterstützt werden fortlaufende
+              Dateinamen wie
+              <code>Bild1.jpg</code>,
+              <code>Bild2.jpg</code>
+              usw. pro Ordner.
+            </p>
+
+            <!-- BILD BEARBEITEN -->
+
+            <form id="imageForm">
+
+              <label for="imagePath">
+                Originaldatei
+                (nur im Admin sichtbar)
+              </label>
+
+              <input
+                id="imagePath"
+                readonly
+                required
+                placeholder="Unten ein Foto mit Bearbeiten auswählen">
+
+              <label for="imageCategory">
+                Kategorie
+              </label>
+
+              <select id="imageCategory">
+
+                <option value="">
+                  Nicht zugeordnet – öffentlich unsichtbar
+                </option>
+
+                <option value="Food">Food</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Citys">City’s</option>
+                <option value="Comics">Comics</option>
+                <option value="Nature">Nature</option>
+                <option value="Art">Art</option>
+                <option value="Sport">Sport</option>
+                <option value="Animals">Animals</option>
+                <option value="Diverses">Diverses</option>
+
+              </select>
+
+              <label for="imageTitle">
+                Öffentlicher Bildtitel (optional)
+              </label>
+
+              <input
+                id="imageTitle"
+                maxlength="150"
+                placeholder="Zum Beispiel: Herbst im Wald">
+
+              <label for="imageDescription">
+                Öffentliche Beschreibung (optional)
+              </label>
+
+              <textarea
+                id="imageDescription"
+                maxlength="3000">
+              </textarea>
+
+              <div class="actions">
+
+                <button type="submit">
+                  Kategorie und Beschreibung speichern
+                </button>
+
+                <button
+                  id="hideImage"
+                  type="button"
+                  class="danger">
+                  Zuordnung entfernen
+                </button>
+
+                <button
+                  id="imageReset"
+                  type="button"
+                  class="secondary">
+                  Auswahl aufheben
+                </button>
+
+              </div>
+            </form>
+
+            <!-- FOTOLISTE -->
+
+            <h3>Fotos auf GitHub</h3>
+
+            <p
+              id="photoStatus"
+              class="muted"
+              role="status">
+              Fotos werden beim Öffnen dieses Bereichs gesucht.
+            </p>
+
+            <div class="filterbar">
+
+              <button
+                type="button"
+                data-photo-filter="unassigned"
+                class="active">
+                Nicht zugeordnet
+              </button>
+
+              <button
+                type="button"
+                data-photo-filter="assigned">
+                Zugeordnet
+              </button>
+
+              <button
+                type="button"
+                data-photo-filter="all">
+                Alle im Admin
+              </button>
+
+            </div>
+
+            <button
+              type="button"
+              id="reloadImages"
+              class="secondary">
+              Fotos neu einlesen
+            </button>
+
+            <div id="images"></div>
+
+            <button
+              type="button"
+              id="moreAdminImages"
+              class="secondary"
+              hidden>
+              Weitere Fotos anzeigen
+            </button>
+
+          </section>
+
+          <!-- NEWS -->
+
+          <section id="tab-news" hidden>
+
+            <h2>News verwalten</h2>
+
+            <form id="newsForm">
+
+              <input
+                id="newsId"
+                type="hidden">
+
+              <label for="newsTitle">
+                Titel
+              </label>
+
+              <input
+                id="newsTitle"
+                required
+                maxlength="160">
+
+              <label for="newsBody">
+                Mitteilung
+              </label>
+
+              <textarea
+                id="newsBody"
+                required>
+              </textarea>
+
+              <div class="actions">
+
+                <button type="submit">
+                  News speichern
+                </button>
+
+                <button
+                  type="button"
+                  id="newsReset"
+                  class="secondary">
+                  Neue Eingabe
+                </button>
+
+              </div>
+            </form>
+
+            <h3>Gespeicherte News</h3>
+
+            <div id="newsItems"></div>
+
+          </section>
+
+          <!-- BENUTZER -->
+
+          <section id="tab-benutzer" hidden>
+
+            <h2>Benutzerrollen</h2>
+
+            <p class="muted">
+              Die Konten und Passwörter verwaltest
+              du weiterhin in Firebase Authentication.
+
+              Hier siehst du die Firestore-Rollen.
+            </p>
+
+            <button
+              type="button"
+              id="reloadUsers">
+              Benutzer neu laden
+            </button>
+
+            <div id="users"></div>
+
+          </section>
+
+          <!-- EINSTELLUNGEN -->
+
+          <section id="tab-einstellungen" hidden>
+
+            <h2>Einstellungen</h2>
+
+            <form id="settingsForm">
+
+              <label for="siteTitle">
+                Webseitentitel
+              </label>
+
+              <input
+                id="siteTitle"
+                maxlength="120">
+
+              <label for="contact">
+                Kontaktinformationen
+              </label>
+
+              <textarea id="contact"></textarea>
+
+              <p>
+                <button type="submit">
+                  Einstellungen speichern
+                </button>
+              </p>
+
+            </form>
+          </section>
+
+        </div>
       </div>
-    </section>
-
-    <section class="panel" id="bilder">
-      <h2>Bildergalerie</h2>
-      <p class="muted">
-        Wähle eine Kategorie. Es erscheinen nur freigegebene,
-        zugeordnete Fotos.
-      </p>
-
-      <div class="filters" id="filters" aria-label="Bilderkategorien"></div>
-
-      <p id="galleryStatus" class="muted" role="status">
-        Bilder werden geladen ...
-      </p>
-
-      <div class="gallery" id="gallery"></div>
-
-      <button id="more" class="more" type="button" hidden>
-        Weitere Bilder anzeigen
-      </button>
-    </section>
-
-    <section class="panel" id="kontakt">
-      <h2>Kontakt</h2>
-      <p class="preline" id="contact">
-        Kontaktinformationen folgen.
-      </p>
-    </section>
+    </div>
   </main>
 
-  <dialog id="viewer" class="viewer" aria-label="Foto vergrössert">
-    <button type="button" id="closeViewer">Schliessen</button>
-    <img id="largePhoto" alt="Foto">
-  </dialog>
-
-  <footer>
-    <p id="footerName">Meine Webseite</p>
-    <p>© <span id="year"></span> Alle Rechte vorbehalten.</p>
-  </footer>
-
   <script type="module">
-    const $ = id => document.getElementById(id);
 
-    const text = (wert, ersatz = "") =>
-      typeof wert === "string" ? wert : ersatz;
+    // ALLGEMEINE HILFSFUNKTIONEN
 
-    const element = (tag, inhalt = "") => {
-      const e = document.createElement(tag);
-      e.textContent = inhalt;
-      return e;
+    const $ = id =>
+      document.getElementById(id);
+
+    const text = (v, fallback = "") =>
+      typeof v === "string"
+        ? v
+        : fallback;
+
+    const node = (tag, value = "") => {
+      const el = document.createElement(tag);
+      el.textContent = value;
+      return el;
     };
 
-    const kategorien = [
+    // NEUN BILDERKATEGORIEN
+
+    const categories = [
       "Food",
       "Drinks",
       "Citys",
@@ -148,388 +621,1239 @@
       "Diverses"
     ];
 
-    const anzeigename = k =>
-      k === "Citys" ? "City’s" : k;
+    const displayCategory = category =>
+      category === "Citys"
+        ? "City’s"
+        : category;
 
-    const pfadMuster =
+    const imagePattern =
       /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Diverses\/|Rest\/)?Bild[1-9]\d*\.jpg$/;
 
-    let fotos = [];
-    let aktiv = "Food";
-    let limit = 24;
-    let geladen = false;
-    let ladefehler = false;
+    let auth;
+    let authApi;
+    let fs;
+    let db;
 
-    $("year").textContent =
-      new Date().getFullYear();
+    let isAdmin = false;
 
-    // Nur Bilder mit einer explizit gespeicherten
-    // Kategorie erscheinen öffentlich.
-    // GitHub-Ordner allein veröffentlichen kein Bild.
+    let photos = [];
+    let photosLoaded = false;
 
-    function zeichnen() {
-      const auswahl =
-        fotos.filter(f => f.category === aktiv);
+    let metadata = new Map();
 
-      $("gallery").replaceChildren();
+    let imageFilter = "unassigned";
+    let imageLimit = 30;
 
-      for (const foto of auswahl.slice(0, limit)) {
-        const karte = element("figure");
-        karte.className = "photo";
+    // STATUSMELDUNGEN
 
-        const knopf = element("button");
-        knopf.type = "button";
-        knopf.className = "photo-button";
-        knopf.setAttribute(
-          "aria-label",
-          "Foto vergrössern"
+    function report(
+      message,
+      error = false
+    ) {
+      $("status").textContent = message;
+
+      $("status").style.color =
+        error
+          ? "#b91c1c"
+          : "#166534";
+    }
+
+    // ADMINISTRATORRECHTE PRÜFEN
+
+    function requireAdmin() {
+      if (
+        !isAdmin ||
+        !auth?.currentUser
+      ) {
+        throw new Error(
+          "Administrator-Anmeldung erforderlich."
         );
-
-        const bild = element("img");
-        bild.src = "/" + foto.path;
-        bild.loading = "lazy";
-        bild.alt = text(foto.title).trim() || "Foto";
-
-        knopf.append(bild);
-
-        knopf.addEventListener("click", () => {
-          $("largePhoto").src = "/" + foto.path;
-          $("largePhoto").alt =
-            text(foto.title).trim() || "Foto";
-
-          $("viewer").showModal();
-        });
-
-        karte.append(knopf);
-
-        // Niemals den Originaldateinamen
-        // als sichtbaren Bildtitel verwenden.
-        const titel =
-          text(foto.title).trim();
-
-        const beschreibung =
-          text(foto.description).trim();
-
-        if (titel || beschreibung) {
-          const beschriftung =
-            element("figcaption");
-
-          if (titel) {
-            beschriftung.append(
-              element("strong", titel)
-            );
-          }
-
-          if (beschreibung) {
-            beschriftung.append(
-              element("p", beschreibung)
-            );
-          }
-
-          karte.append(beschriftung);
-        }
-
-        $("gallery").append(karte);
-      }
-
-      $("more").hidden =
-        limit >= auswahl.length;
-
-      $("galleryStatus").textContent =
-        ladefehler
-          ? "Bilder können momentan nicht geladen werden."
-          : !geladen
-            ? "Bilder werden geladen ..."
-            : auswahl.length
-              ? `${Math.min(limit, auswahl.length)} von ${auswahl.length} Fotos angezeigt.`
-              : "In dieser Kategorie sind noch keine zugeordneten Fotos vorhanden.";
-
-      $("filters").replaceChildren();
-
-      for (const k of kategorien) {
-        const anzahl =
-          fotos.filter(f => f.category === k).length;
-
-        const b = element(
-          "button",
-          `${anzeigename(k)} (${anzahl})`
-        );
-
-        b.type = "button";
-        b.className =
-          k === aktiv ? "active" : "";
-
-        b.setAttribute(
-          "aria-pressed",
-          String(k === aktiv)
-        );
-
-        b.addEventListener("click", () => {
-          aktiv = k;
-          limit = 24;
-          zeichnen();
-        });
-
-        $("filters").append(b);
       }
     }
 
-    $("more").addEventListener(
-      "click",
-      () => {
-        limit += 24;
-        zeichnen();
+    async function run(
+      action,
+      success
+    ) {
+      try {
+        requireAdmin();
+
+        report("Bitte warten ...");
+
+        await action();
+
+        report(success);
+
+      } catch (e) {
+        console.error(e);
+
+        report(
+          "Fehler: " + e.message,
+          true
+        );
       }
-    );
+    }
 
-    $("closeViewer").addEventListener(
-      "click",
-      () => $("viewer").close()
-    );
+    // AKTUELLE KATEGORIE EINES BILDES
 
-    $("viewer").addEventListener(
-      "click",
-      e => {
-        if (e.target === $("viewer")) {
-          $("viewer").close();
+    function categoryFor(path) {
+      const category =
+        metadata.get(path)?.data.category;
+
+      return categories.includes(category)
+        ? category
+        : "";
+    }
+
+    // BILDDATEIEN AUF GITHUB SUCHEN
+
+    async function fileExists(path) {
+      const result = await fetch(
+        "/" + path,
+        { method: "HEAD" }
+      );
+
+      if (
+        result.status === 404 ||
+        result.status === 410
+      ) {
+        return false;
+      }
+
+      if (!result.ok) {
+        throw new Error(
+          path + ": HTTP " + result.status
+        );
+      }
+
+      return true;
+    }
+
+    // Die Nummerierung in jedem Ordner
+    // muss bei Bild1.jpg beginnen und
+    // darf keine Lücken enthalten.
+
+    async function countFiles(prefix) {
+      const path = n =>
+        prefix + n + ".jpg";
+
+      if (!(await fileExists(path(1)))) {
+        return 0;
+      }
+
+      let yes = 1;
+      let no = 2;
+
+      while (await fileExists(path(no))) {
+        yes = no;
+        no *= 2;
+      }
+
+      while (no - yes > 1) {
+        const mid =
+          Math.floor((yes + no) / 2);
+
+        if (await fileExists(path(mid))) {
+          yes = mid;
+        } else {
+          no = mid;
         }
       }
-    );
 
-    zeichnen();
+      return yes;
+    }
 
-    // NEWS ANZEIGEN
+    // ALLE GITHUB-BILDER FINDEN
 
-    function zeigeNews(dokumente) {
-      $("newsList").replaceChildren();
+    async function discoverPhotos(
+      force = false
+    ) {
+      if (photosLoaded && !force) {
+        return;
+      }
 
-      const eintraege = dokumente
-        .map(d => d.data())
+      $("photoStatus").textContent =
+        "Bilddateien werden gesucht ...";
+
+      const prefixes = [
+        ...categories.map(
+          category =>
+            `bilder/${category}/Bild`
+        ),
+
+        // Alter Ordner, falls vorhanden
+        "bilder/Rest/Bild",
+
+        // Bisherige Bilder
+        "bilder/Bild"
+      ];
+
+      const results =
+        await Promise.allSettled(
+          prefixes.map(
+            async prefix => ({
+              prefix,
+              count:
+                await countFiles(prefix)
+            })
+          )
+        );
+
+      const found = [];
+      let failures = 0;
+
+      for (const result of results) {
+
+        if (result.status === "rejected") {
+          console.warn(
+            "Bildordner:",
+            result.reason
+          );
+
+          failures++;
+          continue;
+        }
+
+        for (
+          let i = 1;
+          i <= result.value.count;
+          i++
+        ) {
+          found.push({
+            path:
+              result.value.prefix +
+              i +
+              ".jpg"
+          });
+        }
+      }
+
+      photos = found;
+      photosLoaded = true;
+
+      $("photoStatus").textContent =
+        `${photos.length} Bilddateien gefunden.` +
+        (
+          failures
+            ? ` ${failures} Ordner konnten nicht geprüft werden.`
+            : ""
+        );
+    }
+
+    // BILDTITEL UND KATEGORIEN
+    // AUS FIREBASE LADEN
+
+    async function loadMetadata() {
+      requireAdmin();
+
+      const snapshot = await fs.getDocs(
+        fs.collection(db, "gallery")
+      );
+
+      const docs = snapshot.docs
+        .slice()
         .sort(
           (a, b) =>
-            (b.createdAt?.seconds || 0) -
-            (a.createdAt?.seconds || 0)
-        )
-        .slice(0, 12);
+            (
+              b.data().updatedAt?.seconds ||
+              b.data().createdAt?.seconds ||
+              0
+            ) -
+            (
+              a.data().updatedAt?.seconds ||
+              a.data().createdAt?.seconds ||
+              0
+            )
+        );
 
-      if (!eintraege.length) {
-        $("newsList").append(
-          element(
+      metadata = new Map();
+
+      for (const doc of docs) {
+        const data = doc.data();
+
+        if (
+          typeof data.path === "string" &&
+          !metadata.has(data.path)
+        ) {
+          metadata.set(
+            data.path,
+            {
+              id: doc.id,
+              data
+            }
+          );
+        }
+      }
+    }
+
+    // BILDFORMULAR ZURÜCKSETZEN
+
+    function clearImageForm() {
+      $("imageForm").reset();
+      $("imagePath").value = "";
+    }
+
+    // FOTO ZUM BEARBEITEN ÖFFNEN
+
+    function editPhoto(photo) {
+      const data =
+        metadata.get(photo.path)?.data || {};
+
+      $("imagePath").value =
+        photo.path;
+
+      $("imageCategory").value =
+        categoryFor(photo.path);
+
+      $("imageTitle").value =
+        text(data.title);
+
+      $("imageDescription").value =
+        text(data.description);
+
+      $("imageForm").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      $("imageCategory").focus({
+        preventScroll: true
+      });
+    }
+
+    // BILDER IM ADMIN ANZEIGEN
+
+    function showPhotos() {
+      $("images").replaceChildren();
+
+      const filtered = photos.filter(
+        photo => {
+
+          const assigned =
+            Boolean(
+              categoryFor(photo.path)
+            );
+
+          return (
+            imageFilter === "all" ||
+            (
+              imageFilter === "assigned"
+                ? assigned
+                : !assigned
+            )
+          );
+        }
+      );
+
+      for (
+        const photo of filtered.slice(
+          0,
+          imageLimit
+        )
+      ) {
+        const data =
+          metadata.get(photo.path)?.data || {};
+
+        const category =
+          categoryFor(photo.path);
+
+        const row = node("article");
+        row.className =
+          "item photo-item";
+
+        const image = node("img");
+
+        image.src =
+          "/" + photo.path;
+
+        image.alt = "Vorschau";
+        image.loading = "lazy";
+
+        const content = node("div");
+
+        content.append(
+          node(
+            "strong",
+            photo.path.split("/").pop()
+          ),
+
+          node(
+            "p",
+            category
+              ? "Zugeordnet: " +
+                displayCategory(category)
+              : "Nicht zugeordnet – öffentlich unsichtbar"
+          )
+        );
+
+        const pathText = node(
+          "p",
+          "GitHub-Pfad: " +
+          photo.path
+        );
+
+        pathText.className =
+          "muted small";
+
+        content.append(pathText);
+
+        if (text(data.title).trim()) {
+          content.append(
+            node(
+              "p",
+              "Titel: " + data.title
+            )
+          );
+        }
+
+        if (text(data.description).trim()) {
+          content.append(
+            node(
+              "p",
+              data.description
+            )
+          );
+        }
+
+        const edit = node(
+          "button",
+          "Bearbeiten"
+        );
+
+        edit.type = "button";
+
+        edit.addEventListener(
+          "click",
+          () => editPhoto(photo)
+        );
+
+        content.append(edit);
+
+        row.append(
+          image,
+          content
+        );
+
+        $("images").append(row);
+      }
+
+      if (!filtered.length) {
+        $("images").append(
+          node(
+            "p",
+            "Keine Fotos in dieser Auswahl."
+          )
+        );
+      }
+
+      $("moreAdminImages").hidden =
+        filtered.length <= imageLimit;
+    }
+
+    // BILDER UND BESCHREIBUNGEN LADEN
+
+    async function loadImages(
+      force = false
+    ) {
+      requireAdmin();
+
+      await Promise.all([
+        loadMetadata(),
+        discoverPhotos(force)
+      ]);
+
+      showPhotos();
+    }
+
+    // TEXTE LADEN
+
+    async function loadTexts() {
+      const doc = await fs.getDoc(
+        fs.doc(
+          db,
+          "content",
+          "homepage"
+        )
+      );
+
+      $("welcome").value =
+        text(
+          doc.data()?.begrussung
+        );
+
+      $("intro").value =
+        text(
+          doc.data()?.einleitung
+        );
+    }
+
+    // EINSTELLUNGEN LADEN
+
+    async function loadSettings() {
+      const doc = await fs.getDoc(
+        fs.doc(
+          db,
+          "content",
+          "settings"
+        )
+      );
+
+      $("siteTitle").value =
+        text(doc.data()?.titel);
+
+      $("contact").value =
+        text(doc.data()?.kontakt);
+    }
+
+    // NEWS LADEN
+
+    async function loadNews() {
+      requireAdmin();
+
+      const snapshot = await fs.getDocs(
+        fs.collection(db, "news")
+      );
+
+      $("newsItems").replaceChildren();
+
+      const docs = snapshot.docs
+        .slice()
+        .sort(
+          (a, b) =>
+            (
+              b.data().createdAt?.seconds ||
+              0
+            ) -
+            (
+              a.data().createdAt?.seconds ||
+              0
+            )
+        );
+
+      for (const doc of docs) {
+        const data = doc.data();
+
+        const item = node("article");
+        item.className = "item";
+
+        item.append(
+          node(
+            "strong",
+            text(data.title)
+          ),
+
+          node(
+            "p",
+            text(data.body)
+          )
+        );
+
+        const actions = node("div");
+        actions.className = "actions";
+
+        const edit = node(
+          "button",
+          "Bearbeiten"
+        );
+
+        edit.type = "button";
+
+        edit.addEventListener(
+          "click",
+          () => {
+            $("newsId").value =
+              doc.id;
+
+            $("newsTitle").value =
+              text(data.title);
+
+            $("newsBody").value =
+              text(data.body);
+
+            $("newsTitle").focus();
+          }
+        );
+
+        const remove = node(
+          "button",
+          "Löschen"
+        );
+
+        remove.type = "button";
+        remove.className = "danger";
+
+        remove.addEventListener(
+          "click",
+          () => {
+
+            if (!confirm(
+              "Diese News wirklich löschen?"
+            )) {
+              return;
+            }
+
+            run(
+              async () => {
+                await fs.deleteDoc(
+                  fs.doc(
+                    db,
+                    "news",
+                    doc.id
+                  )
+                );
+
+                await loadNews();
+              },
+
+              "News gelöscht."
+            );
+          }
+        );
+
+        actions.append(
+          edit,
+          remove
+        );
+
+        item.append(actions);
+
+        $("newsItems").append(item);
+      }
+
+      if (snapshot.empty) {
+        $("newsItems").append(
+          node(
             "p",
             "Noch keine News vorhanden."
           )
         );
-        return;
-      }
-
-      for (const eintrag of eintraege) {
-        const artikel = element("article");
-
-        artikel.append(
-          element(
-            "h3",
-            text(eintrag.title, "Mitteilung")
-          )
-        );
-
-        if (eintrag.createdAt?.toDate) {
-          const datum =
-            eintrag.createdAt.toDate();
-
-          const zeit = element(
-            "time",
-            datum.toLocaleDateString("de-CH")
-          );
-
-          zeit.dateTime = datum.toISOString();
-
-          artikel.append(zeit);
-        }
-
-        artikel.append(
-          element("p", text(eintrag.body))
-        );
-
-        $("newsList").append(artikel);
       }
     }
 
-    // FIREBASE LADEN
+    // BENUTZER ANZEIGEN
+
+    async function loadUsers() {
+      requireAdmin();
+
+      const snapshot = await fs.getDocs(
+        fs.collection(db, "users")
+      );
+
+      $("users").replaceChildren();
+
+      snapshot.forEach(
+        doc => {
+          const item = node("div");
+          item.className = "item";
+
+          item.append(
+            node(
+              "p",
+              "Benutzer-ID: " +
+              doc.id
+            ),
+
+            node(
+              "p",
+              "Rolle: " +
+              text(doc.data().role)
+            )
+          );
+
+          $("users").append(item);
+        }
+      );
+    }
+
+    // BUTTONS
+
+    $("imageReset").addEventListener(
+      "click",
+      clearImageForm
+    );
+
+    $("reloadImages").addEventListener(
+      "click",
+      () => run(
+        () => loadImages(true),
+        "Fotoliste neu eingelesen."
+      )
+    );
+
+    $("moreAdminImages").addEventListener(
+      "click",
+      () => {
+        imageLimit += 30;
+        showPhotos();
+      }
+    );
+
+    $("newsReset").addEventListener(
+      "click",
+      () => $("newsForm").reset()
+    );
+
+    $("reloadUsers").addEventListener(
+      "click",
+      () => run(
+        loadUsers,
+        "Benutzer neu geladen."
+      )
+    );
+
+    // BILDFILTER
+
+    document
+      .querySelectorAll(
+        "[data-photo-filter]"
+      )
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            imageFilter =
+              button.dataset.photoFilter;
+
+            imageLimit = 30;
+
+            document
+              .querySelectorAll(
+                "[data-photo-filter]"
+              )
+              .forEach(other => {
+                other.classList.toggle(
+                  "active",
+                  other === button
+                );
+              });
+
+            showPhotos();
+          }
+        );
+      });
+
+    // FIREBASE STARTEN
 
     try {
+
       const [
         { firebaseConfig },
-        appModul,
-        fs
+        appApi,
+        firebaseAuth,
+        firestore
       ] = await Promise.all([
-        import("./firebase-config.js"),
+
+        import(
+          "./firebase-config.js"
+        ),
 
         import(
           "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
         ),
 
         import(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"
+        ),
+
+        import(
           "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
         )
+
       ]);
 
-      const app = appModul.getApps().length
-        ? appModul.getApp()
-        : appModul.initializeApp(firebaseConfig);
+      authApi = firebaseAuth;
+      fs = firestore;
 
-      const db = fs.getFirestore(app);
-
-      // STARTSEITENTEXTE
-
-      fs.onSnapshot(
-        fs.doc(db, "content", "homepage"),
-
-        snap => {
-          const d = snap.data() || {};
-
-          $("welcome").textContent = text(
-            d.begrussung,
-            "Willkommen auf meiner Webseite!"
-          );
-
-          $("intro").textContent = text(
-            d.einleitung,
-            "Hier findest du Neuigkeiten, Informationen und Fotos."
-          );
-        },
-
-        err => console.error("Texte:", err)
-      );
-
-      // EINSTELLUNGEN
-
-      fs.onSnapshot(
-        fs.doc(db, "content", "settings"),
-
-        snap => {
-          const d = snap.data() || {};
-
-          const titel =
-            text(d.titel).trim() ||
-            "Meine Webseite";
-
-          $("siteName").textContent = titel;
-          $("footerName").textContent = titel;
-          document.title = titel;
-
-          $("contact").textContent = text(
-            d.kontakt,
-            "Kontaktinformationen folgen."
-          );
-        },
-
-        err => console.error(
-          "Einstellungen:",
-          err
-        )
-      );
-
-      // NEWS
-
-      fs.onSnapshot(
-        fs.collection(db, "news"),
-
-        snap => zeigeNews(snap.docs),
-
-        err => {
-          console.error("News:", err);
-
-          $("newsList").replaceChildren(
-            element(
-              "p",
-              "News momentan nicht verfügbar."
-            )
-          );
-        }
-      );
-
-      // BILDERGALERIE
-      // Nur Dokumente mit einer zugeordneten
-      // der neun Kategorien sind sichtbar.
-
-      fs.onSnapshot(
-        fs.collection(db, "gallery"),
-
-        snap => {
-          const alle = snap.docs
-            .map(d => d.data())
-            .filter(
-              d =>
-                typeof d.path === "string" &&
-                pfadMuster.test(d.path)
-            )
-            .sort(
-              (a, b) =>
-                (
-                  b.updatedAt?.seconds ||
-                  b.createdAt?.seconds ||
-                  0
-                ) -
-                (
-                  a.updatedAt?.seconds ||
-                  a.createdAt?.seconds ||
-                  0
-                )
+      const app =
+        appApi.getApps().length
+          ? appApi.getApp()
+          : appApi.initializeApp(
+              firebaseConfig
             );
 
-          const gesehen = new Set();
+      auth = authApi.getAuth(app);
+      db = fs.getFirestore(app);
 
-          fotos = alle.filter(d => {
-            if (gesehen.has(d.path)) {
-              return false;
+      // ANMELDUNG UND ADMINROLLE PRÜFEN
+
+      authApi.onAuthStateChanged(
+        auth,
+
+        async user => {
+          isAdmin = false;
+
+          $("dashboard").hidden = true;
+          $("gate").hidden = false;
+
+          if (!user) {
+            $("gateStatus").textContent =
+              "Nicht angemeldet. Bitte zuerst login.html öffnen und anmelden.";
+
+            return;
+          }
+
+          $("gateStatus").textContent =
+            "Administratorrolle wird geprüft ...";
+
+          try {
+            const roleDoc = await fs.getDoc(
+              fs.doc(
+                db,
+                "users",
+                user.uid
+              )
+            );
+
+            if (
+              auth.currentUser?.uid !==
+              user.uid
+            ) {
+              return;
             }
 
-            gesehen.add(d.path);
+            if (
+              !roleDoc.exists() ||
+              roleDoc.data().role !== "admin"
+            ) {
+              $("gateStatus").textContent =
+                "Zugriff verweigert: Dieses Konto hat nicht die Rolle admin.";
 
-            return kategorien.includes(
-              d.category
+              return;
+            }
+
+            isAdmin = true;
+
+            $("userName").textContent =
+              "Angemeldet: " +
+              (
+                user.email ||
+                "Administrator"
+              );
+
+            $("gate").hidden = true;
+            $("dashboard").hidden = false;
+
+            report(
+              "Administratorzugriff bestätigt."
             );
-          });
 
-          geladen = true;
-          ladefehler = false;
+            try {
+              await loadTexts();
 
-          zeichnen();
+            } catch (e) {
+              report(
+                "Texte konnten nicht geladen werden: " +
+                e.message,
+                true
+              );
+            }
+
+          } catch (e) {
+            $("gateStatus").textContent =
+              "Zugriffsprüfung fehlgeschlagen: " +
+              e.message;
+          }
         },
 
-        err => {
-          console.error(
-            "Bildergalerie:",
-            err
-          );
-
-          fotos = [];
-          geladen = true;
-          ladefehler = true;
-
-          zeichnen();
+        error => {
+          $("gateStatus").textContent =
+            "Anmeldung fehlgeschlagen: " +
+            error.message;
         }
       );
 
-    } catch (fehler) {
+      // ABMELDEN
+
+      $("logout").addEventListener(
+        "click",
+        async () => {
+
+          isAdmin = false;
+
+          await authApi.signOut(auth);
+
+          location.href =
+            "/login.html";
+        }
+      );
+
+      // MENÜWECHSEL
+
+      document
+        .querySelectorAll("[data-tab]")
+        .forEach(button => {
+
+          button.addEventListener(
+            "click",
+            async () => {
+
+              if (!isAdmin) {
+                return;
+              }
+
+              document
+                .querySelectorAll(
+                  "[data-tab]"
+                )
+                .forEach(other => {
+                  other.classList.toggle(
+                    "active",
+                    other === button
+                  );
+                });
+
+              document
+                .querySelectorAll(
+                  "[id^='tab-']"
+                )
+                .forEach(tab => {
+                  tab.hidden =
+                    tab.id !==
+                    "tab-" +
+                    button.dataset.tab;
+                });
+
+              try {
+
+                if (
+                  button.dataset.tab ===
+                  "bilder"
+                ) {
+                  await loadImages();
+                }
+
+                if (
+                  button.dataset.tab ===
+                  "texte"
+                ) {
+                  await loadTexts();
+                }
+
+                if (
+                  button.dataset.tab ===
+                  "news"
+                ) {
+                  await loadNews();
+                }
+
+                if (
+                  button.dataset.tab ===
+                  "benutzer"
+                ) {
+                  await loadUsers();
+                }
+
+                if (
+                  button.dataset.tab ===
+                  "einstellungen"
+                ) {
+                  await loadSettings();
+                }
+
+              } catch (e) {
+                report(
+                  "Laden fehlgeschlagen: " +
+                  e.message,
+                  true
+                );
+              }
+            }
+          );
+        });
+
+      // TEXTE SPEICHERN
+
+      $("textForm").addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+          run(
+            () => fs.setDoc(
+              fs.doc(
+                db,
+                "content",
+                "homepage"
+              ),
+
+              {
+                begrussung:
+                  $("welcome").value,
+
+                einleitung:
+                  $("intro").value
+              },
+
+              { merge: true }
+            ),
+
+            "Texte gespeichert."
+          );
+        }
+      );
+
+      // EINSTELLUNGEN SPEICHERN
+
+      $("settingsForm").addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+          run(
+            () => fs.setDoc(
+              fs.doc(
+                db,
+                "content",
+                "settings"
+              ),
+
+              {
+                titel:
+                  $("siteTitle").value,
+
+                kontakt:
+                  $("contact").value
+              },
+
+              { merge: true }
+            ),
+
+            "Einstellungen gespeichert."
+          );
+        }
+      );
+
+      // FOTO EINER KATEGORIE ZUORDNEN
+
+      $("imageForm").addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+          run(
+            async () => {
+
+              const path =
+                $("imagePath").value;
+
+              const category =
+                $("imageCategory").value;
+
+              if (
+                !imagePattern.test(path) ||
+                !photos.some(
+                  photo =>
+                    photo.path === path
+                )
+              ) {
+                throw new Error(
+                  "Bitte zuerst ein Foto aus der Liste auswählen."
+                );
+              }
+
+              if (
+                !categories.includes(
+                  category
+                )
+              ) {
+                throw new Error(
+                  "Bitte eine der neun Kategorien auswählen oder die Zuordnung entfernen."
+                );
+              }
+
+              const previous =
+                metadata.get(path);
+
+              const id =
+                previous?.id ||
+                encodeURIComponent(path);
+
+              const data = {
+                path,
+                category,
+
+                title:
+                  $("imageTitle").value.trim(),
+
+                description:
+                  $("imageDescription").value,
+
+                updatedAt:
+                  fs.serverTimestamp()
+              };
+
+              if (!previous) {
+                data.createdAt =
+                  fs.serverTimestamp();
+              }
+
+              await fs.setDoc(
+                fs.doc(
+                  db,
+                  "gallery",
+                  id
+                ),
+
+                data,
+
+                { merge: true }
+              );
+
+              clearImageForm();
+
+              await loadImages();
+            },
+
+            "Kategorie und Beschreibung gespeichert. Das Foto ist nun zugeordnet."
+          );
+        }
+      );
+
+      // ZUORDNUNG ENTFERNEN
+      // FOTO BLEIBT AUF GITHUB
+
+      $("hideImage").addEventListener(
+        "click",
+        () => {
+
+          run(
+            async () => {
+
+              const path =
+                $("imagePath").value;
+
+              if (
+                !imagePattern.test(path) ||
+                !photos.some(
+                  photo =>
+                    photo.path === path
+                )
+              ) {
+                throw new Error(
+                  "Bitte zuerst ein Foto aus der Liste auswählen."
+                );
+              }
+
+              const previous =
+                metadata.get(path);
+
+              if (previous) {
+                await fs.updateDoc(
+                  fs.doc(
+                    db,
+                    "gallery",
+                    previous.id
+                  ),
+
+                  {
+                    category: "",
+
+                    updatedAt:
+                      fs.serverTimestamp()
+                  }
+                );
+              }
+
+              clearImageForm();
+
+              await loadImages();
+            },
+
+            "Zuordnung entfernt. Das Foto wird nicht mehr in der Galerie angezeigt."
+          );
+        }
+      );
+
+      // NEWS SPEICHERN
+
+      $("newsForm").addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+          run(
+            async () => {
+
+              const data = {
+                title:
+                  $("newsTitle").value.trim(),
+
+                body:
+                  $("newsBody").value.trim(),
+
+                updatedAt:
+                  fs.serverTimestamp()
+              };
+
+              if (
+                !data.title ||
+                !data.body
+              ) {
+                throw new Error(
+                  "Titel und Mitteilung sind erforderlich."
+                );
+              }
+
+              const id =
+                $("newsId").value;
+
+              if (id) {
+                await fs.setDoc(
+                  fs.doc(
+                    db,
+                    "news",
+                    id
+                  ),
+
+                  data,
+
+                  { merge: true }
+                );
+
+              } else {
+                await fs.addDoc(
+                  fs.collection(
+                    db,
+                    "news"
+                  ),
+
+                  {
+                    ...data,
+
+                    createdAt:
+                      fs.serverTimestamp()
+                  }
+                );
+              }
+
+              $("newsForm").reset();
+
+              await loadNews();
+            },
+
+            "News gespeichert."
+          );
+        }
+      );
+
+    } catch (error) {
       console.error(
-        "Firebase konnte nicht geladen werden:",
-        fehler
+        "Firebase-Start:",
+        error
       );
 
-      fotos = [];
-      geladen = true;
-      ladefehler = true;
-
-      zeichnen();
-
-      $("newsList").replaceChildren(
-        element(
-          "p",
-          "Firebase ist momentan nicht erreichbar."
-        )
-      );
+      $("gateStatus").textContent =
+        "Firebase konnte nicht geladen werden: " +
+        error.message +
+        ". Prüfe firebase-config.js neben admin.html.";
     }
+
   </script>
 </body>
 </html>
