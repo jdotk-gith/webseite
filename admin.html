@@ -5,51 +5,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Administration</title>
+
   <style>
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
+
     body {
       margin: 0;
       background: #edf2f7;
       color: #1d3045;
       font: 16px/1.6 Arial, sans-serif;
     }
+
     header {
       background: #173450;
       color: white;
       padding: 18px;
     }
+
     .top {
       max-width: 1100px;
       margin: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
       flex-wrap: wrap;
+      gap: 14px;
     }
-    .top h1 { margin: 0; font-size: 23px; }
+
+    .top h1 {
+      margin: 0;
+      font-size: 23px;
+    }
+
     .top a { color: white; }
+
     main {
       max-width: 1100px;
       margin: 25px auto;
       padding: 0 16px;
     }
+
     .card {
       background: white;
       padding: 22px;
       border-radius: 12px;
       box-shadow: 0 3px 15px #17345012;
     }
+
     .gate {
       max-width: 620px;
       margin: 45px auto;
     }
+
     .layout {
       display: grid;
-      grid-template-columns: 190px minmax(0, 1fr);
+      grid-template-columns:
+        190px minmax(0, 1fr);
       gap: 18px;
     }
+
     .menu button {
       width: 100%;
       text-align: left;
@@ -57,16 +72,20 @@
       background: #e2e8f0;
       color: #173450;
     }
+
     .menu button.active {
       background: #2563eb;
       color: white;
     }
+
     h2, h3 { color: #173450; }
+
     label {
       display: block;
       font-weight: bold;
       margin: 13px 0 4px;
     }
+
     input, textarea, select {
       width: 100%;
       padding: 10px;
@@ -74,8 +93,16 @@
       border-radius: 8px;
       font: inherit;
     }
-    textarea { min-height: 100px; resize: vertical; }
-    input[readonly] { background: #f1f5f9; }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input[readonly] {
+      background: #f1f5f9;
+    }
+
     button {
       border: 0;
       background: #2563eb;
@@ -85,30 +112,48 @@
       font: inherit;
       cursor: pointer;
     }
-    button:disabled { opacity: .55; cursor: wait; }
-    .secondary { background: #64748b; }
-    .danger { background: #b91c1c; }
-    .muted { color: #64748b; }
+
+    button:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    .secondary {
+      background: #64748b;
+    }
+
+    .danger {
+      background: #b91c1c;
+    }
+
+    .muted {
+      color: #64748b;
+    }
+
     .status {
       background: #f1f5f9;
       border-radius: 8px;
       padding: 12px;
       overflow-wrap: anywhere;
     }
+
     .actions, .filterbar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       margin: 14px 0;
     }
+
     .filterbar button {
       background: #e2e8f0;
       color: #173450;
     }
+
     .filterbar button.active {
       background: #2563eb;
       color: white;
     }
+
     .item {
       border: 1px solid #d9e2ec;
       border-radius: 10px;
@@ -116,15 +161,18 @@
       margin: 12px 0;
       overflow-wrap: anywhere;
     }
+
     .item p {
       margin: 4px 0;
       white-space: pre-wrap;
     }
+
     .photo-item {
       display: flex;
       gap: 14px;
       align-items: flex-start;
     }
+
     .photo-item img {
       width: 110px;
       height: 90px;
@@ -132,19 +180,38 @@
       border-radius: 8px;
       flex-shrink: 0;
     }
-    .photo-item > div { min-width: 0; flex: 1; }
-    .small { font-size: 13px; }
+
+    .photo-item > div {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .small {
+      font-size: 13px;
+    }
+
     @media (max-width: 720px) {
-      .layout { grid-template-columns: 1fr; }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
       .menu {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
       }
-      .menu button { width: auto; }
+
+      .menu button {
+        width: auto;
+      }
+
+      .photo-item {
+        flex-wrap: wrap;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="top">
@@ -156,42 +223,73 @@
   <main>
     <div id="gate" class="card gate">
       <h2>Administrator-Anmeldung</h2>
-      <p id="gateStatus" class="status" role="status">
+      <p
+        id="gateStatus"
+        class="status"
+        role="status">
         Zugang wird geprüft ...
       </p>
-      <p><a href="/login.html">Zur Anmeldung</a></p>
+      <p>
+        <a href="/login.html">
+          Zur Anmeldung
+        </a>
+      </p>
     </div>
 
     <div id="dashboard" hidden>
       <p>
         <strong id="userName"></strong>
-        <button id="logout" type="button" class="secondary">
+        <button
+          id="logout"
+          type="button"
+          class="secondary">
           Abmelden
         </button>
       </p>
 
       <div class="layout">
-        <nav class="card menu" aria-label="Administrator-Menü">
-          <button type="button" class="active" data-tab="texte">
+        <nav
+          class="card menu"
+          aria-label="Administrator-Menü">
+
+          <button
+            type="button"
+            class="active"
+            data-tab="texte">
             Texte
           </button>
-          <button type="button" data-tab="bilder">
+
+          <button
+            type="button"
+            data-tab="bilder">
             Bilder
           </button>
-          <button type="button" data-tab="news">
+
+          <button
+            type="button"
+            data-tab="news">
             News
           </button>
-          <button type="button" data-tab="benutzer">
+
+          <button
+            type="button"
+            data-tab="benutzer">
             Benutzer
           </button>
-          <button type="button" data-tab="einstellungen">
+
+          <button
+            type="button"
+            data-tab="einstellungen">
             Einstellungen
           </button>
         </nav>
 
         <div class="card">
-          <p id="status" class="status" role="status"
-             aria-live="polite">
+          <p
+            id="status"
+            class="status"
+            role="status"
+            aria-live="polite">
             Bereit.
           </p>
 
@@ -201,10 +299,14 @@
             <h2>Texte bearbeiten</h2>
 
             <form id="textForm">
-              <label for="welcome">Begrüssungstext</label>
+              <label for="welcome">
+                Begrüssungstext
+              </label>
               <textarea id="welcome"></textarea>
 
-              <label for="intro">Über diese Webseite</label>
+              <label for="intro">
+                Über diese Webseite
+              </label>
               <textarea id="intro"></textarea>
 
               <p>
@@ -223,33 +325,43 @@
             <p>
               Hier siehst du die Originaldateinamen.
               <strong>
-                Nicht zugeordnete Fotos erscheinen nicht
-                in der öffentlichen Galerie.
+                Nur Fotos mit einer gespeicherten
+                Kategorie werden öffentlich angezeigt.
               </strong>
             </p>
 
             <p class="muted">
-              Neue Fotos zuerst auf GitHub unter
-              <code>webseite/bilder/</code> hochladen.
-              Pro Ordner müssen die Dateinamen lückenlos
-              <code>Bild1.jpg</code>,
-              <code>Bild2.jpg</code> usw. lauten.
+              Neue Fotos zuerst auf GitHub in
+              <code>webseite/bilder/</code>
+              hochladen.
+
+              Pro Ordner muss die Nummerierung
+              mit <code>Bild1.jpg</code>
+              beginnen und lückenlos weiterlaufen.
             </p>
 
             <form id="imageForm">
+
               <label for="imagePath">
-                Originaldatei (nur im Admin sichtbar)
+                Originaldatei
+                (nur im Admin sichtbar)
               </label>
-              <input id="imagePath" readonly required
-                     placeholder="Unten ein Foto mit Bearbeiten auswählen">
+
+              <input
+                id="imagePath"
+                readonly
+                required
+                placeholder="Unten ein Foto mit Bearbeiten auswählen">
 
               <label for="imageCategory">
                 Kategorie / Veröffentlichung
               </label>
+
               <select id="imageCategory">
                 <option value="">
                   Nicht zugeordnet – öffentlich unsichtbar
                 </option>
+
                 <option value="Food">Food</option>
                 <option value="Drinks">Drinks</option>
                 <option value="Citys">City’s</option>
@@ -258,66 +370,93 @@
                 <option value="Art">Art</option>
                 <option value="Sport">Sport</option>
                 <option value="Animals">Animals</option>
+                <option value="Jokes">Jokes</option>
                 <option value="Diverses">Diverses</option>
               </select>
 
               <label for="imageTitle">
                 Öffentlicher Bildtitel (optional)
               </label>
-              <input id="imageTitle" maxlength="150"
-                     placeholder="Zum Beispiel: Herbst im Wald">
+
+              <input
+                id="imageTitle"
+                maxlength="150"
+                placeholder="Zum Beispiel: Ein lustiger Moment">
 
               <label for="imageDescription">
                 Öffentliche Beschreibung (optional)
               </label>
-              <textarea id="imageDescription"
-                        maxlength="3000"></textarea>
+
+              <textarea
+                id="imageDescription"
+                maxlength="3000">
+              </textarea>
 
               <div class="actions">
                 <button type="submit">
                   Kategorie und Beschreibung speichern
                 </button>
-                <button id="hideImage" type="button"
-                        class="danger">
+
+                <button
+                  id="hideImage"
+                  type="button"
+                  class="danger">
                   Zuordnung entfernen
                 </button>
-                <button id="imageReset" type="button"
-                        class="secondary">
+
+                <button
+                  id="imageReset"
+                  type="button"
+                  class="secondary">
                   Auswahl aufheben
                 </button>
               </div>
             </form>
 
             <h3>Fotos auf GitHub</h3>
-            <p id="photoStatus" class="muted" role="status">
-              Fotos werden beim Öffnen dieses Bereichs gesucht.
+
+            <p
+              id="photoStatus"
+              class="muted"
+              role="status">
+              Fotos werden beim Öffnen gesucht.
             </p>
 
             <div class="filterbar">
-              <button type="button"
-                      data-photo-filter="unassigned"
-                      class="active">
+              <button
+                type="button"
+                class="active"
+                data-photo-filter="unassigned">
                 Nicht zugeordnet
               </button>
-              <button type="button"
-                      data-photo-filter="assigned">
+
+              <button
+                type="button"
+                data-photo-filter="assigned">
                 Zugeordnet
               </button>
-              <button type="button"
-                      data-photo-filter="all">
+
+              <button
+                type="button"
+                data-photo-filter="all">
                 Alle im Admin
               </button>
             </div>
 
-            <button type="button" id="reloadImages"
-                    class="secondary">
+            <button
+              type="button"
+              id="reloadImages"
+              class="secondary">
               Fotos neu einlesen
             </button>
 
             <div id="images"></div>
 
-            <button type="button" id="moreAdminImages"
-                    class="secondary" hidden>
+            <button
+              type="button"
+              id="moreAdminImages"
+              class="secondary"
+              hidden>
               Weitere Fotos anzeigen
             </button>
           </section>
@@ -328,18 +467,37 @@
             <h2>News verwalten</h2>
 
             <form id="newsForm">
-              <input id="newsId" type="hidden">
+              <input
+                id="newsId"
+                type="hidden">
 
-              <label for="newsTitle">Titel</label>
-              <input id="newsTitle" required maxlength="160">
+              <label for="newsTitle">
+                Titel
+              </label>
 
-              <label for="newsBody">Mitteilung</label>
-              <textarea id="newsBody" required></textarea>
+              <input
+                id="newsTitle"
+                required
+                maxlength="160">
+
+              <label for="newsBody">
+                Mitteilung
+              </label>
+
+              <textarea
+                id="newsBody"
+                required>
+              </textarea>
 
               <div class="actions">
-                <button type="submit">News speichern</button>
-                <button type="button" id="newsReset"
-                        class="secondary">
+                <button type="submit">
+                  News speichern
+                </button>
+
+                <button
+                  type="button"
+                  id="newsReset"
+                  class="secondary">
                   Neue Eingabe
                 </button>
               </div>
@@ -355,12 +513,16 @@
             <h2>Benutzerrollen</h2>
 
             <p class="muted">
-              Konten und Passwörter verwaltest du weiterhin
-              in Firebase Authentication. Hier siehst du
-              die Firestore-Rollen.
+              Konten und Passwörter bleiben
+              in Firebase Authentication.
+
+              Hier siehst du die Rollen
+              aus Firestore.
             </p>
 
-            <button type="button" id="reloadUsers">
+            <button
+              type="button"
+              id="reloadUsers">
               Benutzer neu laden
             </button>
 
@@ -373,10 +535,16 @@
             <h2>Einstellungen</h2>
 
             <form id="settingsForm">
-              <label for="siteTitle">Webseitentitel</label>
-              <input id="siteTitle" maxlength="120">
+              <label for="siteTitle">
+                Webseitentitel
+              </label>
+              <input
+                id="siteTitle"
+                maxlength="120">
 
-              <label for="contact">Kontaktinformationen</label>
+              <label for="contact">
+                Kontaktinformationen
+              </label>
               <textarea id="contact"></textarea>
 
               <p>
@@ -392,102 +560,157 @@
   </main>
 
   <script type="module">
-    const $ = id => document.getElementById(id);
+    const $ = id =>
+      document.getElementById(id);
 
-    const text = (v, fallback = "") =>
-      typeof v === "string" ? v : fallback;
+    const text = (
+      value,
+      fallback = ""
+    ) =>
+      typeof value === "string"
+        ? value
+        : fallback;
 
-    const node = (tag, value = "") => {
-      const el = document.createElement(tag);
-      el.textContent = value;
-      return el;
+    const node = (
+      tag,
+      value = ""
+    ) => {
+      const element =
+        document.createElement(tag);
+
+      element.textContent = value;
+      return element;
     };
 
+    // ZEHN KATEGORIEN
+
     const categories = [
-      "Food", "Drinks", "Citys", "Comics",
-      "Nature", "Art", "Sport", "Animals",
+      "Food",
+      "Drinks",
+      "Citys",
+      "Comics",
+      "Nature",
+      "Art",
+      "Sport",
+      "Animals",
+      "Jokes",
       "Diverses"
     ];
 
-    const displayCategory = category =>
-      category === "Citys" ? "City’s" : category;
+    const displayName = category =>
+      category === "Citys"
+        ? "City’s"
+        : category;
 
     const imagePattern =
-      /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Diverses\/|Rest\/)?Bild[1-9]\d*\.jpg$/;
+      /^bilder\/(?:Food\/|Drinks\/|Citys\/|Comics\/|Nature\/|Art\/|Sport\/|Animals\/|Jokes\/|Diverses\/|Rest\/)?Bild[1-9]\d*\.jpg$/;
 
-    let auth, authApi, fs, db;
+    let auth;
+    let authApi;
+    let fs;
+    let db;
+
     let isAdmin = false;
+
     let photos = [];
     let photosLoaded = false;
     let metadata = new Map();
-    let imageFilter = "unassigned";
-    let imageLimit = 30;
 
-    function report(message, error = false) {
-      $("status").textContent = message;
+    let photoFilter = "unassigned";
+    let photoLimit = 30;
+
+    function report(
+      message,
+      isError = false
+    ) {
+      $("status").textContent =
+        message;
+
       $("status").style.color =
-        error ? "#b91c1c" : "#166534";
+        isError
+          ? "#b91c1c"
+          : "#166534";
     }
 
     function requireAdmin() {
-      if (!isAdmin || !auth?.currentUser) {
+      if (
+        !isAdmin ||
+        !auth?.currentUser
+      ) {
         throw new Error(
           "Administrator-Anmeldung erforderlich."
         );
       }
     }
 
-    async function run(action, success) {
+    async function run(
+      action,
+      successMessage
+    ) {
       try {
         requireAdmin();
+
         report("Bitte warten ...");
+
         await action();
-        report(success);
-      } catch (e) {
-        console.error(e);
-        report("Fehler: " + e.message, true);
+
+        report(successMessage);
+
+      } catch (error) {
+        console.error(error);
+
+        report(
+          "Fehler: " + error.message,
+          true
+        );
       }
     }
 
-    // Ohne gespeicherte Kategorie bleibt ein Foto
-    // in der öffentlichen Bildergalerie unsichtbar.
+    // KATEGORIE EINES FOTOS
 
     function categoryFor(path) {
       const category =
         metadata.get(path)?.data.category;
 
-      return categories.includes(category)
+      return categories.includes(
+        category
+      )
         ? category
         : "";
     }
 
-    // BILDDATEIEN AUF GITHUB PAGES SUCHEN
-    // Pro Ordner fortlaufend Bild1.jpg, Bild2.jpg usw.
+    // BILDER AUF GITHUB PAGES SUCHEN
 
     async function fileExists(path) {
-      const result = await fetch(
+      const response = await fetch(
         "/" + path,
         { method: "HEAD" }
       );
 
       if (
-        result.status === 404 ||
-        result.status === 410
+        response.status === 404 ||
+        response.status === 410
       ) {
         return false;
       }
 
-      if (!result.ok) {
+      if (!response.ok) {
         throw new Error(
-          path + ": HTTP " + result.status
+          path +
+          ": HTTP " +
+          response.status
         );
       }
 
       return true;
     }
 
+    // Dateinamen müssen fortlaufend
+    // Bild1.jpg, Bild2.jpg usw. heissen.
+
     async function countFiles(prefix) {
-      const path = n => prefix + n + ".jpg";
+      const path = n =>
+        prefix + n + ".jpg";
 
       if (!(await fileExists(path(1)))) {
         return 0;
@@ -502,49 +725,74 @@
       }
 
       while (no - yes > 1) {
-        const mid =
-          Math.floor((yes + no) / 2);
+        const middle =
+          Math.floor(
+            (yes + no) / 2
+          );
 
-        if (await fileExists(path(mid))) {
-          yes = mid;
+        if (
+          await fileExists(path(middle))
+        ) {
+          yes = middle;
         } else {
-          no = mid;
+          no = middle;
         }
       }
 
       return yes;
     }
 
-    async function discoverPhotos(force = false) {
-      if (photosLoaded && !force) return;
+    // FOTOS IN ALLEN ORDNERN SUCHEN
+
+    async function discoverPhotos(
+      force = false
+    ) {
+      if (
+        photosLoaded &&
+        !force
+      ) {
+        return;
+      }
 
       $("photoStatus").textContent =
         "Bilddateien werden gesucht ...";
 
       const prefixes = [
         ...categories.map(
-          category => `bilder/${category}/Bild`
+          category =>
+            `bilder/${category}/Bild`
         ),
+
+        // Alter Ordner
         "bilder/Rest/Bild",
+
+        // Bisherige Fotos
         "bilder/Bild"
       ];
 
-      const results = await Promise.allSettled(
-        prefixes.map(async prefix => ({
-          prefix,
-          count: await countFiles(prefix)
-        }))
-      );
+      const results =
+        await Promise.allSettled(
+          prefixes.map(
+            async prefix => ({
+              prefix,
+              count:
+                await countFiles(prefix)
+            })
+          )
+        );
 
       const found = [];
       let failures = 0;
 
       for (const result of results) {
-        if (result.status === "rejected") {
+        if (
+          result.status === "rejected"
+        ) {
           console.warn(
             "Bildordner:",
             result.reason
           );
+
           failures++;
           continue;
         }
@@ -575,33 +823,39 @@
         );
     }
 
-    // GESPEICHERTE BILDKATEGORIEN AUS FIREBASE
+    // BILDBESCHREIBUNGEN LADEN
 
     async function loadMetadata() {
       requireAdmin();
 
-      const snapshot = await fs.getDocs(
-        fs.collection(db, "gallery")
-      );
-
-      const docs = snapshot.docs.slice().sort(
-        (a, b) =>
-          (
-            b.data().updatedAt?.seconds ||
-            b.data().createdAt?.seconds ||
-            0
-          ) -
-          (
-            a.data().updatedAt?.seconds ||
-            a.data().createdAt?.seconds ||
-            0
+      const snapshot =
+        await fs.getDocs(
+          fs.collection(
+            db,
+            "gallery"
           )
-      );
+        );
+
+      const docs =
+        snapshot.docs.slice().sort(
+          (a, b) =>
+            (
+              b.data().updatedAt?.seconds ||
+              b.data().createdAt?.seconds ||
+              0
+            ) -
+            (
+              a.data().updatedAt?.seconds ||
+              a.data().createdAt?.seconds ||
+              0
+            )
+        );
 
       metadata = new Map();
 
-      for (const doc of docs) {
-        const data = doc.data();
+      for (const document of docs) {
+        const data =
+          document.data();
 
         if (
           typeof data.path === "string" &&
@@ -610,7 +864,7 @@
           metadata.set(
             data.path,
             {
-              id: doc.id,
+              id: document.id,
               data
             }
           );
@@ -618,16 +872,21 @@
       }
     }
 
-    function clearImageForm() {
+    function clearPhotoForm() {
       $("imageForm").reset();
       $("imagePath").value = "";
     }
 
+    // FOTO BEARBEITEN
+
     function editPhoto(photo) {
       const data =
-        metadata.get(photo.path)?.data || {};
+        metadata.get(
+          photo.path
+        )?.data || {};
 
-      $("imagePath").value = photo.path;
+      $("imagePath").value =
+        photo.path;
 
       $("imageCategory").value =
         categoryFor(photo.path);
@@ -648,7 +907,7 @@
       });
     }
 
-    // ALLE FOTOS NUR IM ADMIN ANZEIGEN
+    // FOTOLISTE IM ADMIN ANZEIGEN
 
     function showPhotos() {
       $("images").replaceChildren();
@@ -659,29 +918,36 @@
             categoryFor(photo.path)
           );
 
-          return imageFilter === "all" ||
+          return (
+            photoFilter === "all" ||
             (
-              imageFilter === "assigned"
+              photoFilter === "assigned"
                 ? assigned
                 : !assigned
-            );
+            )
+          );
         }
       );
 
       for (
         const photo of filtered.slice(
           0,
-          imageLimit
+          photoLimit
         )
       ) {
         const data =
-          metadata.get(photo.path)?.data || {};
+          metadata.get(
+            photo.path
+          )?.data || {};
 
         const category =
           categoryFor(photo.path);
 
-        const row = node("article");
-        row.className = "item photo-item";
+        const article =
+          node("article");
+
+        article.className =
+          "item photo-item";
 
         const image = node("img");
         image.src = "/" + photo.path;
@@ -693,34 +959,48 @@
         content.append(
           node(
             "strong",
-            photo.path.split("/").pop()
+            photo.path
+              .split("/")
+              .pop()
           ),
+
           node(
             "p",
             category
               ? "Zugeordnet: " +
-                displayCategory(category)
+                displayName(category)
               : "Nicht zugeordnet – öffentlich unsichtbar"
           )
         );
 
-        const pathText = node(
+        const path = node(
           "p",
-          "GitHub-Pfad: " + photo.path
+          "GitHub-Pfad: " +
+          photo.path
         );
-        pathText.className = "muted small";
-        content.append(pathText);
 
-        if (text(data.title).trim()) {
+        path.className =
+          "muted small";
+
+        content.append(path);
+
+        if (
+          text(data.title).trim()
+        ) {
           content.append(
             node(
               "p",
-              "Titel: " + data.title
+              "Titel: " +
+              data.title
             )
           );
         }
 
-        if (text(data.description).trim()) {
+        if (
+          text(
+            data.description
+          ).trim()
+        ) {
           content.append(
             node(
               "p",
@@ -729,20 +1009,26 @@
           );
         }
 
-        const edit = node(
+        const button = node(
           "button",
           "Bearbeiten"
         );
-        edit.type = "button";
 
-        edit.addEventListener(
+        button.type = "button";
+
+        button.addEventListener(
           "click",
           () => editPhoto(photo)
         );
 
-        content.append(edit);
-        row.append(image, content);
-        $("images").append(row);
+        content.append(button);
+
+        article.append(
+          image,
+          content
+        );
+
+        $("images").append(article);
       }
 
       if (!filtered.length) {
@@ -755,10 +1041,12 @@
       }
 
       $("moreAdminImages").hidden =
-        filtered.length <= imageLimit;
+        filtered.length <= photoLimit;
     }
 
-    async function loadImages(force = false) {
+    async function loadImages(
+      force = false
+    ) {
       requireAdmin();
 
       await Promise.all([
@@ -772,100 +1060,126 @@
     // TEXTE LADEN
 
     async function loadTexts() {
-      const doc = await fs.getDoc(
-        fs.doc(
-          db,
-          "content",
-          "homepage"
-        )
-      );
+      const snapshot =
+        await fs.getDoc(
+          fs.doc(
+            db,
+            "content",
+            "homepage"
+          )
+        );
 
       $("welcome").value =
-        text(doc.data()?.begrussung);
+        text(
+          snapshot.data()?.begrussung
+        );
 
-      // Das Firebase-Feld heisst weiterhin
-      // "einleitung", die sichtbare Bezeichnung
-      // aber "Über diese Webseite".
+      // Das technische Firebase-Feld
+      // heisst weiterhin "einleitung".
 
       $("intro").value =
-        text(doc.data()?.einleitung);
+        text(
+          snapshot.data()?.einleitung
+        );
     }
 
     // EINSTELLUNGEN LADEN
 
     async function loadSettings() {
-      const doc = await fs.getDoc(
-        fs.doc(
-          db,
-          "content",
-          "settings"
-        )
-      );
+      const snapshot =
+        await fs.getDoc(
+          fs.doc(
+            db,
+            "content",
+            "settings"
+          )
+        );
 
       $("siteTitle").value =
-        text(doc.data()?.titel);
+        text(
+          snapshot.data()?.titel
+        );
 
       $("contact").value =
-        text(doc.data()?.kontakt);
+        text(
+          snapshot.data()?.kontakt
+        );
     }
 
-    // NEWS LADEN UND BEARBEITEN
+    // NEWS LADEN
 
     async function loadNews() {
       requireAdmin();
 
-      const snapshot = await fs.getDocs(
-        fs.collection(db, "news")
-      );
+      const snapshot =
+        await fs.getDocs(
+          fs.collection(
+            db,
+            "news"
+          )
+        );
 
       $("newsItems").replaceChildren();
 
-      const docs = snapshot.docs.slice().sort(
-        (a, b) =>
-          (
-            b.data().createdAt?.seconds ||
-            0
-          ) -
-          (
-            a.data().createdAt?.seconds ||
-            0
-          )
-      );
+      const docs =
+        snapshot.docs.slice().sort(
+          (a, b) =>
+            (
+              b.data().createdAt?.seconds ||
+              0
+            ) -
+            (
+              a.data().createdAt?.seconds ||
+              0
+            )
+        );
 
-      for (const doc of docs) {
-        const data = doc.data();
+      for (const document of docs) {
+        const data =
+          document.data();
 
-        const item = node("article");
-        item.className = "item";
+        const article =
+          node("article");
 
-        item.append(
+        article.className = "item";
+
+        article.append(
           node(
             "strong",
             text(data.title)
           ),
+
           node(
             "p",
             text(data.body)
           )
         );
 
-        const actions = node("div");
-        actions.className = "actions";
+        const actions =
+          node("div");
+
+        actions.className =
+          "actions";
 
         const edit = node(
           "button",
           "Bearbeiten"
         );
+
         edit.type = "button";
 
         edit.addEventListener(
           "click",
           () => {
-            $("newsId").value = doc.id;
+            $("newsId").value =
+              document.id;
+
             $("newsTitle").value =
               text(data.title);
+
             $("newsBody").value =
               text(data.body);
+
             $("newsTitle").focus();
           }
         );
@@ -874,15 +1188,19 @@
           "button",
           "Löschen"
         );
+
         remove.type = "button";
-        remove.className = "danger";
+        remove.className =
+          "danger";
 
         remove.addEventListener(
           "click",
           () => {
-            if (!confirm(
-              "Diese News wirklich löschen?"
-            )) {
+            if (
+              !confirm(
+                "Diese News wirklich löschen?"
+              )
+            ) {
               return;
             }
 
@@ -892,20 +1210,25 @@
                   fs.doc(
                     db,
                     "news",
-                    doc.id
+                    document.id
                   )
                 );
 
                 await loadNews();
               },
+
               "News gelöscht."
             );
           }
         );
 
         actions.append(edit, remove);
-        item.append(actions);
-        $("newsItems").append(item);
+
+        article.append(actions);
+
+        $("newsItems").append(
+          article
+        );
       }
 
       if (snapshot.empty) {
@@ -918,45 +1241,54 @@
       }
     }
 
-    // BENUTZERROLLEN AUS FIREBASE ANZEIGEN
+    // BENUTZERROLLEN
 
     async function loadUsers() {
       requireAdmin();
 
-      const snapshot = await fs.getDocs(
-        fs.collection(db, "users")
-      );
+      const snapshot =
+        await fs.getDocs(
+          fs.collection(
+            db,
+            "users"
+          )
+        );
 
       $("users").replaceChildren();
 
       snapshot.forEach(
-        doc => {
-          const item = node("div");
-          item.className = "item";
+        document => {
+          const article =
+            node("div");
 
-          item.append(
+          article.className = "item";
+
+          article.append(
             node(
               "p",
               "Benutzer-ID: " +
-              doc.id
+              document.id
             ),
+
             node(
               "p",
               "Rolle: " +
-              text(doc.data().role)
+              text(
+                document.data().role
+              )
             )
           );
 
-          $("users").append(item);
+          $("users").append(article);
         }
       );
     }
 
-    // SCHALTFLÄCHEN
+    // BUTTONS
 
     $("imageReset").addEventListener(
       "click",
-      clearImageForm
+      clearPhotoForm
     );
 
     $("reloadImages").addEventListener(
@@ -970,7 +1302,7 @@
     $("moreAdminImages").addEventListener(
       "click",
       () => {
-        imageLimit += 30;
+        photoLimit += 30;
         showPhotos();
       }
     );
@@ -988,8 +1320,7 @@
       )
     );
 
-    // FILTER FÜR ZUGEORDNETE UND
-    // NICHT ZUGEORDNETE FOTOS
+    // FOTOFILTER
 
     document
       .querySelectorAll(
@@ -999,19 +1330,19 @@
         button.addEventListener(
           "click",
           () => {
-            imageFilter =
+            photoFilter =
               button.dataset.photoFilter;
 
-            imageLimit = 30;
+            photoLimit = 30;
 
             document
               .querySelectorAll(
                 "[data-photo-filter]"
               )
-              .forEach(other => {
-                other.classList.toggle(
+              .forEach(item => {
+                item.classList.toggle(
                   "active",
-                  other === button
+                  item === button
                 );
               });
 
@@ -1047,19 +1378,24 @@
       authApi = firebaseAuth;
       fs = firestore;
 
-      const app = appApi.getApps().length
-        ? appApi.getApp()
-        : appApi.initializeApp(
-            firebaseConfig
-          );
+      const app =
+        appApi.getApps().length
+          ? appApi.getApp()
+          : appApi.initializeApp(
+              firebaseConfig
+            );
 
-      auth = authApi.getAuth(app);
-      db = fs.getFirestore(app);
+      auth =
+        authApi.getAuth(app);
 
-      // ANMELDUNG UND ADMINROLLE PRÜFEN
+      db =
+        fs.getFirestore(app);
+
+      // ADMINISTRATORROLLE PRÜFEN
 
       authApi.onAuthStateChanged(
         auth,
+
         async user => {
           isAdmin = false;
 
@@ -1069,6 +1405,7 @@
           if (!user) {
             $("gateStatus").textContent =
               "Nicht angemeldet. Bitte zuerst login.html öffnen und anmelden.";
+
             return;
           }
 
@@ -1076,13 +1413,14 @@
             "Administratorrolle wird geprüft ...";
 
           try {
-            const roleDoc = await fs.getDoc(
-              fs.doc(
-                db,
-                "users",
-                user.uid
-              )
-            );
+            const role =
+              await fs.getDoc(
+                fs.doc(
+                  db,
+                  "users",
+                  user.uid
+                )
+              );
 
             if (
               auth.currentUser?.uid !==
@@ -1092,11 +1430,12 @@
             }
 
             if (
-              !roleDoc.exists() ||
-              roleDoc.data().role !== "admin"
+              !role.exists() ||
+              role.data().role !== "admin"
             ) {
               $("gateStatus").textContent =
                 "Zugriff verweigert: Dieses Konto hat nicht die Rolle admin.";
+
               return;
             }
 
@@ -1110,6 +1449,7 @@
               );
 
             $("gate").hidden = true;
+
             $("dashboard").hidden = false;
 
             report(
@@ -1133,6 +1473,7 @@
               error.message;
           }
         },
+
         error => {
           $("gateStatus").textContent =
             "Anmeldung fehlgeschlagen: " +
@@ -1154,13 +1495,14 @@
         }
       );
 
-      // ADMINISTRATOR-MENÜ
+      // ADMIN-MENÜ
 
       document
         .querySelectorAll("[data-tab]")
         .forEach(button => {
           button.addEventListener(
             "click",
+
             async () => {
               if (!isAdmin) {
                 return;
@@ -1170,10 +1512,10 @@
                 .querySelectorAll(
                   "[data-tab]"
                 )
-                .forEach(other => {
-                  other.classList.toggle(
+                .forEach(item => {
+                  item.classList.toggle(
                     "active",
-                    other === button
+                    item === button
                   );
                 });
 
@@ -1181,9 +1523,9 @@
                 .querySelectorAll(
                   "[id^='tab-']"
                 )
-                .forEach(tab => {
-                  tab.hidden =
-                    tab.id !==
+                .forEach(section => {
+                  section.hidden =
+                    section.id !==
                     "tab-" +
                     button.dataset.tab;
                 });
@@ -1249,6 +1591,7 @@
                 "content",
                 "homepage"
               ),
+
               {
                 begrussung:
                   $("welcome").value,
@@ -1256,8 +1599,10 @@
                 einleitung:
                   $("intro").value
               },
+
               { merge: true }
             ),
+
             "Texte gespeichert."
           );
         }
@@ -1277,6 +1622,7 @@
                 "content",
                 "settings"
               ),
+
               {
                 titel:
                   $("siteTitle").value,
@@ -1284,14 +1630,16 @@
                 kontakt:
                   $("contact").value
               },
+
               { merge: true }
             ),
+
             "Einstellungen gespeichert."
           );
         }
       );
 
-      // FOTO EINER KATEGORIE ZUORDNEN
+      // BILD EINER KATEGORIE ZUORDNEN
 
       $("imageForm").addEventListener(
         "submit",
@@ -1324,7 +1672,7 @@
                 )
               ) {
                 throw new Error(
-                  "Bitte eine der neun Kategorien auswählen oder die Zuordnung entfernen."
+                  "Bitte eine der zehn Kategorien auswählen oder die Zuordnung entfernen."
                 );
               }
 
@@ -1360,13 +1708,17 @@
                   "gallery",
                   id
                 ),
+
                 data,
+
                 { merge: true }
               );
 
-              clearImageForm();
+              clearPhotoForm();
+
               await loadImages();
             },
+
             "Kategorie und Beschreibung gespeichert. Das Foto ist nun zugeordnet."
           );
         }
@@ -1404,6 +1756,7 @@
                     "gallery",
                     previous.id
                   ),
+
                   {
                     category: "",
 
@@ -1413,10 +1766,12 @@
                 );
               }
 
-              clearImageForm();
+              clearPhotoForm();
+
               await loadImages();
             },
-            "Zuordnung entfernt. Das Foto wird nicht mehr in der Galerie angezeigt."
+
+            "Zuordnung entfernt. Das Foto ist in der Galerie nicht mehr sichtbar."
           );
         }
       );
@@ -1460,7 +1815,9 @@
                     "news",
                     id
                   ),
+
                   data,
+
                   { merge: true }
                 );
 
@@ -1470,6 +1827,7 @@
                     db,
                     "news"
                   ),
+
                   {
                     ...data,
 
@@ -1480,8 +1838,10 @@
               }
 
               $("newsForm").reset();
+
               await loadNews();
             },
+
             "News gespeichert."
           );
         }
